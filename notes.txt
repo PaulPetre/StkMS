@@ -1,0 +1,18 @@
+- sa aiba starea curenta (in curs de inventar sau nu)
+  - daca suntem in curs de inventar, cand am inceput si produsele inventariate pana acum (inclusiv stocuri)
+- sa poata genera rapoarte pentru inventarul curent (indicand daca este complet sau inca in curs de desfasurare)
+
+- sa scaneze un cod de produs
+  x a fost gasit in lista de produse?
+    x da: afiseaza datele produsului (cod, descriere, unitate de masura, pret unitar)
+    x nu: permite adaugarea lui (cod, descriere, unitate de masura, pret unitar)
+      ? aplicatia salveaza intr-un jurnal "am modificat produsul <<cod>> ..." cu indicarea campurilor modificate (nume, unitate de masura, pret unitar)
+  x in ambele cazuri, afiseaza cantitatea curenta (0 pentru produse nou adaugate) si permite modificarea ei
+    - aplicatia salveaza intr-un jurnal "am modificat cantitatea produsului <<cod>> din <<cantitate veche>> in <<cantitate noua>>" si modifica in tabelul de stocuri cantitatea curenta
+
+
+
+
+Dezvoltare ulterioara, cand folosim server
+---
+- sa tina o evidenta a inventarurilor efectuate in trecut, cu data de inceput si sfarsit si cu lista produselor inventariate (inclusiv stocuri)
