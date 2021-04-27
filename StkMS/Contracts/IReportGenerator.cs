@@ -1,7 +1,10 @@
-﻿namespace StkMS.Contracts
+﻿using System.Collections.Generic;
+using StkMS.DomainModels;
+
+namespace StkMS.Contracts
 {
     public interface IReportGenerator
     {
-        byte[] Generate();
+        byte[] Generate(IEnumerable<ProductStock> inventory);
     }
 }

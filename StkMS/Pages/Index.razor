@@ -81,7 +81,7 @@
 
 <hr/>
 <div>
-    <button class="btn btn-primary" type="button" @onclick="() => GenerateReport()">Generate Report</button>
+    <button class="btn btn-primary" type="button" @onclick="() => GenerateReportAsync()">Generate Report</button>
 </div>
 
 @code
@@ -125,9 +125,9 @@
         stock.AddOrUpdate(product);
     }
 
-    private ValueTask GenerateReport()
+    private ValueTask GenerateReportAsync()
     {
-        var bytes = reportGenerator.Generate();
+        var bytes = reportGenerator.Generate(stock.GetAll());
         return jsRuntime.InvokeVoidAsync("BlazorDownloadFile", "report.pdf", "application/octet-stream", bytes);
     }
 }
