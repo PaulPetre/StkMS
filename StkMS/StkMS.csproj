@@ -5,6 +5,7 @@
 	  <BlazorCacheBootResources>false</BlazorCacheBootResources>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
     <Nullable>enable</Nullable>
+    <ApplicationIcon>wwwroot\iconStkMS.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
