@@ -1,4 +1,4 @@
-﻿namespace StkMS.DomainModels
+﻿namespace StkMS.Library.Models
 {
     public enum InventoryState
     {

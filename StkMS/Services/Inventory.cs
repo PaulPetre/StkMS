@@ -1,6 +1,6 @@
 ﻿using System;
 using StkMS.Contracts;
-using StkMS.DomainModels;
+using StkMS.Library.Models;
 
 namespace StkMS.Services
 {

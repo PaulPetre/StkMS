@@ -2,7 +2,7 @@
 using System.Linq;
 using Blazored.LocalStorage;
 using StkMS.Contracts;
-using StkMS.DomainModels;
+using StkMS.Library.Models;
 
 namespace StkMS.Services
 {

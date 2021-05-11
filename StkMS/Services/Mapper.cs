@@ -1,5 +1,5 @@
 ﻿using StkMS.Contracts;
-using StkMS.DomainModels;
+using StkMS.Library.Models;
 using StkMS.ViewModels;
 
 namespace StkMS.Services

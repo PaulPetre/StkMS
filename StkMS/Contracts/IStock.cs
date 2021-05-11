@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using StkMS.DomainModels;
+using StkMS.Library.Models;
 
 namespace StkMS.Contracts
 {

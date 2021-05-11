@@ -1,4 +1,4 @@
-﻿using StkMS.DomainModels;
+﻿using StkMS.Library.Models;
 using StkMS.ViewModels;
 
 namespace StkMS.Contracts

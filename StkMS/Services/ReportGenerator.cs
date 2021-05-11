@@ -5,7 +5,7 @@ using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 using StkMS.Contracts;
-using StkMS.DomainModels;
+using StkMS.Library.Models;
 
 namespace StkMS.Services
 {
