@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using StkMS.Contracts;
+using StkMS.Library;
 using StkMS.Library.Models;
 
 namespace StkMS.Services
@@ -18,7 +22,14 @@ namespace StkMS.Services
                 stocks.Add(new ProductStock { Product = new Product { Code = "123", Name = "Fake Product", Unit = "Kg", UnitPrice = 3.45m }, Quantity = 120.00m });
         }
 
-        public IEnumerable<ProductStock> GetAll() => stocks.AsEnumerable();
+        public async ValueTask<IEnumerable<ProductStock>> GetAllAsync()
+        {
+            var response = await HTTP.GetAsync(Constants.API_BASE_URL + "getAll").ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+                return await response.Content.ReadFromJsonAsync<IEnumerable<ProductStock>>().ConfigureAwait(false) ?? Enumerable.Empty<ProductStock>();
+
+            return Enumerable.Empty<ProductStock>();
+        }
 
         public ProductStock? FindProduct(string productCode) => stocks.Where(it => it.Product.Code == productCode).FirstOrDefault();
 
@@ -41,6 +52,8 @@ namespace StkMS.Services
         }
 
         //
+
+        private static readonly HttpClient HTTP = new();
 
         private const string KEY = "stocks";
 

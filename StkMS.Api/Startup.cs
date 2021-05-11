@@ -4,6 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using StkMS.Library.Contracts;
+using StkMS.Library.Models;
+using StkMS.SqlData.Services;
 
 namespace StkMS.Api
 {
@@ -19,8 +22,23 @@ namespace StkMS.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(
+                options =>
+                {
+                    options.AddDefaultPolicy(
+                        builder => builder
+                            .WithOrigins("https://localhost:44323")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                    );
+                }
+            );
+
             services.AddControllers();
+
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "StkMS.Api", Version = "v1" }); });
+
+            services.AddScoped<IStorage<ProductStock>, Storage<ProductStock>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +54,8 @@ namespace StkMS.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 

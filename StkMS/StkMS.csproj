@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StkMS.Library\StkMS.Library.csproj" />
-    <ProjectReference Include="..\StkMS.SqlData\StkMS.SqlData.csproj" />
   </ItemGroup>
 
   <ItemGroup>

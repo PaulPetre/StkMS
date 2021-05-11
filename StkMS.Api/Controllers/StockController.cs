@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StkMS.Library.Contracts;
 using StkMS.Library.Models;
@@ -8,6 +9,7 @@ namespace StkMS.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [EnableCors]
     public class StockController : ControllerBase
     {
         public StockController(IStorage<ProductStock> storage)
@@ -15,10 +17,11 @@ namespace StkMS.Api.Controllers
             this.storage = storage;
         }
 
-        [HttpGet]
-        public IEnumerable<ProductStock> GetAll() => storage.GetAll();
+        [HttpGet("~/getAll")]
+        public IEnumerable<ProductStock> GetAll() => //storage.GetAll();
+            new[] { new ProductStock { Product = new Product { Code = "123", Name = "abc", Unit = "kg", UnitPrice = 12.34m }, Quantity = 56.78m } };
 
-        [HttpGet]
+        [HttpGet("~/findProduct")]
         public ProductStock? FindProduct(string productCode)
         {
             if (productCode is null)
@@ -27,7 +30,7 @@ namespace StkMS.Api.Controllers
             return storage[productCode];
         }
 
-        [HttpPost]
+        [HttpPost("~/addOrUpdate")]
         public ProductStock AddOrUpdate(ProductStock stock)
         {
             if (stock is null)
