@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StkMS.Library.Contracts;
 using StkMS.Library.Models;
@@ -19,15 +21,16 @@ namespace StkMS.Api.Controllers
 
         [HttpGet("~/getAll")]
         public IEnumerable<ProductStock> GetAll() => //storage.GetAll();
-            new[] { new ProductStock { Product = new Product { Code = "123", Name = "abc", Unit = "kg", UnitPrice = 12.34m }, Quantity = 56.78m } };
+            new[] { new ProductStock {Product = new Product { Code = "123", Name = "abc", Unit = "kg", UnitPrice = 12.34m }, Quantity = 56.78m } 
+            };
 
-        [HttpGet("~/findProduct")]
+        [HttpGet("~/findProduct/{productCode}")]
         public ProductStock? FindProduct(string productCode)
         {
             if (productCode is null)
                 throw new ArgumentNullException(nameof(productCode));
-
-            return storage[productCode];
+            var product = GetAll().Where(it => it.Product.Code == productCode).FirstOrDefault();
+            return product;
         }
 
         [HttpPost("~/addOrUpdate")]
