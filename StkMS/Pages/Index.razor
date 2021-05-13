@@ -81,7 +81,7 @@
 
 <hr />
 <div>
-    <button class="btn btn-success" type="button" @onclick="() => GenerateReportAsync()">Generate Report</button>
+    <button class="btn btn-success" type="button" @onclick="async () => await GenerateReportAsync().ConfigureAwait(true)">Generate Report</button>
 </div>
 
 @code
@@ -92,14 +92,14 @@
     {
         await base.OnInitializedAsync().ConfigureAwait(true);
 
-        JsInteropClass.BarcodeReceived += LocalReceivedBarcodeText;
+        JsInteropClass.BarcodeReceived += LocalReceivedBarcodeTextAsync;
 
-        ProductScanned("123500234976823456");
+        await ProductScannedAsync("123500234976823456").ConfigureAwait(true);
     }
 
-    private void LocalReceivedBarcodeText(BarcodeReceivedEventArgs args)
+    private async void LocalReceivedBarcodeTextAsync(BarcodeReceivedEventArgs args)
     {
-        ProductScanned(args.BarcodeText);
+        await ProductScannedAsync(args.BarcodeText).ConfigureAwait(true);
         StateHasChanged();
     }
 
@@ -113,21 +113,21 @@
         inventory.Complete();
     }
 
-    private void ProductScanned(string productCode)
+    private async Task ProductScannedAsync(string productCode)
     {
-        var product = stock.FindProduct(productCode);
+        var product = await stock.FindProductAsync(productCode).ConfigureAwait(true);
         stockViewModel = product == null ? new StockViewModel { Code = productCode } : mapper.MapToViewModel(product);
     }
 
     private void AddOrUpdateProduct()
     {
         var product = mapper.MapToDomain(stockViewModel!);
-        stock.AddOrUpdate(product);
+        stock.AddOrUpdateAsync(product);
     }
 
     private async ValueTask GenerateReportAsync()
     {
         var bytes = reportGenerator.Generate(await stock.GetAllAsync().ConfigureAwait(true));
-        await jsRuntime.InvokeVoidAsync("BlazorDownloadFile", "report.pdf", "application/octet-stream", bytes);
+        await jsRuntime.InvokeVoidAsync("BlazorDownloadFile", "report.pdf", "application/octet-stream", bytes).ConfigureAwait(true);
     }
 }
