@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using StkMS.Library.Models;
 
-namespace StkMS.Contracts
+namespace StkMS.Library.Contracts
 {
     public interface IStock
     {

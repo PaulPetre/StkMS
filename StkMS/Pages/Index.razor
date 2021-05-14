@@ -4,6 +4,7 @@
 @using StkMS.Contracts
 @using StkMS.ViewModels
 @using BlazorBarcodeScanner.ZXing.JS
+@using StkMS.Library.Contracts
 @using StkMS.Library.Models
 
 @inject IJSRuntime jsRuntime
@@ -92,6 +93,9 @@
     {
         await base.OnInitializedAsync().ConfigureAwait(true);
 
+        // TODO: add timer to call this every 5 minutes
+        await RefreshStockAsync().ConfigureAwait(true);
+
         JsInteropClass.BarcodeReceived += LocalReceivedBarcodeTextAsync;
 
         await ProductScannedAsync("123500234976823456").ConfigureAwait(true);
@@ -129,5 +133,10 @@
     {
         var bytes = reportGenerator.Generate(await stock.GetAllAsync().ConfigureAwait(true));
         await jsRuntime.InvokeVoidAsync("BlazorDownloadFile", "report.pdf", "application/octet-stream", bytes).ConfigureAwait(true);
+    }
+
+    private async ValueTask RefreshStockAsync()
+    {
+        await stock.GetAllAsync().ConfigureAwait(true);
     }
 }
