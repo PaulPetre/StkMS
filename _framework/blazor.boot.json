@@ -33,8 +33,8 @@
       "SixLabors.Fonts.dll": "sha256-Jr9CrvdxAPcIEXWlowIpiNVTQqsQD2GM3YGhYGocZo0=",
       "SixLabors.ImageSharp.dll": "sha256-O+PjTsaVyzzDqNstDSjQ4YrYNYB68YGDq8Cr3Fniet8=",
       "System.IO.Pipelines.dll": "sha256-qZYTUS+ga7CydtH54fYPbehFCvx3B49I74G8dxreTog=",
-      "StkMS.Library.dll": "sha256-8ecfxAgr9hgq9B9uiJFqr\/Fsob\/pYmyqK9kKDY07dtY=",
-      "StkMS.dll": "sha256-orEvu17ONjgrHVcMwYzUzTM+gDR8n8rVnEaNe991kRA=",
+      "StkMS.Library.dll": "sha256-FlTZR7j5G7ASmUSMKViZHrLnywW7UD+m2PzGFf8zP8I=",
+      "StkMS.dll": "sha256-2u7OOLmXhvyf+Rxu6d+VVdNzBG7fOOPQ6uR15SZHWq0=",
       "System.Collections.Concurrent.dll": "sha256-TBuyCAd5Q+cuMdIzNJUASb3DpGHQ5XANufcdk\/3L4JE=",
       "System.Collections.Immutable.dll": "sha256-wljCEnzX3fngaPHChuSeXvlDosICTLRyjQI9vlBNCyg=",
       "System.Collections.NonGeneric.dll": "sha256-jZKYF5njBOVL\/8TLTNU3xZYzxYegEgiZrolURJdBqKo=",
@@ -66,7 +66,7 @@
       "System.Text.Json.dll": "sha256-UDG2LNcgq\/xo3KEZMlHrEOsYjuXuOopd1qUraFsBQ1A=",
       "System.Text.RegularExpressions.dll": "sha256-NPcHvMPnNjHHC8eS5idkB1rV8MrN0TYtXITIQRjcd6k=",
       "System.Threading.Tasks.Parallel.dll": "sha256-ZsyeCAnfZpBVtXQe\/Xykci+hl852Ob6xLdV8hfyOQ2g=",
-      "System.Private.CoreLib.dll": "sha256-jI47BTXnKDop9EuOWWf5rHeyksmGKkFrA3X4uZ0YDZ8="
+      "System.Private.CoreLib.dll": "sha256-jLMxOcMUpClRC0kPek+yn+i0KRQo5hXOgMGU0o18QIQ="
     },
     "lazyAssembly": null,
     "pdb": null,
