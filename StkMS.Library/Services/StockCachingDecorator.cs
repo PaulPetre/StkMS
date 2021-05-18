@@ -55,10 +55,11 @@ namespace StkMS.Library.Services
             try
             {
                 await decorated.AddOrUpdateAsync(stock).ConfigureAwait(false);
+                await FindProductAsync(stock.Product.Code).ConfigureAwait(false);
+
                 await PostFromQueueAsync().ConfigureAwait(false);
 
-                // TODO: call GetAll and FindProductAsync for all products in the queue
-                // TODO: save the current stock to cache in any case
+                await GetAllAsync().ConfigureAwait(false);
             }
             catch
             {
@@ -85,6 +86,7 @@ namespace StkMS.Library.Services
                 try
                 {
                     await decorated.AddOrUpdateAsync(item).ConfigureAwait(false);
+                    await FindProductAsync(item.Product.Code).ConfigureAwait(false);
                 }
                 catch
                 {
