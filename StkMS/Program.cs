@@ -25,7 +25,14 @@ namespace StkMS
             builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddScoped<IMapper, Mapper>();
             builder.Services.AddScoped<ICache, LocalStorageCache>();
-            builder.Services.AddScoped<IStock>(sp => new StockCachingDecorator(new Stock(), sp.GetRequiredService<ICache>()));
+            builder.Services.AddScoped<IStock>(
+                sp => new StockThreadSafeDecorator(
+                    new StockCachingDecorator(
+                        new Stock(),
+                        sp.GetRequiredService<ICache>()
+                    )
+                )
+            );
             builder.Services.AddScoped<IInventory, Inventory>();
             builder.Services.AddScoped<IReportGenerator, ReportGenerator>();
 
