@@ -90,13 +90,11 @@
 {
     private StockViewModel stockViewModel = new();
 
-    private Timer? timer;
-
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync().ConfigureAwait(true);
 
-        timer = new Timer(timer_Tick, null, TimeSpan.Zero, TimeSpan.FromMinutes(5));
+        _ = new Timer(timer_Tick, null, TimeSpan.Zero, TimeSpan.FromMinutes(5));
 
         JsInteropClass.BarcodeReceived += LocalReceivedBarcodeTextAsync;
 
