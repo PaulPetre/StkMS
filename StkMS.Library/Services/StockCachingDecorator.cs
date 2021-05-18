@@ -19,7 +19,8 @@ namespace StkMS.Library.Services
         {
             try
             {
-                // TODO: first try to send the queued updates to the server
+                await PostFromQueueAsync().ConfigureAwait(false);
+
                 var result = (await decorated.GetAllAsync().ConfigureAwait(false)).ToArray();
                 cache[ALL_KEY] = JsonSerializer.Serialize(result);
                 return result;
@@ -37,7 +38,8 @@ namespace StkMS.Library.Services
         {
             try
             {
-                // TODO: first try to send the queued updates to the server
+                await PostFromQueueAsync().ConfigureAwait(false);
+
                 var result = await decorated.FindProductAsync(productCode).ConfigureAwait(false);
                 if (result != null)
                     cache[PRODUCT_KEY + productCode] = JsonSerializer.Serialize(result);
