@@ -6,6 +6,7 @@
 @using BlazorBarcodeScanner.ZXing.JS
 @using StkMS.Library.Contracts
 @using StkMS.Library.Models
+@using System.Threading
 
 @inject IJSRuntime jsRuntime
 
@@ -89,16 +90,22 @@
 {
     private StockViewModel stockViewModel = new();
 
+    private Timer? timer;
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync().ConfigureAwait(true);
 
-        // TODO: add timer to call this every 5 minutes
-        await RefreshStockAsync().ConfigureAwait(true);
+        timer = new Timer(timer_Tick, null, TimeSpan.Zero, TimeSpan.FromMinutes(5));
 
         JsInteropClass.BarcodeReceived += LocalReceivedBarcodeTextAsync;
 
         await ProductScannedAsync("123500234976823456").ConfigureAwait(true);
+    }
+
+    private async void timer_Tick(object? state)
+    {
+        await RefreshStockAsync().ConfigureAwait(false);
     }
 
     private async void LocalReceivedBarcodeTextAsync(BarcodeReceivedEventArgs args)
