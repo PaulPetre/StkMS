@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AutoBogus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -124,6 +127,46 @@ namespace StkMS.Tests.Services
                 await sut.AddOrUpdateAsync(productStock).ConfigureAwait(false);
 
                 decorated.Verify(it => it.GetAllAsync(), Times.Never);
+            }
+
+            [TestMethod("Updates the cache for the given product if there's an error")]
+            public async Task Test6()
+            {
+                var productStock = AutoFaker.Generate<ProductStock>();
+                decorated.Setup(it => it.AddOrUpdateAsync(It.IsAny<ProductStock>())).Throws<Exception>();
+
+                await sut.AddOrUpdateAsync(productStock).ConfigureAwait(false);
+
+                cache.VerifySet(it => it["PRODUCT:" + productStock.Product.Code] = JsonSerializer.Serialize(productStock));
+            }
+
+            [TestMethod("Adds a new product to the overall cache if there's an error")]
+            public async Task Test7()
+            {
+                var productStocks = AutoFaker.Generate<ProductStock>(3);
+                decorated.Setup(it => it.AddOrUpdateAsync(It.IsAny<ProductStock>())).Throws<Exception>();
+                cache.Setup(it => it["ALL"]).Returns(JsonSerializer.Serialize(productStocks.AsEnumerable()));
+                var newProductStock = AutoFaker.Generate<ProductStock>();
+                var newProductStocks = productStocks.Concat(new[] { newProductStock }).ToList();
+
+                await sut.AddOrUpdateAsync(newProductStock).ConfigureAwait(false);
+
+                cache.VerifySet(it => it["ALL"] = JsonSerializer.Serialize(newProductStocks));
+            }
+
+            [TestMethod("Updates an existing product in the overall cache if there's an error")]
+            public async Task Test8()
+            {
+                var productStocks = AutoFaker.Generate<ProductStock>(3);
+                decorated.Setup(it => it.AddOrUpdateAsync(It.IsAny<ProductStock>())).Throws<Exception>();
+                cache.Setup(it => it["ALL"]).Returns(JsonSerializer.Serialize(productStocks.AsEnumerable()));
+                var newProductStocks = new List<ProductStock>(productStocks);
+                productStocks[1].Quantity = AutoFaker.Generate<decimal>();
+                productStocks[1].Product.UnitPrice = AutoFaker.Generate<decimal>();
+
+                await sut.AddOrUpdateAsync(productStocks[1]).ConfigureAwait(false);
+
+                cache.VerifySet(it => it["ALL"] = JsonSerializer.Serialize(newProductStocks));
             }
         }
     }

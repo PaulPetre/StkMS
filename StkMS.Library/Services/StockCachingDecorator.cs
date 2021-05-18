@@ -19,6 +19,7 @@ namespace StkMS.Library.Services
         {
             try
             {
+                // TODO: first try to send the queued updates to the server
                 var result = (await decorated.GetAllAsync().ConfigureAwait(false)).ToArray();
                 cache[ALL_KEY] = JsonSerializer.Serialize(result);
                 return result;
@@ -36,6 +37,7 @@ namespace StkMS.Library.Services
         {
             try
             {
+                // TODO: first try to send the queued updates to the server
                 var result = await decorated.FindProductAsync(productCode).ConfigureAwait(false);
                 if (result != null)
                     cache[PRODUCT_KEY + productCode] = JsonSerializer.Serialize(result);
@@ -64,6 +66,25 @@ namespace StkMS.Library.Services
             catch
             {
                 cache[PRODUCT_KEY + stock.Product.Code] = JsonSerializer.Serialize(stock);
+
+                var cachedResult = cache[ALL_KEY] ?? "[]";
+                var all = (JsonSerializer.Deserialize<ProductStock[]>(cachedResult) ?? Enumerable.Empty<ProductStock>()).ToList();
+
+                var existing = all.Where(it => it.Product.Code == stock.Product.Code).FirstOrDefault();
+                if (existing == null)
+                {
+                    all.Add(stock);
+                }
+                else
+                {
+                    existing.Quantity = stock.Quantity;
+                    existing.Product.Name = stock.Product.Name;
+                    existing.Product.Unit = stock.Product.Unit;
+                    existing.Product.UnitPrice = stock.Product.UnitPrice;
+                }
+
+                cache[ALL_KEY] = JsonSerializer.Serialize(all);
+
                 queue.Enqueue(stock);
             }
         }
