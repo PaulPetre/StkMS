@@ -9,6 +9,7 @@
 
         public void CopyFrom(Product other)
         {
+            Code = other.Code;
             Name = other.Name;
             Unit = other.Unit;
             UnitPrice = other.UnitPrice;

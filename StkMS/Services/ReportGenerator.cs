@@ -15,6 +15,7 @@ using PdfSharpCore.Pdf.Advanced;
 using PdfSharpCore.Pdf.IO;
 using StkMS.Contracts;
 using StkMS.Library.Models;
+using StkMS.Library.Services;
 
 namespace StkMS.Services
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace StkMS.Services
+namespace StkMS.Library.Services
 {
     public static class Extensions
     {
@@ -9,5 +9,8 @@ namespace StkMS.Services
             .Select((value, index) => new { value, index })
             .GroupBy(it => it.index / count)
             .Select(g => g.Select(it => it.value).ToArray());
+
+        public static decimal ParseDecimal(this string? s) =>
+            decimal.TryParse(s, out var result) ? result : default;
     }
 }
