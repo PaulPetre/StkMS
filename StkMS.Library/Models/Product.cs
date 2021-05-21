@@ -6,5 +6,12 @@
         public string Name { get; set; } = "";
         public string Unit { get; set; } = "";
         public decimal UnitPrice { get; set; }
+
+        public void CopyFrom(Product other)
+        {
+            Name = other.Name;
+            Unit = other.Unit;
+            UnitPrice = other.UnitPrice;
+        }
     }
 }

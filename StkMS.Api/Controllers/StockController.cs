@@ -35,7 +35,7 @@ namespace StkMS.Api.Controllers
             if (stock is null)
                 throw new ArgumentNullException(nameof(stock));
 
-            storage[stock.Product.Code] = stock;
+            storage[stock.ProductCode] = stock;
             return stock;
         }
 

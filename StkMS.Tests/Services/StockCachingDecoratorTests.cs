@@ -80,7 +80,7 @@ namespace StkMS.Tests.Services
 
                 await sut.AddOrUpdateAsync(productStock).ConfigureAwait(false);
 
-                decorated.Verify(it => it.FindProductAsync(productStock.Product.Code));
+                decorated.Verify(it => it.FindProductAsync(productStock.ProductCode));
             }
 
             [TestMethod("Does not call FindProductAsync if there's an error")]
@@ -104,8 +104,8 @@ namespace StkMS.Tests.Services
 
                 await sut.AddOrUpdateAsync(productStocks[1]).ConfigureAwait(false);
 
-                decorated.Verify(it => it.FindProductAsync(productStocks[0].Product.Code));
-                decorated.Verify(it => it.FindProductAsync(productStocks[1].Product.Code));
+                decorated.Verify(it => it.FindProductAsync(productStocks[0].ProductCode));
+                decorated.Verify(it => it.FindProductAsync(productStocks[1].ProductCode));
             }
 
             [TestMethod("Calls GetAll")]
@@ -137,7 +137,7 @@ namespace StkMS.Tests.Services
 
                 await sut.AddOrUpdateAsync(productStock).ConfigureAwait(false);
 
-                cache.VerifySet(it => it["PRODUCT:" + productStock.Product.Code] = JsonSerializer.Serialize(productStock));
+                cache.VerifySet(it => it["PRODUCT:" + productStock.ProductCode] = JsonSerializer.Serialize(productStock));
             }
 
             [TestMethod("Adds a new product to the overall cache if there's an error")]

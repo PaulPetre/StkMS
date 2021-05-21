@@ -4,5 +4,13 @@
     {
         public Product Product { get; set; } = new();
         public decimal Quantity { get; set; }
+
+        public string ProductCode => Product.Code;
+
+        public void CopyFrom(ProductStock other)
+        {
+            Quantity = other.Quantity;
+            Product.CopyFrom(other.Product);
+        }
     }
 }
