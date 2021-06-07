@@ -17,6 +17,9 @@ namespace StkMS.SqlData.Services
             var folder = Environment.GetEnvironmentVariable(FOLDER_ENV, EnvironmentVariableTarget.Machine)
                 ?? throw new Exception($"The {FOLDER_ENV} environment variable must be defined and pointing to a folder with write permissions.");
             filename = Path.Combine(folder, "productStock.csv");
+            //var path = "C:/StkMS";
+            //filename = Path.Combine(path, "productStock.csv");
+
         }
 
         /// <inheritdoc />

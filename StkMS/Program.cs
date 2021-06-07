@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 using PdfSharpCore.Fonts;
+using Radzen;
 using StkMS.Contracts;
 using StkMS.Library.Contracts;
 using StkMS.Library.Services;
@@ -35,8 +37,13 @@ namespace StkMS
             );
             builder.Services.AddScoped<IInventory, Inventory>();
             builder.Services.AddScoped<IReportGenerator, ReportGenerator>();
+            builder.Services.AddScoped<DialogService>();
+            builder.Services.AddScoped<NotificationService>();
+            builder.Services.AddScoped<TooltipService>();
+            builder.Services.AddScoped<ContextMenuService>();
 
             return builder.Build().RunAsync();
         }
+        
     }
 }

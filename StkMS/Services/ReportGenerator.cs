@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using MigraDoc.DocumentObjectModel;
-using MigraDoc.DocumentObjectModel.Shapes;
-using MigraDoc.DocumentObjectModel.Tables;
-using MigraDoc.Rendering;
 using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using PdfSharpCore.Pdf.Advanced;
-using PdfSharpCore.Pdf.IO;
 using StkMS.Contracts;
 using StkMS.Library.Models;
 using StkMS.Library.Services;
@@ -51,6 +42,8 @@ namespace StkMS.Services
             //paragraph.Format.Font.Size = 9;
             //paragraph.Format.Alignment = ParagraphAlignment.Center;
 
+
+
             AddText(page, font, 05, 10, 25, 5, "Code", XStringFormats.Center);
             AddText(page, font, 30, 10, 35, 5, "Name", XStringFormats.Center);
             AddText(page, font, 65, 10, 10, 5, "Unit", XStringFormats.Center);
@@ -61,13 +54,13 @@ namespace StkMS.Services
             var row = 15;
             foreach (var stock in batch)
             {
-                AddText(page, font, 05, row, 25, 2, stock.Product.Code, XStringFormats.CenterLeft);
+                AddText(page, font, 05, row, 25, 2, stock.Product.Code, XStringFormats.Center);
                 AddText(page, font, 30, row, 35, 2, stock.Product.Name, XStringFormats.Center);
                 AddText(page, font, 65, row, 10, 2, stock.Product.Unit, XStringFormats.Center);
-                AddText(page, font, 75, row, 10, 2, stock.Product.UnitPrice.ToString("C"), XStringFormats.CenterRight);
-                AddText(page, font, 85, row, 10, 2, stock.Quantity.ToString("N"), XStringFormats.CenterRight);
+                AddText(page, font, 75, row, 10, 2, stock.Product.UnitPrice.ToString(), XStringFormats.Center);
+                AddText(page, font, 85, row, 10, 2, stock.Quantity.ToString("N1"), XStringFormats.CenterRight);
 
-                row += 3;
+                row += 2;
             }
             //PaginaMigraDoc(document, font);
             //var docRenderer = new DocumentRenderer(doc);
@@ -203,6 +196,11 @@ namespace StkMS.Services
             XPen pen = new XPen(XColors.Black);
 
             gfx.DrawRectangle(pen, x0 * xScale, y0 * yScale, w * xScale, h * yScale);
+
+            gfx.DrawString("Produse inventariate", font, XBrushes.Black, new XRect(10, 10, page.Width, page.Height),
+            XStringFormats.Center);
+            //gfx.DrawImage(XImage.FromFile("C:\\Paul\\Licenta\\StkMS\\StkMS\\wwwroot\\iconStkMS.png"), 1, 1);
+
         }
 
         private static byte[] GetDocumentBytes(PdfDocument document)

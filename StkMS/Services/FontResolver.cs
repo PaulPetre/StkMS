@@ -13,7 +13,7 @@ namespace StkMS.Services
 
         [SuppressMessage("ReSharper", "ConvertIfStatementToSwitchStatement")]
         [SuppressMessage("ReSharper", "ConvertIfStatementToReturnStatement")]
-        public FontResolverInfo ResolveTypeface(string familyName, bool isBold, bool isItalic)
+        public FontResolverInfo? ResolveTypeface(string familyName, bool isBold, bool isItalic)
         {
             if (!familyName.Equals("Arial", StringComparison.CurrentCultureIgnoreCase))
                 return null;

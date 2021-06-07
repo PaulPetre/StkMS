@@ -7,7 +7,7 @@
 @using StkMS.Library.Contracts
 @using StkMS.Library.Models
 @using System.Threading
-
+@using Radzen
 @inject IJSRuntime jsRuntime
 
 @inject ILocalStorageService localStorage
@@ -15,6 +15,8 @@
 @inject IStock stock
 @inject IInventory inventory
 @inject IReportGenerator reportGenerator
+
+@inject NotificationService NotificationService
 
 <h1>Hello!</h1>
 
@@ -42,7 +44,7 @@
 
             <div class="form-group">
                 <label for="productCode">Product Code</label>
-                <InputText id="productCode" @bind-Value="stockViewModel.Code" class="form-control"/>
+                <InputText id="productCode" @bind-Value="stockViewModel.Code" class="form-control" />
             </div>
 
             <div class="form-group">
@@ -65,15 +67,22 @@
                 <InputNumber id="productQuantity" @bind-Value="stockViewModel.Quantity" class="form-control" />
             </div>
 
+            <div class="row">
+                <div class="col">
+                </div>
+            </div>
+
             <div class="text-right">
-                <button type="submit" class="btn btn-primary">Add/Update</button>
+                <RadzenButton ButtonType="ButtonType.Submit" Text="Add/Update" Click=@(args => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs added/updated", Duration = 4000 })) />
+                
+                @*<button type="submit" class="btn btn-primary" @onclick="@(() => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs added/updated" }))">Add/Update</button>*@
             </div>
         </EditForm>
     </div>
 </div>
 
 <hr />
-<BlazorBarcodeScanner.ZXing.JS.BarcodeReader Title=""
+<BlazorBarcodeScanner.ZXing.JS.BarcodeReader Title=" "
                                              StartCameraAutomatically="true"
                                              ShowStart="false"
                                              ShowReset="false"
@@ -143,5 +152,9 @@
     private async ValueTask RefreshStockAsync()
     {
         await stock.GetAllAsync().ConfigureAwait(true);
+    }
+    void ShowNotification(NotificationMessage message)
+    {
+        NotificationService.Notify(message);
     }
 }
