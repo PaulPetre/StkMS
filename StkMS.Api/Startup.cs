@@ -27,7 +27,7 @@ namespace StkMS.Api
                 {
                     options.AddDefaultPolicy(
                         builder => builder
-                            .WithOrigins("https://localhost:44323")
+                            .WithOrigins("http://api-stkms.renfieldsoftware.com/")
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                     );

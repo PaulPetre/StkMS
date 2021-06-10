@@ -2,6 +2,6 @@
 {
     public class Constants
     {
-        public const string API_BASE_URL = "https://localhost:44378/";
+        public const string API_BASE_URL = "http://api-stkms.renfieldsoftware.com/";
     }
 }

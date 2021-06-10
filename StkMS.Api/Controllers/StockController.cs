@@ -8,7 +8,6 @@ using StkMS.Library.Models;
 namespace StkMS.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     [EnableCors]
     public class StockController : ControllerBase
     {
