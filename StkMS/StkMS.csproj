@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\StkMS.Data\StkMS.Data.csproj" />
     <ProjectReference Include="..\StkMS.Library\StkMS.Library.csproj" />
   </ItemGroup>
 

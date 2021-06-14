@@ -4,9 +4,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using StkMS.Data.Contracts;
+using StkMS.Data.Models;
+using StkMS.Data.Services;
 using StkMS.Library.Contracts;
 using StkMS.Library.Models;
-using StkMS.SqlData.Services;
 
 namespace StkMS.Api
 {
@@ -38,7 +40,12 @@ namespace StkMS.Api
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "StkMS.Api", Version = "v1" }); });
 
-            services.AddSingleton<IStorage<ProductStock>, ProductStockStorage>();
+            services.AddDbContext<StkMSContext>();
+
+            services.AddSingleton<IDataMapper, DataMapper>();
+
+            services.AddScoped<IStkMSContext, StkMSContext>();
+            services.AddScoped<IStorage<ProductStock>, ProductStockStorage>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

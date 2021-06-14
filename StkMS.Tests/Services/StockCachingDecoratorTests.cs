@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -14,7 +13,6 @@ using StkMS.Library.Services;
 namespace StkMS.Tests.Services
 {
     [TestClass]
-    [SuppressMessage("ReSharper", "PrivateFieldCanBeConvertedToLocalVariable")]
     public class StockCachingDecoratorTests
     {
         private readonly Mock<IStock> decorated;
