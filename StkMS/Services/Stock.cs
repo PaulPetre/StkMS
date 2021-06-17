@@ -13,7 +13,7 @@ namespace StkMS.Services
     {
         public async ValueTask<IEnumerable<ProductStock>> GetAllAsync()
         {
-            var response = await HTTP.GetAsync(Constants.API_BASE_URL + "getAll").ConfigureAwait(false);
+            var response = await HTTP.GetAsync(Constants.API_BASE_URL + "/getAll").ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             var result = await response.Content.ReadFromJsonAsync<IEnumerable<ProductStock>>().ConfigureAwait(false);
             if (result == null)
@@ -24,14 +24,14 @@ namespace StkMS.Services
 
         public async ValueTask<ProductStock?> FindProductAsync(string productCode)
         {
-            var response = await HTTP.GetAsync(Constants.API_BASE_URL + "findProduct/" + productCode).ConfigureAwait(false);
+            var response = await HTTP.GetAsync(Constants.API_BASE_URL + "/findProduct/" + productCode).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<ProductStock?>().ConfigureAwait(false);
         }
 
         public async Task AddOrUpdateAsync(ProductStock stock)
         {
-            var response = await HTTP.PostAsJsonAsync(Constants.API_BASE_URL + "addOrUpdate", stock).ConfigureAwait(false);
+            var response = await HTTP.PostAsJsonAsync(Constants.API_BASE_URL + "/addOrUpdate", stock).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
         }
 

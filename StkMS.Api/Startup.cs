@@ -29,7 +29,7 @@ namespace StkMS.Api
                 {
                     options.AddDefaultPolicy(
                         builder => builder
-                            .WithOrigins("http://api-stkms.renfieldsoftware.com/")
+                            .AllowAnyOrigin()
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                     );
@@ -62,7 +62,12 @@ namespace StkMS.Api
 
             app.UseRouting();
 
-            app.UseCors();
+            app.UseCors(
+                builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+            );
 
             app.UseAuthorization();
 

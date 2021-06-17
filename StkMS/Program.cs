@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.JSInterop;
 using PdfSharpCore.Fonts;
 using Radzen;
 using StkMS.Contracts;
@@ -24,7 +23,9 @@ namespace StkMS
             GlobalFontSettings.FontResolver = new FontResolver();
 
             builder.Services.AddBlazoredLocalStorage();
+
             builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
             builder.Services.AddScoped<IMapper, Mapper>();
             builder.Services.AddScoped<ICache, LocalStorageCache>();
             builder.Services.AddScoped<IStock>(
@@ -44,6 +45,5 @@ namespace StkMS
 
             return builder.Build().RunAsync();
         }
-        
     }
 }
