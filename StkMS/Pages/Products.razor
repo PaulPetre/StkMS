@@ -1,13 +1,11 @@
 ﻿@page "/products"
-
+@using StkMS.Library.Services
+@using Blazored.LocalStorage
 @using StkMS.Contracts
 @using StkMS.Library.Contracts
-@using Blazored.LocalStorage
 @using StkMS.Library.Models
+@using System.Text
 @using System.IO
-@using NPOI.SS.UserModel
-@using NPOI.XSSF.UserModel
-@using System.Globalization
 
 @inject ILocalStorageService localStorage
 @inject IMapper mapper
@@ -16,7 +14,7 @@
 @inject IJSRuntime jsRuntime
 
 <h1>List with all products</h1>
-<RadzenButton Text="Excel" Icon="grid_on" Click="@GenerateExcel" Style="margin-bottom:20px" />
+<RadzenButton Text="Excel" Icon="grid_on" Click="@GenerateExcel" Style="margin-bottom: 20px"/>
 
 <RadzenDataGrid AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="5"
                 IsLoading="@isLoading" Count="@count" Data="@stockView" LoadData="@LoadData"
@@ -24,11 +22,11 @@
                 TItem="ProductStock"
                 ColumnWidth="200px" AllowColumnResize="true">
     <Columns>
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Code" Filterable="false" Title="ID" Frozen="true" Width="100px" TextAlign="Radzen.TextAlign.Center" />
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Name" Title="PRoduct Name" />
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Unit" Title="Unit" Width="50px" />
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.UnitPrice" Title="Unit Price" />
-        <RadzenDataGridColumn TItem="ProductStock" Property="Quantity" Title="Quantity" Width="100px" />
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Code" Filterable="false" Title="ID" Frozen="true" Width="100px" TextAlign="TextAlign.Center"/>
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Name" Title="PRoduct Name"/>
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Unit" Title="Unit" Width="50px"/>
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.UnitPrice" Title="Unit Price"/>
+        <RadzenDataGridColumn TItem="ProductStock" Property="Quantity" Title="Quantity" Width="100px"/>
 
     </Columns>
 </RadzenDataGrid>
@@ -41,55 +39,31 @@
 
     public async Task GenerateExcel()
     {
-        var stocks = await stock.GetAllAsync().ConfigureAwait(true);
-        IWorkbook workbook = new XSSFWorkbook();
+        var stocks = (await stock.GetAllAsync().ConfigureAwait(true)).ToArray();
 
-        ISheet worksheet = workbook.CreateSheet("Sheet1");
+        var sb = new StringBuilder();
 
-        int rowNumber = 0;
-        IRow row = worksheet.CreateRow(rowNumber++);
-
-        ICell cell = row.CreateCell(0);
-        cell.SetCellValue("Code");
-
-        cell = row.CreateCell(1);
-        cell.SetCellValue("Name");
-
-        cell = row.CreateCell(2);
-        cell.SetCellValue("Unit");
-
-        cell = row.CreateCell(3);
-        cell.SetCellValue("Unit Price");
-
-        cell = row.CreateCell(4);
-        cell.SetCellValue("Quantity");
+        sb.AppendLine("Code,Name,Unit,\"Unit Price\",Quantity");
 
         foreach (var pStock in stocks)
         {
-            row = worksheet.CreateRow(rowNumber++);
-
-            cell = row.CreateCell(0);
-            cell.SetCellValue(pStock.ProductCode);
-
-            cell = row.CreateCell(1);
-            cell.SetCellValue(pStock.Product.Name);
-
-            cell = row.CreateCell(2);
-            cell.SetCellValue(pStock.Product.Unit);
-
-            cell = row.CreateCell(3);
-            cell.SetCellValue(pStock.Product.UnitPrice.ToString(CultureInfo.CurrentCulture));
-
-            cell = row.CreateCell(4);
-            cell.SetCellValue(pStock.Quantity.ToString(CultureInfo.CurrentCulture));
+            sb.Append(("'" + pStock.ProductCode).InQuotes());
+            sb.Append(",");
+            sb.Append(pStock.Product.Name.InQuotes());
+            sb.Append(",");
+            sb.Append(pStock.Product.Unit.InQuotes());
+            sb.Append(",");
+            sb.Append(pStock.Product.UnitPrice);
+            sb.Append(",");
+            sb.Append(pStock.Quantity);
+            sb.AppendLine();
         }
 
-        MemoryStream stream = new();
-        workbook.Write(stream);
-        byte[] bytes = stream.ToArray();
-        stream.Close();
+        await using var ms = new MemoryStream();
+        await ms.WriteAsync(Encoding.UTF8.GetBytes(sb.ToString())).ConfigureAwait(true);
+        var bytes = ms.ToArray();
 
-        await jsRuntime.SaveAs("Excel-Products.xlsx", bytes).ConfigureAwait(true);
+        await jsRuntime.SaveAs("Excel-Products.csv", bytes).ConfigureAwait(true);
     }
 
     async Task LoadData(LoadDataArgs args)
@@ -100,5 +74,5 @@
         count = data.Length;
         isLoading = false;
     }
-}
 
+}

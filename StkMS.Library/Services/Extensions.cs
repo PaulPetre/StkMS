@@ -12,5 +12,12 @@ namespace StkMS.Library.Services
 
         public static decimal ParseDecimal(this string? s) =>
             decimal.TryParse(s, out var result) ? result : default;
+
+        public static string InQuotes(this string? s) =>
+            Q + s?.Replace(Q, Q + Q) + Q;
+
+        //
+
+        private const string Q = "\"";
     }
 }
