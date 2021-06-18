@@ -5,16 +5,15 @@
 @using Blazored.LocalStorage
 @using StkMS.Library.Models
 @using System.IO
-@using OfficeOpenXml.Style
-@using StkMS.Services
 @using NPOI.SS.UserModel
 @using NPOI.XSSF.UserModel
+@using System.Globalization
 
 @inject ILocalStorageService localStorage
 @inject IMapper mapper
 @inject IStock stock
 @inject IInventory inventory
-@inject IJSRuntime JS
+@inject IJSRuntime jsRuntime
 
 <h1>List with all products</h1>
 <RadzenButton Text="Excel" Icon="grid_on" Click="@GenerateExcel" Style="margin-bottom:20px" />
@@ -42,11 +41,8 @@
 
     public async Task GenerateExcel()
     {
-        var stocks = await stock.GetAllAsync();
+        var stocks = await stock.GetAllAsync().ConfigureAwait(true);
         IWorkbook workbook = new XSSFWorkbook();
-
-        var dataFormat = workbook.CreateDataFormat();
-        var dataStyle = workbook.CreateCellStyle();
 
         ISheet worksheet = workbook.CreateSheet("Sheet1");
 
@@ -82,26 +78,26 @@
             cell.SetCellValue(pStock.Product.Unit);
 
             cell = row.CreateCell(3);
-            cell.SetCellValue(pStock.Product.UnitPrice.ToString());
+            cell.SetCellValue(pStock.Product.UnitPrice.ToString(CultureInfo.CurrentCulture));
 
             cell = row.CreateCell(4);
-            cell.SetCellValue(pStock.Quantity.ToString());
+            cell.SetCellValue(pStock.Quantity.ToString(CultureInfo.CurrentCulture));
         }
 
-        MemoryStream stream = new MemoryStream();
+        MemoryStream stream = new();
         workbook.Write(stream);
         byte[] bytes = stream.ToArray();
         stream.Close();
 
-        await JS.SaveAs("Excel-Products.xlsx", bytes);
+        await jsRuntime.SaveAs("Excel-Products.xlsx", bytes).ConfigureAwait(true);
     }
 
     async Task LoadData(LoadDataArgs args)
     {
         isLoading = true;
-        var data = await stock.GetAllAsync();
+        var data = (await stock.GetAllAsync().ConfigureAwait(true)).ToArray();
         stockView = data;
-        count = data.ToArray().Length;
+        count = data.Length;
         isLoading = false;
     }
 }
