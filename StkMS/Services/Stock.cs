@@ -42,6 +42,12 @@ namespace StkMS.Services
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task SellProductAsync(Sale sale)
+        {
+            var response = await HTTP.PostAsJsonAsync(Constants.API_BASE_URL + "/sell", sale).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+        }
+
         //
 
         private static readonly HttpClient HTTP = new();

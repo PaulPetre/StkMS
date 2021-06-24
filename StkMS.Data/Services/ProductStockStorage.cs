@@ -9,7 +9,7 @@ using Product = StkMS.Data.Models.Product;
 
 namespace StkMS.Data.Services
 {
-    public class ProductStockStorage : IStorage<ProductStock>
+    internal class ProductStockStorage : IStorage<ProductStock>
     {
         public ProductStockStorage(IStkMSContext context, IDataMapper mapper)
         {

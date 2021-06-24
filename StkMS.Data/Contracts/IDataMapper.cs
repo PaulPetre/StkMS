@@ -4,7 +4,7 @@ using Product = StkMS.Data.Models.Product;
 
 namespace StkMS.Data.Contracts
 {
-    public interface IDataMapper
+    internal interface IDataMapper
     {
         ProductStock? MapStockToDomain(Stock? stock);
 

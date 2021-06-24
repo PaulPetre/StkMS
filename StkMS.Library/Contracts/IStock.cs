@@ -11,5 +11,6 @@ namespace StkMS.Library.Contracts
         ValueTask<Product?> FindProductAsync(string productCode);
 
         Task AddOrUpdateAsync(ProductStock stock);
+        Task SellProductAsync(Sale sale);
     }
 }

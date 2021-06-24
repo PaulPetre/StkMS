@@ -3,10 +3,12 @@ using StkMS.Data.Models;
 
 namespace StkMS.Data.Contracts
 {
-    public interface IStkMSContext
+    internal interface IStkMSContext
     {
         DbSet<Product> Products { get; set; }
         DbSet<Stock> Stocks { get; set; }
+        DbSet<Sale> Sales { get; set; }
+        DbSet<SaleItem> SaleItems { get; set; }
 
         int SaveChanges();
     }

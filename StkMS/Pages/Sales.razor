@@ -1,9 +1,9 @@
 ﻿@page "/Sales"
 @using StkMS.Library.Contracts
+@using StkMS.Library.Models
 @using StkMS.ViewModels
 @using StkMS.Contracts
 @using BlazorBarcodeScanner.ZXing.JS
-@using StkMS.Library
 
 @inject IStock stock
 @inject IMapper mapper
@@ -20,7 +20,7 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-lg-4 col-xl-2">
-        <EditForm Model="@salesViewModel" OnValidSubmit="@AddSale">
+        <EditForm Model="@salesViewModel" OnValidSubmit="@AddSaleAsync">
             <DataAnnotationsValidator/>
             <ValidationSummary/>
 
@@ -87,6 +87,8 @@
         salesViewModel = product == null ? SalesViewModel.CreateInvalid(code) : mapper.MapToSalesViewModel(product);
 
         StateHasChanged();
+
+    // TODO: focus the quantity field
     }
 
     private async Task LookUpProductAsync()
@@ -96,8 +98,14 @@
 
     private bool GetAddDisabled() => productCode == "" || !salesViewModel.IsValid();
 
-    private void AddSale()
+    private async Task AddSaleAsync()
     {
+        await stock.SellProductAsync(new Sale(productCode, salesViewModel.Quantity)).ConfigureAwait(true);
+
+        productCode = "";
+        salesViewModel = new SalesViewModel();
+
+        StateHasChanged();
     }
 
 }

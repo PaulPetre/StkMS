@@ -6,10 +6,12 @@ using StkMS.Data.Contracts;
 
 namespace StkMS.Data.Models
 {
-    public class StkMSContext : DbContext, IStkMSContext
+    internal class StkMSContext : DbContext, IStkMSContext
     {
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Stock> Stocks { get; set; }
+        public virtual DbSet<Sale> Sales { get; set; }
+        public virtual DbSet<SaleItem> SaleItems { get; set; }
 
         public StkMSContext(DbContextOptions<StkMSContext> options, IConfiguration configuration)
             : base(options)
@@ -30,17 +32,9 @@ namespace StkMS.Data.Models
             modelBuilder.Entity<Product>(
                 entity =>
                 {
-                    entity.Property(e => e.Code)
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    entity.Property(e => e.Name)
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    entity.Property(e => e.Unit)
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    entity.Property(e => e.Code).IsRequired().HasMaxLength(50);
+                    entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+                    entity.Property(e => e.Unit).IsRequired().HasMaxLength(50);
 
                     entity.Property(e => e.UnitPrice).HasColumnType("smallmoney");
                 });

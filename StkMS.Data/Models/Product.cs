@@ -4,7 +4,7 @@
 
 namespace StkMS.Data.Models
 {
-    public class Product
+    internal class Product
     {
         [Key]
         public int Id { get; set; }

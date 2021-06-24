@@ -5,7 +5,7 @@ using Product = StkMS.Data.Models.Product;
 
 namespace StkMS.Data.Services
 {
-    public class DataMapper : IDataMapper
+    internal class DataMapper : IDataMapper
     {
         public ProductStock? MapStockToDomain(Stock? stock) => stock == null
             ? null

@@ -105,6 +105,8 @@ namespace StkMS.Library.Services
             }
         }
 
+        public Task SellProductAsync(Sale sale) => decorated.SellProductAsync(sale);
+
         //
 
         private const string ALL_KEY = "ALL";
