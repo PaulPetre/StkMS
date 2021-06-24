@@ -3,6 +3,7 @@
 @using StkMS.ViewModels
 @using StkMS.Contracts
 @using BlazorBarcodeScanner.ZXing.JS
+@using StkMS.Library
 
 @inject IStock stock
 @inject IMapper mapper
@@ -25,7 +26,7 @@
 
             <div class="form-group">
                 <label for="productCode">Product Code</label>
-                <InputText id="productCode" @bind-Value="productCode" class="form-control" @onblur="LookUpProductAsync" />
+                <InputText id="productCode" @bind-Value="productCode" class="form-control" @onblur="LookUpProductAsync"/>
             </div>
 
             <div class="form-group">
@@ -54,7 +55,7 @@
             </div>
 
             <div class="text-right">
-                <RadzenButton ButtonType="ButtonType.Submit" Text="Add"/>
+                <RadzenButton ButtonType="ButtonType.Submit" Text="Add" disabled="@GetAddDisabled()"/>
             </div>
         </EditForm>
     </div>
@@ -92,6 +93,8 @@
     {
         await ProductScannedAsync(productCode).ConfigureAwait(true);
     }
+
+    private bool GetAddDisabled() => productCode == "" || !salesViewModel.IsValid();
 
     private void AddSale()
     {
