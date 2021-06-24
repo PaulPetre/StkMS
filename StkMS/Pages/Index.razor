@@ -7,7 +7,6 @@
 @using StkMS.Library.Contracts
 @using StkMS.Library.Models
 @using System.Threading
-@using Radzen
 @inject IJSRuntime jsRuntime
 
 @inject ILocalStorageService localStorage
@@ -16,7 +15,7 @@
 @inject IInventory inventory
 @inject IReportGenerator reportGenerator
 
-@inject NotificationService NotificationService
+@inject NotificationService notificationService
 
 <h1>Hello!</h1>
 
@@ -155,6 +154,6 @@
     }
     void ShowNotification(NotificationMessage message)
     {
-        NotificationService.Notify(message);
+        notificationService.Notify(message);
     }
 }

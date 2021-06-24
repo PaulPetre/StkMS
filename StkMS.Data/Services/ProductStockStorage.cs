@@ -22,17 +22,11 @@ namespace StkMS.Data.Services
             .Include(it => it.Product)
             .AsEnumerable()
             .Select(mapper.MapStockToDomain)
-            .ToArray();
+            .ToArray()!;
 
         public ProductStock? this[string key]
         {
-            get => context
-                .Stocks
-                .Include(it => it.Product)
-                .Where(it => it.Product.Code == key)
-                .AsEnumerable()
-                .Select(mapper.MapStockToDomain)
-                .FirstOrDefault();
+            get => mapper.MapStockToDomain(FindStockByProductCode(key));
             set
             {
                 var stock = FindStockByProductCode(key);

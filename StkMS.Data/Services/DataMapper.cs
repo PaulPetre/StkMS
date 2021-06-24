@@ -7,11 +7,13 @@ namespace StkMS.Data.Services
 {
     public class DataMapper : IDataMapper
     {
-        public ProductStock MapStockToDomain(Stock stock) => new()
-        {
-            Product = MapProductToDomain(stock.Product),
-            Quantity = stock.Quantity,
-        };
+        public ProductStock? MapStockToDomain(Stock? stock) => stock == null
+            ? null
+            : new ProductStock
+            {
+                Product = MapProductToDomain(stock.Product),
+                Quantity = stock.Quantity,
+            };
 
         public Stock MapStockToData(ProductStock stock, int productId) => new()
         {

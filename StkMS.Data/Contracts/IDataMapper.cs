@@ -6,7 +6,7 @@ namespace StkMS.Data.Contracts
 {
     public interface IDataMapper
     {
-        ProductStock MapStockToDomain(Stock stock);
+        ProductStock? MapStockToDomain(Stock? stock);
 
         Stock MapStockToData(ProductStock stock, int productId);
         Product MapProductToData(Library.Models.Product product);
