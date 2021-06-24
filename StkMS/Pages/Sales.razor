@@ -25,7 +25,7 @@
 
             <div class="form-group">
                 <label for="productCode">Product Code</label>
-                <InputText id="productCode" @bind-Value="productCode" class="form-control" @onblur="LookUpProductAsync"/>
+                <InputText id="productCode" @bind-Value="productCode" class="form-control" @onblur="LookUpProductAsync" />
             </div>
 
             <div class="form-group">
@@ -76,7 +76,6 @@
     private async void LocalReceivedBarcodeTextAsync(BarcodeReceivedEventArgs args)
     {
         await ProductScannedAsync(args.BarcodeText).ConfigureAwait(true);
-        StateHasChanged();
     }
 
     private async Task ProductScannedAsync(string code)
@@ -85,16 +84,17 @@
 
         var product = await stock.FindProductAsync(code).ConfigureAwait(true);
         salesViewModel = product == null ? SalesViewModel.CreateInvalid(code) : mapper.MapToSalesViewModel(product);
+
+        StateHasChanged();
     }
 
-    private async void LookUpProductAsync()
+    private async Task LookUpProductAsync()
     {
         await ProductScannedAsync(productCode).ConfigureAwait(true);
     }
 
     private void AddSale()
     {
-    //
     }
 
 }
