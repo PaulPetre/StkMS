@@ -133,8 +133,8 @@
 
     private async Task ProductScannedAsync(string productCode)
     {
-        var product = await stock.FindProductAsync(productCode).ConfigureAwait(true);
-        stockViewModel = product == null ? new StockViewModel { Code = productCode } : mapper.MapToViewModel(product);
+        var product = await stock.FindStockAsync(productCode).ConfigureAwait(true);
+        stockViewModel = product == null ? new StockViewModel { Code = productCode } : mapper.MapToStockViewModel(product);
     }
 
     private void AddOrUpdateProduct()

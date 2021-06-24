@@ -71,17 +71,17 @@ namespace StkMS.Tests.Services
                 decorated.Verify(it => it.AddOrUpdateAsync(productStocks[2]), Times.Exactly(2));
             }
 
-            [TestMethod("Calls FindProductAsync for the given product")]
+            [TestMethod("Calls FindStockAsync for the given product")]
             public async Task Test3A()
             {
                 var productStock = AutoFaker.Generate<ProductStock>();
 
                 await sut.AddOrUpdateAsync(productStock).ConfigureAwait(false);
 
-                decorated.Verify(it => it.FindProductAsync(productStock.ProductCode));
+                decorated.Verify(it => it.FindStockAsync(productStock.ProductCode));
             }
 
-            [TestMethod("Does not call FindProductAsync if there's an error")]
+            [TestMethod("Does not call FindStockAsync if there's an error")]
             public async Task Test3B()
             {
                 var productStock = AutoFaker.Generate<ProductStock>();
@@ -89,10 +89,10 @@ namespace StkMS.Tests.Services
 
                 await sut.AddOrUpdateAsync(productStock).ConfigureAwait(false);
 
-                decorated.Verify(it => it.FindProductAsync(It.IsAny<string>()), Times.Never);
+                decorated.Verify(it => it.FindStockAsync(It.IsAny<string>()), Times.Never);
             }
 
-            [TestMethod("Calls FindProductAsync for the enqueued items")]
+            [TestMethod("Calls FindStockAsync for the enqueued items")]
             public async Task Test4()
             {
                 var productStocks = AutoFaker.Generate<ProductStock>(2);
@@ -102,8 +102,8 @@ namespace StkMS.Tests.Services
 
                 await sut.AddOrUpdateAsync(productStocks[1]).ConfigureAwait(false);
 
-                decorated.Verify(it => it.FindProductAsync(productStocks[0].ProductCode));
-                decorated.Verify(it => it.FindProductAsync(productStocks[1].ProductCode));
+                decorated.Verify(it => it.FindStockAsync(productStocks[0].ProductCode));
+                decorated.Verify(it => it.FindStockAsync(productStocks[1].ProductCode));
             }
 
             [TestMethod("Calls GetAll")]
@@ -127,7 +127,7 @@ namespace StkMS.Tests.Services
                 decorated.Verify(it => it.GetAllAsync(), Times.Never);
             }
 
-            [TestMethod("Updates the cache for the given product if there's an error")]
+            [TestMethod("Updates the cache for the given stock if there's an error")]
             public async Task Test6()
             {
                 var productStock = AutoFaker.Generate<ProductStock>();
@@ -135,7 +135,7 @@ namespace StkMS.Tests.Services
 
                 await sut.AddOrUpdateAsync(productStock).ConfigureAwait(false);
 
-                cache.VerifySet(it => it["PRODUCT:" + productStock.ProductCode] = JsonSerializer.Serialize(productStock));
+                cache.VerifySet(it => it["STOCK:" + productStock.ProductCode] = JsonSerializer.Serialize(productStock));
             }
 
             [TestMethod("Adds a new product to the overall cache if there's an error")]

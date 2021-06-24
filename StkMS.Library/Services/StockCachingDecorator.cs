@@ -34,7 +34,27 @@ namespace StkMS.Library.Services
             }
         }
 
-        public async ValueTask<ProductStock?> FindProductAsync(string productCode)
+        public async ValueTask<ProductStock?> FindStockAsync(string productCode)
+        {
+            try
+            {
+                await PostFromQueueAsync().ConfigureAwait(false);
+
+                var result = await decorated.FindStockAsync(productCode).ConfigureAwait(false);
+                if (result != null)
+                    cache[STOCK_KEY + productCode] = JsonSerializer.Serialize(result);
+                return result;
+            }
+            catch
+            {
+                var cachedResult = cache[STOCK_KEY + productCode];
+                return cachedResult == null
+                    ? null
+                    : JsonSerializer.Deserialize<ProductStock>(cachedResult) ?? null;
+            }
+        }
+
+        public async ValueTask<Product?> FindProductAsync(string productCode)
         {
             try
             {
@@ -50,7 +70,7 @@ namespace StkMS.Library.Services
                 var cachedResult = cache[PRODUCT_KEY + productCode];
                 return cachedResult == null
                     ? null
-                    : JsonSerializer.Deserialize<ProductStock>(cachedResult) ?? null;
+                    : JsonSerializer.Deserialize<Product>(cachedResult) ?? null;
             }
         }
 
@@ -59,7 +79,7 @@ namespace StkMS.Library.Services
             try
             {
                 await decorated.AddOrUpdateAsync(stock).ConfigureAwait(false);
-                await FindProductAsync(stock.ProductCode).ConfigureAwait(false);
+                await FindStockAsync(stock.ProductCode).ConfigureAwait(false);
 
                 await PostFromQueueAsync().ConfigureAwait(false);
 
@@ -67,7 +87,8 @@ namespace StkMS.Library.Services
             }
             catch
             {
-                cache[PRODUCT_KEY + stock.ProductCode] = JsonSerializer.Serialize(stock);
+                cache[STOCK_KEY + stock.ProductCode] = JsonSerializer.Serialize(stock);
+                cache[PRODUCT_KEY + stock.ProductCode] = JsonSerializer.Serialize(stock.Product);
 
                 var cachedResult = cache[ALL_KEY] ?? "[]";
                 var all = (JsonSerializer.Deserialize<ProductStock[]>(cachedResult) ?? Enumerable.Empty<ProductStock>()).ToList();
@@ -87,6 +108,7 @@ namespace StkMS.Library.Services
         //
 
         private const string ALL_KEY = "ALL";
+        private const string STOCK_KEY = "STOCK:";
         private const string PRODUCT_KEY = "PRODUCT:";
 
         private readonly Queue<ProductStock> queue = new();
@@ -102,7 +124,7 @@ namespace StkMS.Library.Services
                 try
                 {
                     await decorated.AddOrUpdateAsync(item).ConfigureAwait(false);
-                    await FindProductAsync(item.ProductCode).ConfigureAwait(false);
+                    await FindStockAsync(item.ProductCode).ConfigureAwait(false);
                 }
                 catch
                 {

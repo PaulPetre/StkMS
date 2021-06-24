@@ -22,11 +22,18 @@ namespace StkMS.Services
             return result;
         }
 
-        public async ValueTask<ProductStock?> FindProductAsync(string productCode)
+        public async ValueTask<ProductStock?> FindStockAsync(string productCode)
+        {
+            var response = await HTTP.GetAsync(Constants.API_BASE_URL + "/findStock/" + productCode).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<ProductStock?>().ConfigureAwait(false);
+        }
+
+        public async ValueTask<Product?> FindProductAsync(string productCode)
         {
             var response = await HTTP.GetAsync(Constants.API_BASE_URL + "/findProduct/" + productCode).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<ProductStock?>().ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync<Product?>().ConfigureAwait(false);
         }
 
         public async Task AddOrUpdateAsync(ProductStock stock)

@@ -20,7 +20,15 @@ namespace StkMS.Library.Services
             }
         }
 
-        public ValueTask<ProductStock?> FindProductAsync(string productCode)
+        public ValueTask<ProductStock?> FindStockAsync(string productCode)
+        {
+            lock (GATE)
+            {
+                return decorated.FindStockAsync(productCode);
+            }
+        }
+
+        public ValueTask<Product?> FindProductAsync(string productCode)
         {
             lock (GATE)
             {

@@ -7,7 +7,8 @@ namespace StkMS.Library.Contracts
     public interface IStock
     {
         ValueTask<IEnumerable<ProductStock>> GetAllAsync();
-        ValueTask<ProductStock?> FindProductAsync(string productCode);
+        ValueTask<ProductStock?> FindStockAsync(string productCode);
+        ValueTask<Product?> FindProductAsync(string productCode);
 
         Task AddOrUpdateAsync(ProductStock stock);
     }

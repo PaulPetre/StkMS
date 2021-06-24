@@ -19,13 +19,22 @@ namespace StkMS.Api.Controllers
         [HttpGet("~/getAll")]
         public IEnumerable<ProductStock> GetAll() => storage.GetAll();
 
-        [HttpGet("~/findProduct/{productCode?}")]
-        public ProductStock? FindProduct(string? productCode)
+        [HttpGet("~/findStock/{productCode?}")]
+        public ProductStock? FindStock(string? productCode)
         {
             if (productCode is null)
                 throw new ArgumentNullException(nameof(productCode));
 
             return storage[productCode];
+        }
+
+        [HttpGet("~/findProduct/{productCode?}")]
+        public Product? FindProduct(string? productCode)
+        {
+            if (productCode is null)
+                throw new ArgumentNullException(nameof(productCode));
+
+            return storage[productCode]?.Product;
         }
 
         [HttpPost("~/addOrUpdate")]
