@@ -48,6 +48,12 @@ namespace StkMS.Services
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task CompleteSaleAsync()
+        {
+            var response = await PostAsync<object>("completeSale", null!).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+        }
+
         //
 
         private static readonly HttpClient HTTP = new();

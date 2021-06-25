@@ -69,13 +69,27 @@ namespace StkMS.Data.Services
             if (product == null)
                 throw new KeyNotFoundException("Could not find the product with the given code.");
 
-            var currentSale = GetCurrentSale();
+            var currentSale = GetOrCreateCurrentSale();
             context.Sales.Update(currentSale);
             context.SaveChanges();
 
             var item = mapper.MapSaleItemToData(sale, currentSale.Id, product.Id);
             context.SaleItems.Add(item);
             context.SaveChanges();
+        }
+
+        public int CompleteSale()
+        {
+            var currentSale = GetCurrentSale();
+            if (currentSale == null)
+                return 0;
+
+            currentSale.IsComplete = true;
+            currentSale.DateTime = DateTime.Now;
+            context.Sales.Update(currentSale);
+            context.SaveChanges();
+
+            return currentSale.Id;
         }
 
         //
@@ -94,11 +108,12 @@ namespace StkMS.Data.Services
             .Where(it => it.Code == productCode)
             .FirstOrDefault();
 
-        private Models.Sale GetCurrentSale() => context
-                .Sales
-                .Where(it => !it.IsComplete)
-                .OrderBy(it => it.Id)
-                .FirstOrDefault()
-            ?? new Models.Sale();
+        private Models.Sale GetOrCreateCurrentSale() => GetCurrentSale() ?? new Models.Sale { DateTime = DateTime.Now };
+
+        private Models.Sale? GetCurrentSale() => context
+            .Sales
+            .Where(it => !it.IsComplete)
+            .OrderBy(it => it.Id)
+            .FirstOrDefault();
     }
 }

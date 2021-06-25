@@ -11,5 +11,6 @@ namespace StkMS.Library.Contracts
 
         void UpdateStock(ProductStock stock);
         void AddSale(Sale sale);
+        int CompleteSale();
     }
 }

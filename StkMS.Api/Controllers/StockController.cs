@@ -67,6 +67,9 @@ namespace StkMS.Api.Controllers
             return stock;
         }
 
+        [HttpPost("~/completeSale")]
+        public int CompleteSale() => repository.CompleteSale();
+
         //
 
         private readonly IRepository repository;

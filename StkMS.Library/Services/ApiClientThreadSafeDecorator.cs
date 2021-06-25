@@ -52,6 +52,14 @@ namespace StkMS.Library.Services
             }
         }
 
+        public Task CompleteSaleAsync()
+        {
+            lock (GATE)
+            {
+                return decorated.CompleteSaleAsync();
+            }
+        }
+
         //
 
         private static readonly object GATE = new();

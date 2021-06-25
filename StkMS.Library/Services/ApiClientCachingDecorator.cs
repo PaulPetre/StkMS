@@ -106,6 +106,7 @@ namespace StkMS.Library.Services
         }
 
         public Task SellProductAsync(Sale sale) => decorated.SellProductAsync(sale);
+        public Task CompleteSaleAsync() => decorated.CompleteSaleAsync();
 
         //
 

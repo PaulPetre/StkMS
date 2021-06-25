@@ -12,5 +12,6 @@ namespace StkMS.Library.Contracts
 
         Task AddOrUpdateAsync(ProductStock stock);
         Task SellProductAsync(Sale sale);
+        Task CompleteSaleAsync();
     }
 }
