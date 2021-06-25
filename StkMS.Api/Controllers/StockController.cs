@@ -62,6 +62,7 @@ namespace StkMS.Api.Controllers
 
             stock.Quantity -= sale.Quantity;
             repository.UpdateStock(stock);
+            repository.AddSale(sale);
 
             return stock;
         }

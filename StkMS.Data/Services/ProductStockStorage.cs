@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using StkMS.Data.Contracts;
@@ -6,6 +7,7 @@ using StkMS.Data.Models;
 using StkMS.Library.Contracts;
 using StkMS.Library.Models;
 using Product = StkMS.Library.Models.Product;
+using Sale = StkMS.Library.Models.Sale;
 
 namespace StkMS.Data.Services
 {
@@ -58,6 +60,24 @@ namespace StkMS.Data.Services
             context.SaveChanges();
         }
 
+        public void AddSale(Sale sale)
+        {
+            if (sale is null)
+                throw new ArgumentNullException(nameof(sale));
+
+            var product = InternalFindProductByCode(sale.ProductCode);
+            if (product == null)
+                throw new KeyNotFoundException("Could not find the product with the given code.");
+
+            var currentSale = GetCurrentSale();
+            context.Sales.Update(currentSale);
+            context.SaveChanges();
+
+            var item = mapper.MapSaleItemToData(sale, currentSale.Id, product.Id);
+            context.SaleItems.Add(item);
+            context.SaveChanges();
+        }
+
         //
 
         private readonly IStkMSContext context;
@@ -73,5 +93,12 @@ namespace StkMS.Data.Services
             .Products
             .Where(it => it.Code == productCode)
             .FirstOrDefault();
+
+        private Models.Sale GetCurrentSale() => context
+                .Sales
+                .Where(it => !it.IsComplete)
+                .OrderBy(it => it.Id)
+                .FirstOrDefault()
+            ?? new Models.Sale();
     }
 }

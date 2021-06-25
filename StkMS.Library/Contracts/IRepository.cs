@@ -10,5 +10,6 @@ namespace StkMS.Library.Contracts
         Product? FindProductByCode(string productCode);
 
         void UpdateStock(ProductStock stock);
+        void AddSale(Sale sale);
     }
 }

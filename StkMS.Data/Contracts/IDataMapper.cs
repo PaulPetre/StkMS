@@ -1,6 +1,7 @@
 ﻿using StkMS.Data.Models;
 using StkMS.Library.Models;
 using Product = StkMS.Library.Models.Product;
+using Sale = StkMS.Library.Models.Sale;
 
 namespace StkMS.Data.Contracts
 {
@@ -11,5 +12,6 @@ namespace StkMS.Data.Contracts
 
         Stock MapStockToData(ProductStock stock, int productId);
         Models.Product MapProductToData(Product product);
+        SaleItem MapSaleItemToData(Sale sale, int saleId, int productId);
     }
 }

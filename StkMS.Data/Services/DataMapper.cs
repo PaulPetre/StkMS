@@ -1,7 +1,8 @@
 ﻿using StkMS.Data.Contracts;
 using StkMS.Data.Models;
 using StkMS.Library.Models;
-using Product = StkMS.Data.Models.Product;
+using Product = StkMS.Library.Models.Product;
+using Sale = StkMS.Library.Models.Sale;
 
 namespace StkMS.Data.Services
 {
@@ -15,9 +16,9 @@ namespace StkMS.Data.Services
                 Quantity = stock.Quantity,
             };
 
-        Library.Models.Product? IDataMapper.MapProductToDomain(Product? product) => product == null
+        Product? IDataMapper.MapProductToDomain(Models.Product? product) => product == null
             ? null
-            : new Library.Models.Product
+            : new Product
             {
                 Code = product.Code,
                 Name = product.Name,
@@ -31,7 +32,7 @@ namespace StkMS.Data.Services
             Quantity = stock.Quantity,
         };
 
-        public Product MapProductToData(Library.Models.Product product) => new()
+        public Models.Product MapProductToData(Product product) => new()
         {
             Code = product.Code,
             Name = product.Name,
@@ -39,9 +40,16 @@ namespace StkMS.Data.Services
             UnitPrice = product.UnitPrice,
         };
 
+        public SaleItem MapSaleItemToData(Sale sale, int saleId, int productId) => new()
+        {
+            SaleId = saleId,
+            ProductId = productId,
+            Quantity = sale.Quantity,
+        };
+
         //
 
-        private static Library.Models.Product MapProductToDomain(Product product) => new()
+        private static Product MapProductToDomain(Models.Product product) => new()
         {
             Code = product.Code,
             Name = product.Name,
