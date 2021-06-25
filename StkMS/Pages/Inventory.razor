@@ -12,7 +12,7 @@
 
 @inject ILocalStorageService localStorage
 @inject IMapper mapper
-@inject IStock stock
+@inject IApiClient apiClient
 @inject IInventory inventory
 @inject IReportGenerator reportGenerator
 
@@ -133,25 +133,25 @@
 
     private async Task ProductScannedAsync(string productCode)
     {
-        var product = await stock.FindStockAsync(productCode).ConfigureAwait(true);
+        var product = await apiClient.FindStockAsync(productCode).ConfigureAwait(true);
         stockViewModel = product == null ? new StockViewModel { Code = productCode } : mapper.MapToStockViewModel(product);
     }
 
     private void AddOrUpdateProduct()
     {
         var product = mapper.MapToDomain(stockViewModel!);
-        stock.AddOrUpdateAsync(product);
+        apiClient.AddOrUpdateAsync(product);
     }
 
     private async ValueTask GenerateReportAsync()
     {
-        var bytes = reportGenerator.Generate(await stock.GetAllAsync().ConfigureAwait(true));
+        var bytes = reportGenerator.Generate(await apiClient.GetAllAsync().ConfigureAwait(true));
         await jsRuntime.InvokeVoidAsync("BlazorDownloadFile", "report.pdf", "application/octet-stream", bytes).ConfigureAwait(true);
     }
 
     private async ValueTask RefreshStockAsync()
     {
-        await stock.GetAllAsync().ConfigureAwait(true);
+        await apiClient.GetAllAsync().ConfigureAwait(true);
     }
     void ShowNotification(NotificationMessage message)
     {

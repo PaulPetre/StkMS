@@ -5,11 +5,11 @@ using StkMS.Data.Contracts;
 using StkMS.Data.Models;
 using StkMS.Library.Contracts;
 using StkMS.Library.Models;
-using Product = StkMS.Data.Models.Product;
+using Product = StkMS.Library.Models.Product;
 
 namespace StkMS.Data.Services
 {
-    internal class ProductStockStorage : IStorage<ProductStock>
+    internal class ProductStockStorage : IRepository
     {
         public ProductStockStorage(IStkMSContext context, IDataMapper mapper)
         {
@@ -17,37 +17,45 @@ namespace StkMS.Data.Services
             this.mapper = mapper;
         }
 
-        public IEnumerable<ProductStock> GetAll() => context
+        public IEnumerable<ProductStock> GetStock() => context
             .Stocks
             .Include(it => it.Product)
             .AsEnumerable()
             .Select(mapper.MapStockToDomain)
             .ToArray()!;
 
-        public ProductStock? this[string key]
+        public ProductStock? FindStockByProductCode(string productCode) => context
+            .Stocks
+            .Include(it => it.Product)
+            .Where(it => it.Product.Code == productCode)
+            .AsEnumerable()
+            .Select(mapper.MapStockToDomain)
+            .FirstOrDefault();
+
+        public Product? FindProductByCode(string productCode) => context
+            .Products
+            .Where(it => it.Code == productCode)
+            .AsEnumerable()
+            .Select(mapper.MapProductToDomain)
+            .FirstOrDefault();
+
+        public void UpdateStock(ProductStock stock)
         {
-            get => mapper.MapStockToDomain(FindStockByProductCode(key));
-            set
+            var existing = InternalFindStockByProductCode(stock.ProductCode);
+            if (existing != null)
             {
-                var stock = FindStockByProductCode(key);
-                if (stock != null)
-                {
-                    stock.Quantity = value?.Quantity ?? 0m;
-                    context.Stocks.Update(stock);
-                    context.SaveChanges();
-                    return;
-                }
-
-                if (value == null)
-                    return;
-
-                var product = FindProductByCode(key) ?? mapper.MapProductToData(value.Product);
-                context.Products.Update(product);
+                existing.Quantity = stock.Quantity;
+                context.Stocks.Update(existing);
                 context.SaveChanges();
-
-                context.Stocks.Add(mapper.MapStockToData(value, product.Id));
-                context.SaveChanges();
+                return;
             }
+
+            var product = InternalFindProductByCode(stock.ProductCode) ?? mapper.MapProductToData(stock.Product);
+            context.Products.Update(product);
+            context.SaveChanges();
+
+            context.Stocks.Add(mapper.MapStockToData(stock, product.Id));
+            context.SaveChanges();
         }
 
         //
@@ -55,13 +63,13 @@ namespace StkMS.Data.Services
         private readonly IStkMSContext context;
         private readonly IDataMapper mapper;
 
-        private Stock? FindStockByProductCode(string productCode) => context
+        private Stock? InternalFindStockByProductCode(string productCode) => context
             .Stocks
             .Include(it => it.Product)
             .Where(it => it.Product.Code == productCode)
             .FirstOrDefault();
 
-        private Product? FindProductByCode(string productCode) => context
+        private Models.Product? InternalFindProductByCode(string productCode) => context
             .Products
             .Where(it => it.Code == productCode)
             .FirstOrDefault();

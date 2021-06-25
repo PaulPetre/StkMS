@@ -4,7 +4,7 @@ using StkMS.Library.Models;
 
 namespace StkMS.Library.Contracts
 {
-    public interface IStock
+    public interface IApiClient
     {
         ValueTask<IEnumerable<ProductStock>> GetAllAsync();
         ValueTask<ProductStock?> FindStockAsync(string productCode);

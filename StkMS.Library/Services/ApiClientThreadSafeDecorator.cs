@@ -5,9 +5,9 @@ using StkMS.Library.Models;
 
 namespace StkMS.Library.Services
 {
-    public class StockThreadSafeDecorator : IStock
+    public class ApiClientThreadSafeDecorator : IApiClient
     {
-        public StockThreadSafeDecorator(IStock decorated)
+        public ApiClientThreadSafeDecorator(IApiClient decorated)
         {
             this.decorated = decorated;
         }
@@ -56,6 +56,6 @@ namespace StkMS.Library.Services
 
         private static readonly object GATE = new();
 
-        private readonly IStock decorated;
+        private readonly IApiClient decorated;
     }
 }

@@ -28,10 +28,10 @@ namespace StkMS
 
             builder.Services.AddScoped<IMapper, Mapper>();
             builder.Services.AddScoped<ICache, LocalStorageCache>();
-            builder.Services.AddScoped<IStock>(
-                sp => new StockThreadSafeDecorator(
-                    new StockCachingDecorator(
-                        new Stock(),
+            builder.Services.AddScoped<IApiClient>(
+                sp => new ApiClientThreadSafeDecorator(
+                    new ApiClientCachingDecorator(
+                        new ApiClient(),
                         sp.GetRequiredService<ICache>()
                     )
                 )

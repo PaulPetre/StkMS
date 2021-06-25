@@ -7,9 +7,9 @@ using StkMS.Library.Models;
 
 namespace StkMS.Library.Services
 {
-    public class StockCachingDecorator : IStock
+    public class ApiClientCachingDecorator : IApiClient
     {
-        public StockCachingDecorator(IStock decorated, ICache cache)
+        public ApiClientCachingDecorator(IApiClient decorated, ICache cache)
         {
             this.decorated = decorated;
             this.cache = cache;
@@ -115,7 +115,7 @@ namespace StkMS.Library.Services
 
         private readonly Queue<ProductStock> queue = new();
 
-        private readonly IStock decorated;
+        private readonly IApiClient decorated;
         private readonly ICache cache;
 
         private async Task PostFromQueueAsync()

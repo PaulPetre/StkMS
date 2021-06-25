@@ -11,13 +11,13 @@ namespace StkMS.Api.Controllers
     [EnableCors]
     public class StockController : ControllerBase
     {
-        public StockController(IStorage<ProductStock> storage)
+        public StockController(IRepository repository)
         {
-            this.storage = storage;
+            this.repository = repository;
         }
 
         [HttpGet("~/getAll")]
-        public IEnumerable<ProductStock> GetAll() => storage.GetAll();
+        public IEnumerable<ProductStock> GetAll() => repository.GetStock();
 
         [HttpGet("~/findStock/{productCode?}")]
         public ProductStock? FindStock(string? productCode)
@@ -25,7 +25,7 @@ namespace StkMS.Api.Controllers
             if (productCode is null)
                 throw new ArgumentNullException(nameof(productCode));
 
-            return storage[productCode];
+            return repository.FindStockByProductCode(productCode);
         }
 
         [HttpGet("~/findProduct/{productCode?}")]
@@ -34,7 +34,7 @@ namespace StkMS.Api.Controllers
             if (productCode is null)
                 throw new ArgumentNullException(nameof(productCode));
 
-            return storage[productCode]?.Product;
+            return repository.FindProductByCode(productCode);
         }
 
         [HttpPost("~/addOrUpdate")]
@@ -43,12 +43,31 @@ namespace StkMS.Api.Controllers
             if (stock is null)
                 throw new ArgumentNullException(nameof(stock));
 
-            storage[stock.ProductCode] = stock;
+            repository.UpdateStock(stock);
+            return stock;
+        }
+
+        [HttpPost("~/sell")]
+        public ProductStock Sell([FromBody] Sale sale)
+        {
+            if (sale is null)
+                throw new ArgumentNullException(nameof(sale));
+
+            var stock = repository.FindStockByProductCode(sale.ProductCode);
+            if (stock == null)
+                throw new KeyNotFoundException("The product with the given code does not exist.");
+
+            if (stock.Quantity < sale.Quantity)
+                throw new InvalidOperationException("Cannot sell more than the available quantity.");
+
+            stock.Quantity -= sale.Quantity;
+            repository.UpdateStock(stock);
+
             return stock;
         }
 
         //
 
-        private readonly IStorage<ProductStock> storage;
+        private readonly IRepository repository;
     }
 }

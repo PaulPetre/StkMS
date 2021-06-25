@@ -9,7 +9,7 @@
 
 @inject ILocalStorageService localStorage
 @inject IMapper mapper
-@inject IStock stock
+@inject IApiClient apiClient
 @inject IInventory inventory
 @inject IJSRuntime jsRuntime
 
@@ -39,7 +39,7 @@
 
     public async Task GenerateExcel()
     {
-        var stocks = (await stock.GetAllAsync().ConfigureAwait(true)).ToArray();
+        var stocks = (await apiClient.GetAllAsync().ConfigureAwait(true)).ToArray();
 
         var sb = new StringBuilder();
 
@@ -69,7 +69,7 @@
     async Task LoadData(LoadDataArgs args)
     {
         isLoading = true;
-        var data = (await stock.GetAllAsync().ConfigureAwait(true)).ToArray();
+        var data = (await apiClient.GetAllAsync().ConfigureAwait(true)).ToArray();
         stockView = data;
         count = data.Length;
         isLoading = false;

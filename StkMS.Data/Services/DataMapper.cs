@@ -15,6 +15,16 @@ namespace StkMS.Data.Services
                 Quantity = stock.Quantity,
             };
 
+        Library.Models.Product? IDataMapper.MapProductToDomain(Product? product) => product == null
+            ? null
+            : new Library.Models.Product
+            {
+                Code = product.Code,
+                Name = product.Name,
+                Unit = product.Unit,
+                UnitPrice = product.UnitPrice,
+            };
+
         public Stock MapStockToData(ProductStock stock, int productId) => new()
         {
             ProductId = productId,

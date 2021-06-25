@@ -5,7 +5,7 @@
 @using StkMS.Contracts
 @using BlazorBarcodeScanner.ZXing.JS
 
-@inject IStock stock
+@inject IApiClient apiClient
 @inject IMapper mapper
 
 <h3>Sales</h3>
@@ -83,7 +83,7 @@
     {
         productCode = code;
 
-        var product = await stock.FindProductAsync(code).ConfigureAwait(true);
+        var product = await apiClient.FindProductAsync(code).ConfigureAwait(true);
         salesViewModel = product == null ? SalesViewModel.CreateInvalid(code) : mapper.MapToSalesViewModel(product);
 
         StateHasChanged();
@@ -100,7 +100,7 @@
 
     private async Task AddSaleAsync()
     {
-        await stock.SellProductAsync(new Sale(productCode, salesViewModel.Quantity)).ConfigureAwait(true);
+        await apiClient.SellProductAsync(new Sale(productCode, salesViewModel.Quantity)).ConfigureAwait(true);
 
         productCode = "";
         salesViewModel = new SalesViewModel();

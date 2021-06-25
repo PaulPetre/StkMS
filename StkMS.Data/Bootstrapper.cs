@@ -3,7 +3,6 @@ using StkMS.Data.Contracts;
 using StkMS.Data.Models;
 using StkMS.Data.Services;
 using StkMS.Library.Contracts;
-using StkMS.Library.Models;
 
 namespace StkMS.Data
 {
@@ -16,7 +15,7 @@ namespace StkMS.Data
             services.AddSingleton<IDataMapper, DataMapper>();
 
             services.AddScoped<IStkMSContext, StkMSContext>();
-            services.AddScoped<IStorage<ProductStock>, ProductStockStorage>();
+            services.AddScoped<IRepository, ProductStockStorage>();
         }
     }
 }

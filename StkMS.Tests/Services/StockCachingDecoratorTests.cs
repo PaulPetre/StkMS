@@ -15,17 +15,17 @@ namespace StkMS.Tests.Services
     [TestClass]
     public class StockCachingDecoratorTests
     {
-        private readonly Mock<IStock> decorated;
+        private readonly Mock<IApiClient> decorated;
         private readonly Mock<ICache> cache;
 
-        private readonly StockCachingDecorator sut;
+        private readonly ApiClientCachingDecorator sut;
 
         public StockCachingDecoratorTests()
         {
-            decorated = new Mock<IStock>();
+            decorated = new Mock<IApiClient>();
             cache = new Mock<ICache>();
 
-            sut = new StockCachingDecorator(decorated.Object, cache.Object);
+            sut = new ApiClientCachingDecorator(decorated.Object, cache.Object);
         }
 
         [TestClass]
