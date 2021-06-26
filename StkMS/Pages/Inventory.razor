@@ -73,7 +73,7 @@
             </div>
 
             <div class="text-right">
-                <RadzenButton ButtonType="ButtonType.Submit" Text="Add/Update" Click=@(args => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs added/updated", Duration = 4000 })) />
+                <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Add/Update" Click=@(args => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs added/updated", Duration = 4000 })) />
                 
                 @*<button type="submit" class="btn btn-primary" @onclick="@(() => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs added/updated" }))">Add/Update</button>*@
             </div>

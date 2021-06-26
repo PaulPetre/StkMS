@@ -1,6 +1,7 @@
 ﻿<div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">
-        <img src="iconStkMS.png" width="45" height="45" alt="" />  StkMS</a>
+        <img src="iconStkMS.png" width="45" height="45" alt="" />  StkMS
+    </a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -10,7 +11,7 @@
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="StkMS" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+            <span class="oi oi-list-rich" aria-hidden="true"></span> Home
             </NavLink>
         </li>
         <li class="nav-item px-3">
@@ -20,19 +21,18 @@
         </li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="Inventory" Match="NavLinkMatch.All">
-                <span class="oi oi-list" aria-hidden="true"></span> Inventory
+                <span class="oi oi-home" aria-hidden="true"></span> Inventory
             </NavLink>
         </li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="Sales" Match="NavLinkMatch.All">
-                <span class="oi oi-list" aria-hidden="true"></span> Sales
+                @*<MudIcon Icon="@Icons.Material.Rounded.PointOfSale"></MudIcon>*@
+                <span class="oi oi-bar-chart" aria-hidden="true"></span> Sales
             </NavLink>
         </li>
     </ul>
 </div>
 
-<style>
-</style>
 
 @code {
     private bool collapseNavMenu = true;

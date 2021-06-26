@@ -5,6 +5,106 @@
 
 <h1>--TODO--</h1>
 
+<MudGrid>
+    <MudItem xs="12" sm="6" md="3">
+        <style>
+            .zoom {
+                transition: transform .2s; /* Animation */
+                height: 100px;
+                margin: 0 auto;
+            }
+
+                .zoom:hover {
+                    transform: scale(1.2);
+                }
+        </style>
+        <div class="zoom">
+
+            <MudPaper Elevation="6" Class="d-flex flex-row pt-6 pb-4" Style="height: 100px; background-color: #80CBC4">
+                <MudIcon Icon="@Icons.Material.Filled.Euro" Color="Color.Primary" Class="mx-4" Style="width:54px; height:54px; "></MudIcon>
+                <div>
+                    <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Total Cost</MudText>
+                    <MudText Typo="Typo.h5">3,125,000</MudText>
+                </div>
+            </MudPaper>
+        </div>
+
+    </MudItem>
+    <MudItem xs="12" sm="6" md="3">
+        <div class="zoom">
+            <MudPaper Elevation="6" Class="d-flex flex-row pt-6 pb-4" Style="height:100px; background-color: #66BB6A">
+                <MudIcon Icon="@Icons.Material.Filled.ShoppingCart" Color="Color.Dark" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
+                <div>
+
+                    <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Total Cost</MudText>
+                    <MudText Typo="Typo.h5">3,125,000</MudText>
+                </div>
+            </MudPaper>
+        </div>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="3">
+        <div class="zoom">
+            <MudPaper Elevation="6" Class="d-flex flex-row pt-6 pb-4" Style="height:100px; background-color: #7C4DFF">
+                <MudIcon Icon="@Icons.Material.Filled.Inventory" Color="Color.Secondary" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
+                <div>
+                    <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Global Spread</MudText>
+                    <MudText Typo="Typo.h5">12%</MudText>
+                </div>
+            </MudPaper>
+        </div>
+    </MudItem>
+</MudGrid>
+
+<hr />
+
+<MudGrid>
+    <MudItem xs="6" sm="6" md="6">
+        <MudCard Elevation="4">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText>Profile Details</MudText>
+                    <hr />
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudGrid>
+                    <MudItem xs="12" md="6">
+                        <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Stocuri nivel critic</MudText>
+
+                    </MudItem>
+
+                    <MudItem xs="12" md="6">
+                        <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Total stocuri</MudText>
+
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Total stocuri</MudText>
+
+                    </MudItem>
+                    <MudItem xs="5" md="5">
+                        <div class="svg-item">
+                            <svg width="100%" height="100%" viewBox="0 0 40 40" class="donut">
+                                <circle class="donut-hole" cx="20" cy="20" r="15.91549430918954" fill="#fff"></circle>
+                                <circle class="donut-ring" cx="20" cy="20" r="15.91549430918954" fill="transparent" stroke-width="3.5"></circle>
+                                <circle class="donut-segment donut-segment-2" cx="20" cy="20" r="15.91549430918954" fill="transparent" stroke-width="3.5" stroke-dasharray="69 31" stroke-dashoffset="25"></circle>
+                                <g class="donut-text donut-text-1">
+
+                                    <text y="50%" transform="translate(0, 2)">
+                                        <tspan x="50%" text-anchor="middle" class="donut-percent">69%</tspan>
+                                    </text>
+                                    <text y="60%" transform="translate(0, 2)">
+                                        <tspan x="50%" text-anchor="middle" class="donut-data">3450 widgets</tspan>
+                                    </text>
+                                </g>
+                            </svg>
+                        </div>
+
+                    </MudItem>
+                </MudGrid>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
 @code {
 
 }

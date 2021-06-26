@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using MudBlazor.Services;
 using PdfSharpCore.Fonts;
 using Radzen;
 using StkMS.Contracts;
@@ -42,6 +43,7 @@ namespace StkMS
             builder.Services.AddScoped<NotificationService>();
             builder.Services.AddScoped<TooltipService>();
             builder.Services.AddScoped<ContextMenuService>();
+            builder.Services.AddMudServices();
 
             return builder.Build().RunAsync();
         }
