@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
@@ -21,11 +22,23 @@ namespace StkMS
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
+            //Authentication
+            builder.Services
+                .AddHttpClient("PlannerApp.Api",
+                    client => { client.BaseAddress = new Uri("https://plannerapp-api.azurewebsites.net"); })
+                .AddHttpMessageHandler<AuthorizationMessageHandler>();
+            builder.Services.AddTransient<AuthorizationMessageHandler>();
+
+            builder.Services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient("PlannerApp.Api"));
+            builder.Services.AddAuthorizationCore();
+            builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
+
             GlobalFontSettings.FontResolver = new FontResolver();
 
             builder.Services.AddBlazoredLocalStorage();
 
-            builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped(_ => new HttpClient
+            { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             builder.Services.AddScoped<IMapper, Mapper>();
             builder.Services.AddScoped<ICache, LocalStorageCache>();
@@ -47,5 +60,7 @@ namespace StkMS
 
             return builder.Build().RunAsync();
         }
+
     }
 }
+
