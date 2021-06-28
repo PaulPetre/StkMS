@@ -1,0 +1,52 @@
+﻿@page "/customers"
+@layout MainLayout
+@inherits StkMS.Pages.CustomersComponent
+
+@using Radzen
+@using Radzen.Blazor
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Authenticated, Invoicing")]
+
+
+<RadzenContent Container="main">
+    <ChildContent>
+        <RadzenHeading Size="H1" Text="Customers">
+        </RadzenHeading>
+        <div class="row">
+            <div class="col-md-12">
+                <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@Button0Click">
+                </RadzenButton>
+                <RadzenSplitButton Icon="get_app" style="margin-bottom: 10px; margin-left: 10px" Text="Export" Click="@Splitbutton0Click">
+                    <ChildContent>
+                        <RadzenSplitButtonItem Text="Excel" Value="xlsx">
+                        </RadzenSplitButtonItem>
+                        <RadzenSplitButtonItem Text="CSV" Value="csv">
+                        </RadzenSplitButtonItem>
+                    </ChildContent>
+                </RadzenSplitButton>
+                <RadzenTextBox Placeholder="Search ..." style="display: block; margin-bottom: 10px; width: 100%" Name="Textbox0" @oninput="@(async(args) => {search = $"{args.Value}";await grid0.GoToPage(0);await Load();})">
+                </RadzenTextBox>
+                <RadzenGrid @ref="grid0" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@getCustomersResult" FilterMode="FilterMode.Advanced" TItem="SimpleInvoiceManagementSoftware.Models.SimpleInvoice.Customer" RowSelect="@Grid0RowSelect">
+                    <Columns>
+                        <RadzenGridColumn TItem="Customer" Property="CustomerId" Title="Customer Id" Visible="false">
+                        </RadzenGridColumn>
+                        <RadzenGridColumn TItem="Customer" Property="Name" Title="Name">
+                        </RadzenGridColumn>
+                        <RadzenGridColumn TItem="Customer" Property="Description" Title="Description">
+                        </RadzenGridColumn>
+                        <RadzenGridColumn TItem="Customer" Property="Address" Title="Address">
+                        </RadzenGridColumn>
+                        <RadzenGridColumn TItem="Customer" Property="City" Title="City">
+                        </RadzenGridColumn>
+                        <RadzenGridColumn TItem="Customer" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
+                            <Template Context="simpleInvoiceManagementSoftwareModelsSimpleInvoiceCustomer">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Visible="@(simpleInvoiceManagementSoftwareModelsSimpleInvoiceCustomer.CustomerId != 1)" Click="@((args) =>GridDeleteButtonClick(args, simpleInvoiceManagementSoftwareModelsSimpleInvoiceCustomer))" @onclick:stopPropagation="true">
+                                </RadzenButton>
+                            </Template>
+                        </RadzenGridColumn>
+                    </Columns>
+                </RadzenGrid>
+            </div>
+        </div>
+    </ChildContent>
+</RadzenContent>

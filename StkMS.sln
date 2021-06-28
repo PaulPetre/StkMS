@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StkMS.Tests", "StkMS.Tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StkMS.Data", "StkMS.Data\StkMS.Data.csproj", "{00FA85E6-1D4F-4248-992E-2AA2461CB655}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StkMS.Shared", "StkMS.Shared\StkMS.Shared.csproj", "{072CC0F4-6171-45BC-8C43-0EBE054B546C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StkMS.Shared", "StkMS.Shared\StkMS.Shared.csproj", "{072CC0F4-6171-45BC-8C43-0EBE054B546C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StkMS.Client.Services", "StkMS.Client.Services\StkMS.Client.Services.csproj", "{17BA713F-F218-4680-9680-D2D2DC6A1ACC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StkMS.Client.Services", "StkMS.Client.Services\StkMS.Client.Services.csproj", "{17BA713F-F218-4680-9680-D2D2DC6A1ACC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
