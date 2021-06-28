@@ -39,7 +39,7 @@ namespace StkMS.Components
                 // TODO: Log those errors 
                 _errorMessage = ex.ApiErrorResponse.Message;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 // Handle errors 
                 _errorMessage = ex.Message;
@@ -50,7 +50,10 @@ namespace StkMS.Components
 
         private void RedirectToLogin()
         {
-            Navigation.NavigateTo("/authentication/login");
+            if (_model.Email != null && _model.Password != null)
+            {
+                Navigation.NavigateTo("/authentication/login");
+            }
         }
 
     }

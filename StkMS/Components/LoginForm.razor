@@ -1,33 +1,65 @@
 ﻿@namespace StkMS.Components
+@*@inject NavigationManager NavigationManager*@
 
 <EditForm Model="_model" OnValidSubmit="LoginUserAsync">
     <DataAnnotationsValidator />
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h4" GutterBottom="true">Sign In</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudText>Don't have an account? <MudLink Href="/authentication/register">Sign Up</MudLink></MudText>
 
-    <MudCard>
-        <MudCardHeader>
-            <CardHeaderContent>
-                <MudText Typo="Typo.h6">Welcome to PlannerApp v2.0</MudText>
-            </CardHeaderContent>
-        </MudCardHeader>
-        <MudCardContent>
-            <MudTextField Label="Email" HelperText="Required" @bind-Value="@_model.Email" />
-            <MudTextField InputType="InputType.Password" Label="Password" HelperText="Required" @bind-Value="@_model.Password" />
+    <MudCardContent>
+        <MudTextField Label="Email" HelperText="Required" @bind-Value="@_model.Email" Variant="Variant.Outlined" Class="my-6" />
+        <MudTextField InputType="InputType.Password" Label="Password" HelperText="Required" @bind-Value="@_model.Password" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="TogglePasswordVisibility" />
 
-            <ValidationSummary />
+        <div Class="d-flex justify-space-between align-center">
+            <MudCheckBox T="bool" Label="Remember me?" Color="Color.Primary" Class="ml-n1 my-3"></MudCheckBox>
+            <MudLink Href="/pages/authentication/forgot-password">Forgot pwd?</MudLink>
+        </div>
+        <ValidationSummary />
 
-            @if (!string.IsNullOrWhiteSpace(_errorMessage))
-            {
-                <MudAlert Severity="Severity.Error" Class="my-2" Variant="Variant.Filled">@_errorMessage</MudAlert>
-            }
-        </MudCardContent>
+        @if (!string.IsNullOrWhiteSpace(_errorMessage))
+        {
+            <MudAlert Severity="Severity.Error" Class="my-2" Variant="Variant.Filled">@_errorMessage</MudAlert>
+        }
+    </MudCardContent>
 
-        <MudCardActions>
-            <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Disabled="_isBusy">Login</MudButton>
-            <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-1" Disabled="_isBusy" OnClick="RedirectToRegister">Create Account</MudButton>
-        </MudCardActions>
-    </MudCard>
+    <MudCardActions>
+        <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-1" Disabled="_isBusy" Size="Size.Large" FullWidth="true" OnClick="RedirectToHome">Sign In</MudButton>
+
+        @*<MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Disabled="_isBusy">Login</MudButton>*@
+        @*<MudButton Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-1" Disabled="_isBusy" OnClick="RedirectToRegister">Create Account</MudButton>*@
+    </MudCardActions>
 </EditForm>
 
 @code {
 
+    bool PasswordVisibility;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void TogglePasswordVisibility()
+    {
+        @if (PasswordVisibility)
+        {
+            PasswordVisibility = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            PasswordVisibility = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+    }
+    //private void RedirectToHome()
+    //{
+    //    if (_model.Email != null && _model.Password != null)
+    //    {
+    //        Navigation.NavigateTo("/");
+    //    }
+    //}
 }

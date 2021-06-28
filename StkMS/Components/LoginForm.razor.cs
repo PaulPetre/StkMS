@@ -57,8 +57,16 @@ namespace StkMS.Components
 
         private void RedirectToRegister()
         {
+
             Navigation.NavigateTo("/authentication/register");
         }
 
+        private void RedirectToHome()
+        {
+            if (_model.Email != null && _model.Password != null)
+            {
+                Navigation.NavigateTo("/");
+            }
+        }
     }
 }

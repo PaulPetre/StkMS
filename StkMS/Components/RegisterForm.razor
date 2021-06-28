@@ -3,35 +3,30 @@
 <EditForm Model="_model" OnValidSubmit="RegisterUserAsync">
     <FluentValidationValidator />
 
-    <MudCard>
-        <MudCardHeader>
-            <CardHeaderContent>
-                <MudText Typo="Typo.h6">Welcome to PlannerApp v2.0</MudText>
-            </CardHeaderContent>
-        </MudCardHeader>
-        <MudCardContent>
-            <MudTextField Label="Email" HelperText="Required" @bind-Value="@_model.Email" />
-            <MudTextField Label="First Name" HelperText="Required" @bind-Value="@_model.FirstName" />
-            <MudTextField Label="Last Name" HelperText="Required" @bind-Value="@_model.LastName" />
-            <MudTextField InputType="InputType.Password" Label="Password" HelperText="Required" @bind-Value="@_model.Password" />
-            <MudTextField InputType="InputType.Password" Label="Confirm Password" HelperText="Required" @bind-Value="@_model.ConfirmPassword" />
+    <MudCardContent>
+        <MudText Typo="Typo.h4" GutterBottom="true">Sign Up</MudText>
+        <MudText>Already have an account? <MudLink Href="/authentication/login">Sign In</MudLink></MudText>
+        <MudTextField Label="Email" HelperText="Required" @bind-Value="@_model.Email" Variant="Variant.Outlined" Adornment="Adornment.End" />
+        <MudTextField Label="First Name" HelperText="Required" @bind-Value="@_model.FirstName" Variant="Variant.Outlined" Adornment="Adornment.End" />
+        <MudTextField Label="Last Name" HelperText="Required" @bind-Value="@_model.LastName" Variant="Variant.Outlined" Adornment="Adornment.End" />
+        <MudTextField InputType="InputType.Password" Label="Password" HelperText="Required" @bind-Value="@_model.Password" Variant="Variant.Outlined" Adornment="Adornment.End" />
+        <MudTextField InputType="InputType.Password" Label="Confirm Password" HelperText="Required" @bind-Value="@_model.ConfirmPassword" Variant="Variant.Outlined" Adornment="Adornment.End" />
 
-            <ValidationSummary />
+        <ValidationSummary />
 
-            @if (!string.IsNullOrWhiteSpace(_errorMessage))
-            {
-                <MudAlert Severity="Severity.Error" Class="my-2" Variant="Variant.Filled">@_errorMessage</MudAlert>
-            }
-        </MudCardContent>
-
-        <MudCardActions>
-            <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Disabled="_isBusy">Create Account</MudButton>
-            <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="RedirectToLogin" Class="ml-1" Disabled="_isBusy">Login</MudButton>
-        </MudCardActions>
-    </MudCard>
+        @if (!string.IsNullOrWhiteSpace(_errorMessage))
+        {
+            <MudAlert Severity="Severity.Error" Class="my-2" Variant="Variant.Filled">@_errorMessage</MudAlert>
+        }
+    </MudCardContent>
+    @*<MudCheckBox @bind-Checked="@AgreeToTerms" Label="I agree to the terms and privacy" Color="Color.Primary" Class="ml-n1 my-3"></MudCheckBox>*@
+    <MudCardActions>
+        @*<MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Disabled="_isBusy" OnClick="RedirectToLogin" Size="Size.Large" FullWidth="true">Register</MudButton>*@
+        <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Disabled="_isBusy" Size="Size.Large" FullWidth="true" OnClick="RedirectToLogin">Create Account</MudButton>
+        @*<MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="RedirectToLogin" Class="ml-1" Disabled="_isBusy">Register</MudButton>*@
+    </MudCardActions>
 </EditForm>
 
 
 @code {
-
 }
