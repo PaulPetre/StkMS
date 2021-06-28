@@ -11,6 +11,8 @@ using Radzen;
 using StkMS.Contracts;
 using StkMS.Library.Contracts;
 using StkMS.Library.Services;
+using StkMS.Client.Services;
+using StkMS.Client.Services.Interfaces;
 using StkMS.Services;
 
 namespace StkMS
@@ -32,13 +34,13 @@ namespace StkMS
             builder.Services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient("PlannerApp.Api"));
             builder.Services.AddAuthorizationCore();
             builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
+            builder.Services.AddHttpClientServices();
 
             GlobalFontSettings.FontResolver = new FontResolver();
 
             builder.Services.AddBlazoredLocalStorage();
 
-            builder.Services.AddScoped(_ => new HttpClient
-            { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            
 
             builder.Services.AddScoped<IMapper, Mapper>();
             builder.Services.AddScoped<ICache, LocalStorageCache>();
