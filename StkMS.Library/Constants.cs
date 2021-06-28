@@ -1,7 +1,8 @@
 ﻿namespace StkMS.Library
 {
     public class Constants
-    {// "https://localhost:44378/";
+    {
+        // "https://localhost:44378/";
         //"https://api-stkms.renfieldsoftware.com";
         public const string API_BASE_URL = "https://localhost:44378";
 

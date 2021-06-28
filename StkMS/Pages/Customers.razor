@@ -2,10 +2,9 @@
 @using StkMS.Library.Contracts
 @using StkMS.Library.Models
 @using StkMS.Services
+@using DialogService = Radzen.DialogService
 @inject IApiClient apiClient
-
-
-<h3>Hello</h3>
+@inject DialogService dialogService
 
 <RadzenContent Container="main">
     <ChildContent>
@@ -13,6 +12,8 @@
         </RadzenHeading>
         <div class="row">
             <div class="col-md-12">
+                <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@Button0Click">
+                </RadzenButton>
                 <RadzenGrid @ref="grid0" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Count="@count" Data="customers" LoadData="@LoadData" FilterMode="FilterMode.Advanced" TItem="Customer">
                     <Columns>
                         <RadzenGridColumn TItem="Customer" Property="CustomerId" Title="Customer Id" Visible="false">
@@ -33,21 +34,22 @@
 </RadzenContent>
 
 
-@code { bool isLoading;
-    int count;
+@code { int count;
 
     protected RadzenGrid<Customer> grid0;
     IEnumerable<Customer> customers;
-    private IEnumerable<Customer> getCustomersResult { get; set; }
-
-
-
 
     async Task LoadData(LoadDataArgs args)
     {
-        isLoading = true;
         var data = (await apiClient.GetAllCustomerAsync().ConfigureAwait(true)).ToArray();
         customers = data;
         count = data.Length;
-        isLoading = false;
+    }
+
+    protected async Task Button0Click(MouseEventArgs args)
+    {
+        var dialogResult = await dialogService.OpenAsync<AddCustomer>("Add Customer", null);
+        await grid0.Reload();
+
+        await InvokeAsync(() => { StateHasChanged(); });
     } }

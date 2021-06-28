@@ -1,0 +1,95 @@
+﻿@page "/add-customer"
+@using Microsoft.AspNetCore.Components
+@using System.ComponentModel
+@using StkMS.Library.Contracts
+@using StkMS.Library.Models
+@using DialogService = Radzen.DialogService
+@inject DialogService dialogService
+@inject IApiClient apiClient
+
+<RadzenContent Container="main">
+    <ChildContent>
+        <div class="row">
+            <div class="col-md-12">
+                <RadzenTemplateForm Data="@customer" Visible="@(customer != null)" TItem="Customer" Submit="@Form0Submit">
+                    <ChildContent>
+                        <div style="margin-bottom: 1rem" class="row">
+                            <div class="col-md-3">
+                                <RadzenLabel Text="Name" Component="Name" style="width: 100%">
+                                </RadzenLabel>
+                            </div>
+                            <div class="col-md-9">
+                                <RadzenTextBox MaxLength="100" style="display: block; width: 100%" @bind-Value="@(customer.Name)" Name="Name">
+                                </RadzenTextBox>
+                                <RadzenRequiredValidator Component="Name" Text="Name is required" style="position: absolute">
+                                </RadzenRequiredValidator>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem" class="row">
+                            <div class="col-md-3">
+                                <RadzenLabel Text="Description" Component="Description" style="width: 100%">
+                                </RadzenLabel>
+                            </div>
+                            <div class="col-md-9">
+                                <RadzenTextBox MaxLength="200" style="width: 100%" @bind-Value="@(customer.Description)" Name="Description">
+                                </RadzenTextBox>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem" class="row">
+                            <div class="col-md-3">
+                                <RadzenLabel Text="Address" Component="Address" style="width: 100%">
+                                </RadzenLabel>
+                            </div>
+                            <div class="col-md-9">
+                                <RadzenTextBox MaxLength="200" style="display: block; width: 100%" @bind-Value="@(customer.Address)" Name="Address">
+                                </RadzenTextBox>
+                                <RadzenRequiredValidator Component="Address" Text="Address is required" style="position: absolute">
+                                </RadzenRequiredValidator>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem" class="row">
+                            <div class="col-md-3">
+                                <RadzenLabel Text="City" Component="City" style="width: 100%">
+                                </RadzenLabel>
+                            </div>
+                            <div class="col-md-9">
+                                <RadzenTextBox MaxLength="100" style="display: block; width: 100%" @bind-Value="@(customer.City)" Name="City">
+                                </RadzenTextBox>
+                                <RadzenRequiredValidator Component="City" Text="City is required" style="position: absolute">
+                                </RadzenRequiredValidator>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col offset-sm-3">
+                                <RadzenButton ButtonType="Radzen.ButtonType.Submit" Icon="save" Text="Save" ButtonStyle="ButtonStyle.Primary">
+                                </RadzenButton>
+                                <RadzenButton ButtonStyle="ButtonStyle.Light" style="margin-left: 1rem" Text="Cancel" Click="@Button2Click">
+                                </RadzenButton>
+                            </div>
+                        </div>
+                    </ChildContent>
+                </RadzenTemplateForm>
+            </div>
+        </div>
+    </ChildContent>
+</RadzenContent>
+@code
+{ protected Customer customer { get; set; }
+
+    protected async Task Form0Submit(Customer args)
+    {
+        try
+        {
+            var simpleInvoiceCreateCustomerResult = await apiClient.CreateCustomer(customer);
+            // DialogService.Close(customer);
+        }
+        catch (System.Exception simpleInvoiceCreateCustomerException)
+        {
+            // NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = $"Error", Detail = $"Unable to create new Customer!" });
+        }
+    }
+
+    protected async Task Button2Click(MouseEventArgs args)
+    {
+        // DialogService.Close(null);
+    } }

@@ -65,6 +65,8 @@ namespace StkMS.Services
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task<Customer> CreateCustomer(Customer customer) => throw new NotImplementedException();
+
         //
 
         private static readonly HttpClient HTTP = new();

@@ -68,6 +68,8 @@ namespace StkMS.Library.Services
             }
         }
 
+        public Task<Customer> CreateCustomer(Customer customer) => throw new System.NotImplementedException();
+
         //
 
         private static readonly object GATE = new();
