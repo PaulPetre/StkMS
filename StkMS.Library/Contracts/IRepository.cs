@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using StkMS.Library.Models;
+﻿using StkMS.Library.Models;
+using System.Collections.Generic;
 
 namespace StkMS.Library.Contracts
 {
@@ -8,6 +8,8 @@ namespace StkMS.Library.Contracts
         IEnumerable<ProductStock> GetStock();
         ProductStock? FindStockByProductCode(string productCode);
         Product? FindProductByCode(string productCode);
+
+        IEnumerable<Customer> GetAllCustomers();
 
         void UpdateStock(ProductStock stock);
         void AddSale(Sale sale);

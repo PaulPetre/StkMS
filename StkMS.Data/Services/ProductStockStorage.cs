@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using StkMS.Data.Contracts;
 using StkMS.Data.Models;
 using StkMS.Library.Contracts;
 using StkMS.Library.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Product = StkMS.Library.Models.Product;
 using Sale = StkMS.Library.Models.Sale;
 
@@ -40,6 +40,12 @@ namespace StkMS.Data.Services
             .AsEnumerable()
             .Select(mapper.MapProductToDomain)
             .FirstOrDefault();
+
+        public IEnumerable<Customer> GetAllCustomers() => context
+            .Customers
+            .AsEnumerable()
+            .Select(mapper.MapCustomers)
+            .ToArray();
 
         public void UpdateStock(ProductStock stock)
         {

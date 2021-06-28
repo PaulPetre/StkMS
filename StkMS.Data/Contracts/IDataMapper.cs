@@ -13,5 +13,6 @@ namespace StkMS.Data.Contracts
         Stock MapStockToData(ProductStock stock, int productId);
         Models.Product MapProductToData(Product product);
         SaleItem MapSaleItemToData(Sale sale, int saleId, int productId);
+        Customer MapCustomers(Customers model);
     }
 }

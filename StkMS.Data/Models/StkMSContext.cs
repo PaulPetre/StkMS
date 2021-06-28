@@ -12,6 +12,7 @@ namespace StkMS.Data.Models
         public virtual DbSet<Stock> Stocks { get; set; }
         public virtual DbSet<Sale> Sales { get; set; }
         public virtual DbSet<SaleItem> SaleItems { get; set; }
+        public virtual DbSet<Customers> Customers { get; set; }
 
         public StkMSContext(DbContextOptions<StkMSContext> options, IConfiguration configuration)
             : base(options)

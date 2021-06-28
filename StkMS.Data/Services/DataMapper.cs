@@ -46,6 +46,16 @@ namespace StkMS.Data.Services
             ProductId = productId,
             Quantity = sale.Quantity,
         };
+        public Customer MapCustomers(Customers model) => model == null
+            ? null
+            : new Customer
+            {
+                CustomerId = model.CustomerId,
+                Name = model.Name,
+                Address = model.Address,
+                Description = model.Description,
+                City = model.City,
+            };
 
         //
 

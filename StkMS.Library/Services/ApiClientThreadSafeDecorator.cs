@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using StkMS.Library.Contracts;
+﻿using StkMS.Library.Contracts;
 using StkMS.Library.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace StkMS.Library.Services
 {
@@ -17,6 +17,14 @@ namespace StkMS.Library.Services
             lock (GATE)
             {
                 return decorated.GetAllAsync();
+            }
+        }
+
+        public ValueTask<IEnumerable<Customer>> GetAllCustomerAsync()
+        {
+            lock (GATE)
+            {
+                return decorated.GetAllCustomerAsync();
             }
         }
 

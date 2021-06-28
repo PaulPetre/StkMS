@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StkMS.Library.Contracts;
 using StkMS.Library.Models;
+using System;
+using System.Collections.Generic;
 
 namespace StkMS.Api.Controllers
 {
@@ -36,6 +36,10 @@ namespace StkMS.Api.Controllers
 
             return repository.FindProductByCode(productCode);
         }
+
+        [HttpGet("~/getCustomers")]
+        public IEnumerable<Customer> GetAllCustomers() => repository.GetAllCustomers();
+
 
         [HttpPost("~/addOrUpdate")]
         public ProductStock AddOrUpdate([FromBody] ProductStock stock)

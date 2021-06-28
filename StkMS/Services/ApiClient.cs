@@ -1,11 +1,11 @@
-﻿using System;
+﻿using StkMS.Library;
+using StkMS.Library.Contracts;
+using StkMS.Library.Models;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using StkMS.Library;
-using StkMS.Library.Contracts;
-using StkMS.Library.Models;
 
 namespace StkMS.Services
 {
@@ -18,6 +18,17 @@ namespace StkMS.Services
             var result = await response.Content.ReadFromJsonAsync<IEnumerable<ProductStock>>().ConfigureAwait(false);
             if (result == null)
                 throw new Exception("Could not deserialize the result of the /getAll API.");
+
+            return result;
+        }
+
+        public async ValueTask<IEnumerable<Customer>> GetAllCustomerAsync()
+        {
+            var response = await GetAsync("getCustomers").ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            var result = await response.Content.ReadFromJsonAsync<IEnumerable<Customer>>().ConfigureAwait(false);
+            if (result == null)
+                throw new Exception("Could nots deserialize the result of the /getCustomers API.");
 
             return result;
         }

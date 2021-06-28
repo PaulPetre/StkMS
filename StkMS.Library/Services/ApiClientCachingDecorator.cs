@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using StkMS.Library.Contracts;
+using StkMS.Library.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using StkMS.Library.Contracts;
-using StkMS.Library.Models;
 
 namespace StkMS.Library.Services
 {
@@ -31,6 +31,23 @@ namespace StkMS.Library.Services
                 return cachedResult == null
                     ? Enumerable.Empty<ProductStock>()
                     : JsonSerializer.Deserialize<ProductStock[]>(cachedResult) ?? Enumerable.Empty<ProductStock>();
+            }
+        }
+
+        public async ValueTask<IEnumerable<Customer>> GetAllCustomerAsync()
+        {
+            try
+            {
+                var result = (await decorated.GetAllCustomerAsync().ConfigureAwait(true)).ToArray();
+                cache[ALL_CUSTOMERS_KEY] = JsonSerializer.Serialize(result);
+                return result;
+            }
+            catch
+            {
+                var cachedResult = cache[ALL_CUSTOMERS_KEY];
+                return cachedResult == null
+                    ? Enumerable.Empty<Customer>()
+                    : JsonSerializer.Deserialize<Customer[]>(cachedResult) ?? Enumerable.Empty<Customer>();
             }
         }
 
@@ -110,6 +127,7 @@ namespace StkMS.Library.Services
 
         //
 
+        private const string ALL_CUSTOMERS_KEY = "CUSTOMERS";
         private const string ALL_KEY = "ALL";
         private const string STOCK_KEY = "STOCK:";
         private const string PRODUCT_KEY = "PRODUCT:";
