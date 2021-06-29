@@ -31,7 +31,7 @@ namespace StkMS.Components
             try
             {
                 await AuthenticationService.RegisterUserAsync(_model);
-                Navigation.NavigateTo("/authentication/login");
+                Navigation.NavigateTo("Login");
             }
             catch (ApiException ex)
             {
@@ -52,7 +52,7 @@ namespace StkMS.Components
         {
             if (_model.Email != null && _model.Password != null)
             {
-                Navigation.NavigateTo("/authentication/login");
+                Navigation.NavigateTo("Login");
             }
         }
 
