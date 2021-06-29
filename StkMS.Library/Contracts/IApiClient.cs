@@ -10,10 +10,11 @@ namespace StkMS.Library.Contracts
         ValueTask<IEnumerable<Customer>> GetAllCustomerAsync();
         ValueTask<ProductStock?> FindStockAsync(string productCode);
         ValueTask<Product?> FindProductAsync(string productCode);
+        ValueTask<Customer> CreateCustomerAsync(Customer customer);
+        ValueTask<Sale?> GetLastCompleteSaleAsync();
 
         Task AddOrUpdateAsync(ProductStock stock);
-        Task SellProductAsync(Sale sale);
+        Task SellProductAsync(ProductSale productSale);
         Task CompleteSaleAsync();
-        Task<Customer> CreateCustomer(Customer customer);
     }
 }

@@ -8,11 +8,11 @@ namespace StkMS.Library.Contracts
         IEnumerable<ProductStock> GetStock();
         ProductStock? FindStockByProductCode(string productCode);
         Product? FindProductByCode(string productCode);
-
         IEnumerable<Customer> GetAllCustomers();
+        Sale? GetLastCompleteSale();
 
         void UpdateStock(ProductStock stock);
-        void AddSale(Sale sale);
+        void AddSale(ProductSale productSale);
         int CompleteSale();
     }
 }

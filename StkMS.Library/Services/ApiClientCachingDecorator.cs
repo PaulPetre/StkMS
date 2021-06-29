@@ -91,6 +91,10 @@ namespace StkMS.Library.Services
             }
         }
 
+        public ValueTask<Customer> CreateCustomerAsync(Customer customer) => decorated.CreateCustomerAsync(customer);
+
+        public ValueTask<Sale?> GetLastCompleteSaleAsync() => decorated.GetLastCompleteSaleAsync();
+
         public async Task AddOrUpdateAsync(ProductStock stock)
         {
             try
@@ -122,9 +126,8 @@ namespace StkMS.Library.Services
             }
         }
 
-        public Task SellProductAsync(Sale sale) => decorated.SellProductAsync(sale);
+        public Task SellProductAsync(ProductSale productSale) => decorated.SellProductAsync(productSale);
         public Task CompleteSaleAsync() => decorated.CompleteSaleAsync();
-        public Task<Customer> CreateCustomer(Customer customer) => throw new System.NotImplementedException();
 
         //
 

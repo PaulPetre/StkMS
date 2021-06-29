@@ -6,7 +6,8 @@ namespace StkMS.Contracts
     public interface IMapper
     {
         StockViewModel MapToStockViewModel(ProductStock model);
-        SalesViewModel MapToSalesViewModel(Product product);
+        SaleViewModel MapToSaleViewModel(Product product);
+        SaleDetailsViewModel MapToSaleDetailsViewModel(Sale sale);
 
         ProductStock MapToDomain(StockViewModel model);
     }

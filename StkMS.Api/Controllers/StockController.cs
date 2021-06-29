@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StkMS.Library.Contracts;
 using StkMS.Library.Models;
-using System;
-using System.Collections.Generic;
 
 namespace StkMS.Api.Controllers
 {
@@ -40,6 +40,8 @@ namespace StkMS.Api.Controllers
         [HttpGet("~/getCustomers")]
         public IEnumerable<Customer> GetAllCustomers() => repository.GetAllCustomers();
 
+        [HttpGet("~/getLastCompleteSale")]
+        public Sale? GetLastCompleteSale() => repository.GetLastCompleteSale();
 
         [HttpPost("~/addOrUpdate")]
         public ProductStock AddOrUpdate([FromBody] ProductStock stock)
@@ -52,21 +54,21 @@ namespace StkMS.Api.Controllers
         }
 
         [HttpPost("~/sell")]
-        public ProductStock Sell([FromBody] Sale sale)
+        public ProductStock Sell([FromBody] ProductSale productSale)
         {
-            if (sale is null)
-                throw new ArgumentNullException(nameof(sale));
+            if (productSale is null)
+                throw new ArgumentNullException(nameof(productSale));
 
-            var stock = repository.FindStockByProductCode(sale.ProductCode);
+            var stock = repository.FindStockByProductCode(productSale.ProductCode);
             if (stock == null)
                 throw new KeyNotFoundException("The product with the given code does not exist.");
 
-            if (stock.Quantity < sale.Quantity)
+            if (stock.Quantity < productSale.Quantity)
                 throw new InvalidOperationException("Cannot sell more than the available quantity.");
 
-            stock.Quantity -= sale.Quantity;
+            stock.Quantity -= productSale.Quantity;
             repository.UpdateStock(stock);
-            repository.AddSale(sale);
+            repository.AddSale(productSale);
 
             return stock;
         }

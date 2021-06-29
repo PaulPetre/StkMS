@@ -2,9 +2,9 @@
 
 namespace StkMS.ViewModels
 {
-    public class SalesViewModel
+    public class SaleViewModel
     {
-        public static SalesViewModel CreateInvalid(string code) => new()
+        public static SaleViewModel CreateInvalid(string code) => new()
         {
             Code = code,
             Name = Constants.INVALID_PRODUCT_CODE,

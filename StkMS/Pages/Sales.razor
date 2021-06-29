@@ -20,7 +20,7 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-lg-4 col-xl-2">
-        <EditForm Model="@salesViewModel" OnValidSubmit="@AddSaleAsync">
+        <EditForm Model="@saleViewModel" OnValidSubmit="@AddSaleAsync">
             <DataAnnotationsValidator/>
             <ValidationSummary/>
 
@@ -31,22 +31,22 @@
 
             <div class="form-group">
                 <label for="productName">Product Name</label>
-                <InputText id="productName" @bind-Value="salesViewModel.Name" class="form-control" disabled="true"/>
+                <InputText id="productName" @bind-Value="saleViewModel.Name" class="form-control" disabled="true"/>
             </div>
 
             <div class="form-group">
                 <label for="productUnit">Unit</label>
-                <InputText id="productUnit" @bind-Value="salesViewModel.Unit" class="form-control" disabled="true"/>
+                <InputText id="productUnit" @bind-Value="saleViewModel.Unit" class="form-control" disabled="true"/>
             </div>
 
             <div class="form-group">
                 <label for="productUnitPrice">Unit Price</label>
-                <InputNumber id="productUnitPrice" @bind-Value="@salesViewModel.UnitPrice" class="form-control" disabled="true"/>
+                <InputNumber id="productUnitPrice" @bind-Value="@saleViewModel.UnitPrice" class="form-control" disabled="true"/>
             </div>
 
             <div class="form-group">
                 <label for="productQuantity">Quantity</label>
-                <InputNumber id="productQuantity" @bind-Value="salesViewModel.Quantity" class="form-control"/>
+                <InputNumber id="productQuantity" @bind-Value="saleViewModel.Quantity" class="form-control"/>
             </div>
 
             <div class="row">
@@ -61,11 +61,15 @@
     </div>
 </div>
 
+<div>
+    <button class="btn btn-primary" disabled="@GetCompleteDisabled()" @onclick="CompleteSaleAsync">Complete the sale</button>
+</div>
+
 
 @code {
     private string productCode = "";
 
-    private SalesViewModel salesViewModel = new();
+    private SaleViewModel saleViewModel = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -84,11 +88,11 @@
         productCode = code;
 
         var product = await apiClient.FindProductAsync(code).ConfigureAwait(true);
-        salesViewModel = product == null ? SalesViewModel.CreateInvalid(code) : mapper.MapToSalesViewModel(product);
+        saleViewModel = product == null ? SaleViewModel.CreateInvalid(code) : mapper.MapToSaleViewModel(product);
 
         StateHasChanged();
 
-    // TODO: focus the quantity field
+        // TODO: focus the quantity field
     }
 
     private async Task LookUpProductAsync()
@@ -96,16 +100,35 @@
         await ProductScannedAsync(productCode).ConfigureAwait(true);
     }
 
-    private bool GetAddDisabled() => productCode == "" || !salesViewModel.IsValid();
+    private bool GetAddDisabled() => productCode == "" || !saleViewModel.IsValid();
 
     private async Task AddSaleAsync()
     {
-        await apiClient.SellProductAsync(new Sale(productCode, salesViewModel.Quantity)).ConfigureAwait(true);
+        await apiClient.SellProductAsync(new ProductSale(productCode, saleViewModel.Quantity)).ConfigureAwait(true);
 
         productCode = "";
-        salesViewModel = new SalesViewModel();
+        saleViewModel = new SaleViewModel();
 
         StateHasChanged();
+    }
+
+    private bool GetCompleteDisabled() => !GetAddDisabled();
+
+    private async void CompleteSaleAsync()
+    {
+        await apiClient.CompleteSaleAsync().ConfigureAwait(true);
+
+        var lastSale = await apiClient.GetLastCompleteSaleAsync().ConfigureAwait(true);
+        if (lastSale == null)
+            return;
+
+        var saleDetails = mapper.MapToSaleDetailsViewModel(lastSale);
+        ShowSaleDetails(saleDetails);
+    }
+
+    private void ShowSaleDetails(SaleDetailsViewModel saleDetails)
+    {
+        // TODO
     }
 
 }

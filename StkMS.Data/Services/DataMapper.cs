@@ -1,4 +1,5 @@
-﻿using StkMS.Data.Contracts;
+﻿using System.Linq;
+using StkMS.Data.Contracts;
 using StkMS.Data.Models;
 using StkMS.Library.Models;
 using Product = StkMS.Library.Models.Product;
@@ -26,6 +27,10 @@ namespace StkMS.Data.Services
                 UnitPrice = product.UnitPrice,
             };
 
+        public Sale MapSaleToDomain(Models.Sale sale) => new(sale.Id, sale.DateTime, sale.SaleItems.Select(MapSaleItemToDomain).ToArray());
+
+        private static ProductSale MapSaleItemToDomain(SaleItem item) => new(item.Product.Code, item.Quantity);
+
         public Stock MapStockToData(ProductStock stock, int productId) => new()
         {
             ProductId = productId,
@@ -40,11 +45,11 @@ namespace StkMS.Data.Services
             UnitPrice = product.UnitPrice,
         };
 
-        public SaleItem MapSaleItemToData(Sale sale, int saleId, int productId) => new()
+        public SaleItem MapSaleItemToData(ProductSale productSale, int saleId, int productId) => new()
         {
             SaleId = saleId,
             ProductId = productId,
-            Quantity = sale.Quantity,
+            Quantity = productSale.Quantity,
         };
         public Customer MapCustomers(Customers model) => model == null
             ? null

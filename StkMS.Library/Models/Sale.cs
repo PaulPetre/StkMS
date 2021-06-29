@@ -1,14 +1,20 @@
-﻿namespace StkMS.Library.Models
+﻿using System;
+using System.Linq;
+
+namespace StkMS.Library.Models
 {
     public class Sale
     {
-        public string ProductCode { get; }
-        public decimal Quantity { get; }
+        public int Id { get; }
+        public DateTime DateTime { get; }
+        public ProductSale[] Items { get; }
 
-        public Sale(string productCode, decimal quantity)
+        // ReSharper disable once ParameterTypeCanBeEnumerable.Local
+        public Sale(int id, DateTime dateTime, ProductSale[] items)
         {
-            ProductCode = productCode;
-            Quantity = quantity;
+            Id = id;
+            DateTime = dateTime;
+            Items = items.ToArray();
         }
     }
 }

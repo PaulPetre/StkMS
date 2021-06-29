@@ -47,6 +47,18 @@ namespace StkMS.Data.Services
             .Select(mapper.MapCustomers)
             .ToArray();
 
+        public Sale? GetLastCompleteSale()
+        {
+            var sale = context
+                .Sales
+                .Include(it => it.SaleItems)
+                .ThenInclude(it => it.Product)
+                .Where(it => it.IsComplete)
+                .OrderByDescending(it => it.DateTime)
+                .FirstOrDefault();
+            return sale == null ? null : mapper.MapSaleToDomain(sale);
+        }
+
         public void UpdateStock(ProductStock stock)
         {
             var existing = InternalFindStockByProductCode(stock.ProductCode);
@@ -66,12 +78,12 @@ namespace StkMS.Data.Services
             context.SaveChanges();
         }
 
-        public void AddSale(Sale sale)
+        public void AddSale(ProductSale productSale)
         {
-            if (sale is null)
-                throw new ArgumentNullException(nameof(sale));
+            if (productSale is null)
+                throw new ArgumentNullException(nameof(productSale));
 
-            var product = InternalFindProductByCode(sale.ProductCode);
+            var product = InternalFindProductByCode(productSale.ProductCode);
             if (product == null)
                 throw new KeyNotFoundException("Could not find the product with the given code.");
 
@@ -79,7 +91,7 @@ namespace StkMS.Data.Services
             context.Sales.Update(currentSale);
             context.SaveChanges();
 
-            var item = mapper.MapSaleItemToData(sale, currentSale.Id, product.Id);
+            var item = mapper.MapSaleItemToData(productSale, currentSale.Id, product.Id);
             context.SaleItems.Add(item);
             context.SaveChanges();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 #nullable disable
@@ -12,5 +13,7 @@ namespace StkMS.Data.Models
 
         public DateTime DateTime { get; set; }
         public bool IsComplete { get; set; }
+
+        public virtual ICollection<SaleItem> SaleItems { get; set; }
     }
 }

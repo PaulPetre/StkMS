@@ -1,7 +1,7 @@
-﻿using StkMS.Library.Contracts;
-using StkMS.Library.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using StkMS.Library.Contracts;
+using StkMS.Library.Models;
 
 namespace StkMS.Library.Services
 {
@@ -44,6 +44,22 @@ namespace StkMS.Library.Services
             }
         }
 
+        public ValueTask<Customer> CreateCustomerAsync(Customer customer)
+        {
+            lock (GATE)
+            {
+                return decorated.CreateCustomerAsync(customer);
+            }
+        }
+
+        public ValueTask<Sale?> GetLastCompleteSaleAsync()
+        {
+            lock (GATE)
+            {
+                return decorated.GetLastCompleteSaleAsync();
+            }
+        }
+
         public Task AddOrUpdateAsync(ProductStock stock)
         {
             lock (GATE)
@@ -52,11 +68,11 @@ namespace StkMS.Library.Services
             }
         }
 
-        public Task SellProductAsync(Sale sale)
+        public Task SellProductAsync(ProductSale productSale)
         {
             lock (GATE)
             {
-                return decorated.SellProductAsync(sale);
+                return decorated.SellProductAsync(productSale);
             }
         }
 
@@ -67,8 +83,6 @@ namespace StkMS.Library.Services
                 return decorated.CompleteSaleAsync();
             }
         }
-
-        public Task<Customer> CreateCustomer(Customer customer) => throw new System.NotImplementedException();
 
         //
 

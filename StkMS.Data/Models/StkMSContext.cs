@@ -46,11 +46,18 @@ namespace StkMS.Data.Models
                     entity.Property(e => e.Quantity).HasColumnType("decimal(10, 0)");
 
                     entity
-                        .HasOne(d => d.Product)
+                        .HasOne(it => it.Product)
                         .WithMany()
                         .HasForeignKey(d => d.ProductId)
                         .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("FK_Stocks_Products");
+                }
+            );
+
+            modelBuilder.Entity<Sale>(
+                entity =>
+                {
+                    entity.HasMany(e => e.SaleItems);
                 }
             );
         }

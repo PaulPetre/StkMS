@@ -1,4 +1,5 @@
-﻿using StkMS.Contracts;
+﻿using System.Linq;
+using StkMS.Contracts;
 using StkMS.Library.Models;
 using StkMS.ViewModels;
 
@@ -15,12 +16,20 @@ namespace StkMS.Services
             Quantity = model.Quantity,
         };
 
-        public SalesViewModel MapToSalesViewModel(Product product) => new()
+        public SaleViewModel MapToSaleViewModel(Product product) => new()
         {
             Code = product.Code,
             Name = product.Name,
             Unit = product.Unit,
             UnitPrice = product.UnitPrice,
+            Quantity = 0m,
+        };
+
+        public SaleDetailsViewModel MapToSaleDetailsViewModel(Sale sale) => new()
+        {
+            Id = sale.Id,
+            DateTime = sale.DateTime,
+            Items = sale.Items.Select(MapToSaleItem).ToArray(),
         };
 
         public ProductStock MapToDomain(StockViewModel model) => new()
@@ -33,6 +42,17 @@ namespace StkMS.Services
                 UnitPrice = model.UnitPrice,
             },
             Quantity = model.Quantity,
+        };
+
+        //
+
+        private static SaleViewModel MapToSaleItem(ProductSale item) => new()
+        {
+            Code = item.ProductCode,
+            Name = "",
+            Unit = "",
+            UnitPrice = 0m,
+            Quantity = item.Quantity,
         };
     }
 }

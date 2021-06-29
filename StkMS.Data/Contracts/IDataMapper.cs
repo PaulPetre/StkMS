@@ -9,10 +9,11 @@ namespace StkMS.Data.Contracts
     {
         ProductStock? MapStockToDomain(Stock? stock);
         Product? MapProductToDomain(Models.Product? product);
+        Sale MapSaleToDomain(Models.Sale sale);
 
         Stock MapStockToData(ProductStock stock, int productId);
         Models.Product MapProductToData(Product product);
-        SaleItem MapSaleItemToData(Sale sale, int saleId, int productId);
+        SaleItem MapSaleItemToData(ProductSale productSale, int saleId, int productId);
         Customer MapCustomers(Customers model);
     }
 }

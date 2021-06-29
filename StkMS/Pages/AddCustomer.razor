@@ -80,7 +80,7 @@
     {
         try
         {
-            var simpleInvoiceCreateCustomerResult = await apiClient.CreateCustomer(customer);
+            var simpleInvoiceCreateCustomerResult = await apiClient.CreateCustomerAsync(customer);
             // DialogService.Close(customer);
         }
         catch (System.Exception simpleInvoiceCreateCustomerException)

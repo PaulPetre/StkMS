@@ -47,15 +47,24 @@ namespace StkMS.Services
             return await response.Content.ReadFromJsonAsync<Product?>().ConfigureAwait(false);
         }
 
+        public async ValueTask<Customer> CreateCustomerAsync(Customer customer) => throw new NotImplementedException();
+
+        public async ValueTask<Sale?> GetLastCompleteSaleAsync()
+        {
+            var response = await GetAsync("getLastCompleteSale").ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<Sale?>().ConfigureAwait(false);
+        }
+
         public async Task AddOrUpdateAsync(ProductStock stock)
         {
             var response = await PostAsync("addOrUpdate", stock).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task SellProductAsync(Sale sale)
+        public async Task SellProductAsync(ProductSale productSale)
         {
-            var response = await PostAsync("sell", sale).ConfigureAwait(false);
+            var response = await PostAsync("sell", productSale).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
         }
 
@@ -64,8 +73,6 @@ namespace StkMS.Services
             var response = await PostAsync<object>("completeSale", null!).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
         }
-
-        public async Task<Customer> CreateCustomer(Customer customer) => throw new NotImplementedException();
 
         //
 
