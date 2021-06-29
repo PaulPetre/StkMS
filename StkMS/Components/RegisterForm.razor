@@ -4,7 +4,8 @@
     <FluentValidationValidator />
 
     <MudCardContent>
-        <MudText Typo="Typo.h4" GutterBottom="true">Sign Up</MudText>
+        <MudText Typo="Typo.h4" GutterBottom="true" Align="Align.Center">Sign Up</MudText>
+        <hr />
         <MudText>Already have an account? <MudLink Href="Login">Sign In</MudLink></MudText>
         <MudTextField Label="Email" HelperText="Required" @bind-Value="@_model.Email" Variant="Variant.Outlined" Adornment="Adornment.End" />
         <MudTextField Label="First Name" HelperText="Required" @bind-Value="@_model.FirstName" Variant="Variant.Outlined" Adornment="Adornment.End" />

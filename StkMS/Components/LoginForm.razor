@@ -3,9 +3,10 @@
 
 <EditForm Model="_model" OnValidSubmit="LoginUserAsync">
     <DataAnnotationsValidator />
-    <MudCardHeader>
+    <MudCardHeader Style="font:bold">
         <CardHeaderContent>
-            <MudText Typo="Typo.h4" GutterBottom="true">Sign In</MudText>
+            <MudText Typo="Typo.h4" GutterBottom="true" Align="Align.Center">Sign In</MudText>
+            <hr />
         </CardHeaderContent>
     </MudCardHeader>
     <MudText>Don't have an account? <MudLink Href="Register">Sign Up</MudLink></MudText>
