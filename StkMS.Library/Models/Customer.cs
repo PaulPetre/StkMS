@@ -1,4 +1,6 @@
-﻿namespace StkMS.Library.Models
+﻿#nullable disable
+
+namespace StkMS.Library.Models
 {
     public class Customer
     {
