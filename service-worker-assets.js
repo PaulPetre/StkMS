@@ -9,7 +9,7 @@
       "url": "404.html"
     },
     {
-      "hash": "sha256-A6\/V3D0u3ZGxuahk6jx30QUyAvK84hI\/3yBoAFHIwNg=",
+      "hash": "sha256-SO\/fuIIWUxoIu1OABrOpK5n\/AvzxJcg+0H3PT1eutAE=",
       "url": "css\/app.css"
     },
     {
@@ -49,7 +49,7 @@
       "url": "css\/open-iconic\/README.md"
     },
     {
-      "hash": "sha256-dr9Qgly3luxFDN3ZCdeU0wzzENsUZEUhKtVCywV9KdY=",
+      "hash": "sha256-6XIDDZ6\/WwmjrJxV517XybKiAQpCPlVJr5UfBmHZiP8=",
       "url": "css\/site.css"
     },
     {
@@ -493,7 +493,7 @@
       "url": "_framework\/StkMS.Shared.dll"
     },
     {
-      "hash": "sha256-APOJUKK4TqNqQLk89kXse8HcoNgALLCKC7zbVtkQCwM=",
+      "hash": "sha256-ta\/PjkTdwJ7LHCKR2xaYJ3dG2dADTn7n3D6XmH1HAWo=",
       "url": "_framework\/StkMS.dll"
     },
     {
@@ -733,7 +733,7 @@
       "url": "_framework\/de\/PdfSharpCore.resources.dll"
     },
     {
-      "hash": "sha256-UU6WV2dLMhq8bw\/veXbIsm5YkxtdyTD7yBfFEruDzas=",
+      "hash": "sha256-lj6OCFEhxbuYOUZAipN4Q6EsDSjDl7pcndFgD4082+I=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -741,5 +741,5 @@
       "url": "_framework\/blazor.webassembly.js"
     }
   ],
-  "version": "23jHa07a"
+  "version": "2Yjjx+zs"
 };
