@@ -58,7 +58,7 @@ namespace StkMS.Components
         private void RedirectToRegister()
         {
 
-            Navigation.NavigateTo("/authentication/register");
+            Navigation.NavigateTo("Register");
         }
 
         private void RedirectToHome()
