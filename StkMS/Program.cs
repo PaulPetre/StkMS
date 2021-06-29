@@ -59,6 +59,7 @@ namespace StkMS
             builder.Services.AddScoped<TooltipService>();
             builder.Services.AddScoped<ContextMenuService>();
             builder.Services.AddMudServices();
+            builder.Services.AddMudBlazorDialog();
 
             return builder.Build().RunAsync();
         }
