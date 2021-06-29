@@ -1,12 +1,16 @@
 ﻿@using StkMS.Library.Models
 <MudDialog>
     <DialogContent>
-        @foreach (var item in sale.Items)
-        {
-            <MudTextField Value="@item.Quantity" Label="Produs" />
-            <MudTextField Value="@item.ProductCode" Label="Produs" />
-            
-        }
+        <MudTable Items="@sale.Items" Hover="true" Breakpoint="Breakpoint.Sm" >
+            <HeaderContent>
+                <MudTh>Product Code</MudTh>
+                <MudTh>Quantity</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Nr">@context.ProductCode</MudTd>
+                <MudTd DataLabel="Sign">@context.Quantity</MudTd>
+            </RowTemplate>
+        </MudTable>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -19,7 +23,7 @@
 
     [Parameter]
     public Sale sale { get; set; }
-     
+
     void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();
 }

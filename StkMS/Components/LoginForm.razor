@@ -5,19 +5,19 @@
     <DataAnnotationsValidator />
     <MudCardHeader Style="font:bold">
         <CardHeaderContent>
-            <MudText Typo="Typo.h4" GutterBottom="true" Align="Align.Center">Sign In</MudText>
+            <MudText Typo="Typo.h4" GutterBottom="true" Align="Align.Center">Conectează-te</MudText>
             <hr />
         </CardHeaderContent>
     </MudCardHeader>
-    <MudText>Don't have an account? <MudLink Href="Register">Sign Up</MudLink></MudText>
+    <MudText>Nu ai un cont? <MudLink Href="Register">Înregistrează-te</MudLink></MudText>
 
     <MudCardContent>
         <MudTextField Label="Email" HelperText="Required" @bind-Value="@_model.Email" Variant="Variant.Outlined" Class="my-6" />
         <MudTextField InputType="InputType.Password" Label="Password" HelperText="Required" @bind-Value="@_model.Password" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="TogglePasswordVisibility" />
 
         <div Class="d-flex justify-space-between align-center">
-            <MudCheckBox T="bool" Label="Remember me?" Color="Color.Primary" Class="ml-n1 my-3"></MudCheckBox>
-            <MudLink Href="/pages/authentication/forgot-password">Forgot pwd?</MudLink>
+            <MudCheckBox T="bool" Label="Memorează" Color="Color.Primary" Class="ml-n1 my-3"></MudCheckBox>
+            <MudLink Href="/pages/authentication/forgot-password">Ai uitat parola?</MudLink>
         </div>
         <ValidationSummary />
 
@@ -28,7 +28,7 @@
     </MudCardContent>
 
     <MudCardActions>
-        <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-1" Disabled="_isBusy" Size="Size.Large" FullWidth="true" OnClick="RedirectToHome">Sign In</MudButton>
+        <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-1" Disabled="_isBusy" Size="Size.Large" FullWidth="true" OnClick="RedirectToHome">Conectează-te</MudButton>
 
         @*<MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Disabled="_isBusy">Login</MudButton>*@
         @*<MudButton Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-1" Disabled="_isBusy" OnClick="RedirectToRegister">Create Account</MudButton>*@

@@ -13,7 +13,7 @@
 @inject IInventory inventory
 @inject IJSRuntime jsRuntime
 
-<h1>List with all products</h1>
+<h1>Listă Produse</h1>
 <RadzenButton Text="Excel" Icon="grid_on" Click="@GenerateExcel" Style="margin-bottom: 20px"/>
 
 <RadzenDataGrid AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="5"
@@ -23,10 +23,10 @@
                 ColumnWidth="200px" AllowColumnResize="true">
     <Columns>
         <RadzenDataGridColumn TItem="ProductStock" Property="Product.Code" Filterable="false" Title="ID" Frozen="true" Width="100px" TextAlign="TextAlign.Center"/>
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Name" Title="PRoduct Name"/>
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Unit" Title="Unit" Width="50px"/>
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.UnitPrice" Title="Unit Price"/>
-        <RadzenDataGridColumn TItem="ProductStock" Property="Quantity" Title="Quantity" Width="100px"/>
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Name" Title="Nume Produs"/>
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Unit" Title="Unitate Măsură" Width="50px"/>
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.UnitPrice" Title="Preț"/>
+        <RadzenDataGridColumn TItem="ProductStock" Property="Quantity" Title="Cantitate" Width="100px"/>
 
     </Columns>
 </RadzenDataGrid>

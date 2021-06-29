@@ -8,23 +8,23 @@
 
 <RadzenContent Container="main">
     <ChildContent>
-        <RadzenHeading Size="H1" Text="Customers">
+        <RadzenHeading Size="H1" Text="Listă Clienți">
         </RadzenHeading>
         <div class="row">
             <div class="col-md-12">
-                <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@Button0Click">
+                <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Adaugă" Click="@Button0Click">
                 </RadzenButton>
                 <RadzenGrid @ref="grid0" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Count="@count" Data="customers" LoadData="@LoadData" FilterMode="FilterMode.Advanced" TItem="Customer">
                     <Columns>
                         <RadzenGridColumn TItem="Customer" Property="CustomerId" Title="Customer Id" Visible="false">
                         </RadzenGridColumn>
-                        <RadzenGridColumn TItem="Customer" Property="Name" Title="Name">
+                        <RadzenGridColumn TItem="Customer" Property="Name" Title="Nume">
                         </RadzenGridColumn>
-                        <RadzenGridColumn TItem="Customer" Property="Description" Title="Description">
+                        <RadzenGridColumn TItem="Customer" Property="Description" Title="Categorie Produse">
                         </RadzenGridColumn>
-                        <RadzenGridColumn TItem="Customer" Property="Address" Title="Address">
+                        <RadzenGridColumn TItem="Customer" Property="Address" Title="Adresă">
                         </RadzenGridColumn>
-                        <RadzenGridColumn TItem="Customer" Property="City" Title="City">
+                        <RadzenGridColumn TItem="Customer" Property="City" Title="Oraș">
                         </RadzenGridColumn>
                     </Columns>
                 </RadzenGrid>

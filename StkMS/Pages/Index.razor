@@ -9,7 +9,6 @@
         <MudLink Href="Login">Login</MudLink>
     </NotAuthorized>
 </AuthorizeView>
-<h3>Dashboard</h3>
 
 <MudGrid>
     <MudItem xs="12" sm="6" md="3">
@@ -68,27 +67,26 @@
         <MudCard Elevation="4">
             <MudCardHeader>
                 <CardHeaderContent>
-                    <MudText>Profile Details</MudText>
+                    <MudText>DETALII PRODUSE</MudText>
                     <hr />
                 </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                <MudGrid>
-                    <MudItem xs="12" md="6">
-                        <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Stocuri nivel critic</MudText>
-
-                    </MudItem>
-
-                    <MudItem xs="12" md="6">
-                        <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Total stocuri</MudText>
-
-                    </MudItem>
-                    <MudItem xs="12" md="6">
-                        <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Total stocuri</MudText>
-
-                    </MudItem>
-                    <MudItem xs="5" md="5">
-                        <div class="svg-item">
+                <div class="row product-details">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-7 total-summary pl-6">
+                        <div class="item">
+                            <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Stocuri nivel critic</MudText>
+                        </div>
+                        <div class="item font-large">
+                            <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Total stocuri</MudText>
+                        </div>
+                        <div class="item font-large">
+                            <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Total stocuri</MudText>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-5 text-center">
+                        <p>Stoc activ</p>
+                        <div class="pt-3">
                             <svg width="100%" height="100%" viewBox="0 0 40 40" class="donut">
                                 <circle class="donut-hole" cx="20" cy="20" r="15.91549430918954" fill="#fff"></circle>
                                 <circle class="donut-ring" cx="20" cy="20" r="15.91549430918954" fill="transparent" stroke-width="3.5"></circle>
@@ -104,9 +102,8 @@
                                 </g>
                             </svg>
                         </div>
-
-                    </MudItem>
-                </MudGrid>
+                    </div>
+                </div>
             </MudCardContent>
         </MudCard>
     </MudItem>

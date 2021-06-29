@@ -122,8 +122,6 @@
 
     private async void CompleteSaleAsync()
     {
-
-
         await apiClient.CompleteSaleAsync().ConfigureAwait(true);
 
         var lastSale = await apiClient.GetLastCompleteSaleAsync().ConfigureAwait(true);
@@ -132,7 +130,9 @@
 
         var saleDetails = mapper.MapToSaleDetailsViewModel(lastSale);
         ShowSaleDetails(saleDetails);
-        var parameters = new DialogParameters {["sale"]= lastSale};
+
+        var parameters = new DialogParameters { ["sale"] = lastSale };
+        
         var dialog = DialogService.Show<SaleDialog>("List with added products", parameters);
         await dialog.Result;
     }
@@ -141,5 +141,4 @@
     {
         // TODO
     }
-
 }
