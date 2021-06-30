@@ -7,6 +7,18 @@
 
         public string ProductCode => Product.Code;
 
+        public string QuantityLabel
+        {
+            get
+            {
+                if (Quantity < 10)
+                    return "Danger";
+                if (Quantity > 100)
+                    return "Too many";
+                return "";
+            }
+        }
+
         public void CopyFrom(ProductStock other)
         {
             Quantity = other.Quantity;
