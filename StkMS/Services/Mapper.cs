@@ -46,12 +46,12 @@ namespace StkMS.Services
 
         //
 
-        private static SaleViewModel MapToSaleItem(ProductSale item) => new()
+        private static SaleViewModel MapToSaleItem(ProductSaleDetails item) => new()
         {
             Code = item.ProductCode,
-            Name = "",
-            Unit = "",
-            UnitPrice = 0m,
+            Name = item.ProductName,
+            Unit = item.ProductUnit,
+            UnitPrice = item.ProductUnitPrice,
             Quantity = item.Quantity,
         };
     }

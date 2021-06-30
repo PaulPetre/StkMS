@@ -21,6 +21,8 @@ namespace StkMS.ViewModels
         public decimal UnitPrice { get; set; }
         public decimal Quantity { get; set; }
 
+        public decimal Value => UnitPrice * Quantity;
+
         public bool IsValid() => !string.IsNullOrEmpty(Code) && Name != Constants.INVALID_PRODUCT_CODE && Quantity > 0m;
     }
 }

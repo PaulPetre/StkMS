@@ -29,7 +29,14 @@ namespace StkMS.Data.Services
 
         public Sale MapSaleToDomain(Models.Sale sale) => new(sale.Id, sale.DateTime, sale.SaleItems.Select(MapSaleItemToDomain).ToArray());
 
-        private static ProductSale MapSaleItemToDomain(SaleItem item) => new(item.Product.Code, item.Quantity);
+        private static ProductSaleDetails MapSaleItemToDomain(SaleItem item) => new()
+        {
+            ProductCode = item.Product.Code,
+            ProductName = item.Product.Name,
+            ProductUnit = item.Product.Unit,
+            ProductUnitPrice = item.Product.UnitPrice,
+            Quantity = item.Quantity,
+        };
 
         public Stock MapStockToData(ProductStock stock, int productId) => new()
         {
