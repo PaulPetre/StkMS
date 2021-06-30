@@ -1,5 +1,6 @@
 ﻿@page "/"
 @page "/StkMS"
+@using System.Globalization
 
 <AuthorizeView>
     <Authorized>
@@ -107,7 +108,107 @@
             </MudCardContent>
         </MudCard>
     </MudItem>
+    <MudItem xs="6" sm="6" md="6">
+        <MudCard Elevation="4">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText>Venit lunar</MudText>
+                    <hr />
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <RadzenChart>
+                    <RadzenLineSeries Data="@revenue2020" CategoryProperty="Date" Title="2020" ValueProperty="Revenue">
+                        <RadzenMarkers MarkerType="MarkerType.Circle" />
+                    </RadzenLineSeries>
+                    <RadzenCategoryAxis Padding="20" FormatString="{0:MMM}" />
+                    <RadzenValueAxis Formatter="@FormatAsUSD">
+                        <RadzenGridLines Visible="true" />
+                    </RadzenValueAxis>
+                </RadzenChart>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
 </MudGrid>
 @code {
+    public int index = -1; //default value cannot be 0 -> first selectedindex is 0.
 
+    class DataItem
+    {
+        public DateTime Date { get; set; }
+        public double Revenue { get; set; }
+    }
+
+    string FormatAsUSD(object value)
+    {
+        return ((double)value).ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
+    }
+
+    DataItem[] revenue2020 = new DataItem[] {
+        new DataItem
+        {
+            Date = DateTime.Parse("2019-01-01"),
+            Revenue = 334000
+        },
+        new DataItem
+        {
+            Date = DateTime.Parse("2019-02-01"),
+            Revenue = 369000
+        },
+        new DataItem
+        {
+            Date = DateTime.Parse("2019-03-01"),
+            Revenue = 333000
+        },
+        new DataItem
+        {
+            Date = DateTime.Parse("2019-04-01"),
+            Revenue = 344000
+        },
+        new DataItem
+        {
+            Date = DateTime.Parse("2019-05-01"),
+            Revenue = 314000
+        },
+        new DataItem
+        {
+            Date = DateTime.Parse("2019-06-01"),
+            Revenue = 353000
+        },
+        new DataItem
+        {
+            Date = DateTime.Parse("2019-07-01"),
+            Revenue = 374000
+        },
+        new DataItem
+        {
+            Date = DateTime.Parse("2019-08-01"),
+            Revenue = 384000
+        },
+        new DataItem
+        {
+            Date = DateTime.Parse("2019-09-01"),
+            Revenue = 373000
+        },
+        new DataItem
+        {
+            Date = DateTime.Parse("2019-10-01"),
+            Revenue = 382000
+        },
+        new DataItem
+        {
+            Date = DateTime.Parse("2019-11-01"),
+            Revenue = 389000
+        },
+        new DataItem
+        {
+            Date = DateTime.Parse("2019-12-01"),
+            Revenue = 394000
+        }
+    };
+    public List<ChartSeries> Series = new List<ChartSeries>()
+{
+        new ChartSeries() { Name = "2020", Data = new double[] { 90, 79, 72, 29, 62, 62, 85, 65, 70 } },
+    };
+    public string[] XAxisLabels = { "Ian", "Feb", "Mar", "Apr", "Mai", "Iun", "Iul", "Aug", "Sep" };
 }
