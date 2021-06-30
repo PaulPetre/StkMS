@@ -67,7 +67,7 @@
       "StkMS.Data.dll": "sha256-GKTrIQZ7mxi2oElYDb5r\/HTuccmBBw7lSZRGN\/4gyLM=",
       "StkMS.Library.dll": "sha256-pZcRdd5yE0a7KP9ToefQ6o4MHiBNcFE4Jqb84QPq3rg=",
       "StkMS.Shared.dll": "sha256-Veo3o1dhJaqmGL+B5Ai+HL7GoNMwaFf+39S28995Ad0=",
-      "StkMS.dll": "sha256-ta\/PjkTdwJ7LHCKR2xaYJ3dG2dADTn7n3D6XmH1HAWo=",
+      "StkMS.dll": "sha256-8TivNYqzsj2c9vlb8SwiRopjNIM1ZZveytx7PYJe\/Ms=",
       "Microsoft.CSharp.dll": "sha256-NrvrdxHULgGMb\/r+H5j99kkrE3pieieiW9iNP8bR8TY=",
       "Microsoft.Win32.Primitives.dll": "sha256-VEkqOPAK5lHyBycwI9OxjRqYF6AH90LdF4gYmR3eeeM=",
       "System.Collections.Concurrent.dll": "sha256-+XO5H0H9Iw7P2ry+ikPGJc+hENrXBtOTja0cAWONG4E=",
@@ -125,7 +125,7 @@
       "System.Threading.dll": "sha256-hNzrjNaDeYTN0pLpHhNgFmoVEa0kNdbYY\/Ae3UjThKE=",
       "System.Transactions.Local.dll": "sha256-fDyoON+X6Z89ZC8brEEywyYM444apZX0q8hMAkbcFjw=",
       "System.Web.HttpUtility.dll": "sha256-v3iDEOYi4AlEeKtx3i99gXl4+QJG0L+RTRIXfx8Mv00=",
-      "System.Private.CoreLib.dll": "sha256-\/U6IDjSy2lRKJaKvYos3YuWNg3tbuWOpGwmm5mj7ZNc="
+      "System.Private.CoreLib.dll": "sha256-+cQlLDbcKmUARdfDJgKd9yPMJavbvgdlNRgVoqEezlM="
     },
     "lazyAssembly": null,
     "pdb": null,
