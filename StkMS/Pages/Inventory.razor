@@ -92,7 +92,7 @@
 
 <hr />
 <div>
-    <button class="btn btn-success" type="button" @onclick="async () => await GenerateReportAsync().ConfigureAwait(true)">Generează Raport</button>
+    <button class="btn btn-success" type="button" @onclick="async () => await GenerateInventoryAsync().ConfigureAwait(true)">Generează Raport</button>
 </div>
 
 @code
@@ -143,9 +143,9 @@
         apiClient.AddOrUpdateAsync(product);
     }
 
-    private async ValueTask GenerateReportAsync()
+    private async ValueTask GenerateInventoryAsync()
     {
-        var bytes = reportGenerator.Generate(await apiClient.GetAllAsync().ConfigureAwait(true));
+        var bytes = reportGenerator.GenerateInventory(await apiClient.GetAllAsync().ConfigureAwait(true));
         await jsRuntime.InvokeVoidAsync("BlazorDownloadFile", "report.pdf", "application/octet-stream", bytes).ConfigureAwait(true);
     }
 

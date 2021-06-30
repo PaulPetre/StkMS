@@ -1,4 +1,9 @@
 ﻿@using StkMS.ViewModels
+@using StkMS.Contracts
+
+@inject IReportGenerator reportGenerator
+@inject IJSRuntime jsRuntime
+
 <MudDialog>
     <DialogContent>
         <MudText>Bon Nr. @sale.Id din @sale.DateTime.ToString("U")</MudText>
@@ -22,6 +27,7 @@
         </MudTable>
     </DialogContent>
     <DialogActions>
+        <MudButton Color="Color.Secondary" OnClick="GenerateInventoryAsync">Print</MudButton>
         <MudButton Color="Color.Primary" OnClick="Cancel">Ok</MudButton>
     </DialogActions>
 </MudDialog>
@@ -33,4 +39,10 @@
     public SaleDetailsViewModel sale { get; set; }
 
     void Cancel() => MudDialog.Cancel();
+
+    private async void GenerateInventoryAsync()
+    {
+        var bytes = reportGenerator.GenerateSaleReport(sale);
+        await jsRuntime.InvokeVoidAsync("BlazorDownloadFile", $"sale{sale.Id}.pdf", "application/octet-stream", bytes).ConfigureAwait(true);
+    }
 }
