@@ -10,7 +10,7 @@
 @inject IMapper mapper
 @inject IDialogService DialogService
 
-<h3>Sales</h3>
+<h3>Plăți</h3>
 
 <BlazorBarcodeScanner.ZXing.JS.BarcodeReader Title=" "
                                              StartCameraAutomatically="true"
@@ -27,27 +27,27 @@
             <ValidationSummary />
 
             <div class="form-group">
-                <label for="productCode">Product Code</label>
+                <label for="productCode">Cod Produs</label>
                 <InputText id="productCode" @bind-Value="productCode" class="form-control" @onblur="LookUpProductAsync" />
             </div>
 
             <div class="form-group">
-                <label for="productName">Product Name</label>
+                <label for="productName">Nume Produs</label>
                 <InputText id="productName" @bind-Value="saleViewModel.Name" class="form-control" disabled="true" />
             </div>
 
             <div class="form-group">
-                <label for="productUnit">Unit</label>
+                <label for="productUnit">Unitatea de măsură</label>
                 <InputText id="productUnit" @bind-Value="saleViewModel.Unit" class="form-control" disabled="true" />
             </div>
 
             <div class="form-group">
-                <label for="productUnitPrice">Unit Price</label>
+                <label for="productUnitPrice">Preț unitate</label>
                 <InputNumber id="productUnitPrice" @bind-Value="@saleViewModel.UnitPrice" class="form-control" disabled="true" />
             </div>
 
             <div class="form-group">
-                <label for="productQuantity">Quantity</label>
+                <label for="productQuantity">Cantitate</label>
                 <InputNumber id="productQuantity" @bind-Value="saleViewModel.Quantity" class="form-control" />
             </div>
 
@@ -57,7 +57,7 @@
             </div>
 
             <div class="text-right">
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Disabled="GetAddDisabled()">Add</MudButton>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Disabled="GetAddDisabled()">Adaugă</MudButton>
                 @*<RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Add" disabled="@GetAddDisabled()" />*@
             </div>
         </EditForm>
@@ -65,7 +65,7 @@
 </div>
 
 <div>
-    <button class="btn btn-primary" disabled="@GetCompleteDisabled()" @onclick="CompleteSaleAsync">Complete the sale</button>
+    <button class="btn btn-primary" disabled="@GetCompleteDisabled()" @onclick="CompleteSaleAsync">Finalizează comanda</button>
 
 </div>
 
