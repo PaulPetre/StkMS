@@ -14,7 +14,7 @@
 @inject IJSRuntime jsRuntime
 
 <h1>Listă Produse</h1>
-<RadzenButton Text="Excel" Icon="grid_on" Click="@GenerateExcel" Style="margin-bottom: 20px"/>
+<RadzenButton Text="Export în excel" Icon="grid_on" Click="@GenerateExcel" Size="ButtonSize.Medium" Style="margin-bottom: 20px"/>
 
 <RadzenDataGrid AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="5"
                 IsLoading="@isLoading" Count="@count" Data="@stockView" LoadData="@LoadData"

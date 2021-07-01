@@ -122,7 +122,7 @@
                         <RadzenMarkers MarkerType="MarkerType.Circle" />
                     </RadzenLineSeries>
                     <RadzenCategoryAxis Padding="20" FormatString="{0:MMM}" />
-                    <RadzenValueAxis Formatter="@FormatAsUSD">
+                    <RadzenValueAxis Formatter="@FormatAsRON">
                         <RadzenGridLines Visible="true" />
                     </RadzenValueAxis>
                 </RadzenChart>
@@ -139,9 +139,9 @@
         public double Revenue { get; set; }
     }
 
-    string FormatAsUSD(object value)
+    string FormatAsRON(object value)
     {
-        return ((double)value).ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
+        return ((double)value).ToString("C0", CultureInfo.CreateSpecificCulture("ro-Ro"));
     }
 
     DataItem[] revenue2020 = new DataItem[] {
@@ -180,31 +180,6 @@
             Date = DateTime.Parse("2019-07-01"),
             Revenue = 374000
         },
-        new DataItem
-        {
-            Date = DateTime.Parse("2019-08-01"),
-            Revenue = 384000
-        },
-        new DataItem
-        {
-            Date = DateTime.Parse("2019-09-01"),
-            Revenue = 373000
-        },
-        new DataItem
-        {
-            Date = DateTime.Parse("2019-10-01"),
-            Revenue = 382000
-        },
-        new DataItem
-        {
-            Date = DateTime.Parse("2019-11-01"),
-            Revenue = 389000
-        },
-        new DataItem
-        {
-            Date = DateTime.Parse("2019-12-01"),
-            Revenue = 394000
-        }
     };
     public List<ChartSeries> Series = new List<ChartSeries>()
 {
