@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using StkMS.Library.Models;
+using StkMS.ViewModels;
 
 namespace StkMS.Contracts
 {
     public interface IReportGenerator
     {
-        byte[] Generate(IEnumerable<ProductStock> inventory);
+        byte[] GenerateInventory(IEnumerable<ProductStock> inventory);
+        byte[] GenerateSaleReport(SaleDetailsViewModel saleDetails);
     }
 }

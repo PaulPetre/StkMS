@@ -1,20 +1,34 @@
-﻿@using StkMS.Library.Models
+﻿@using StkMS.ViewModels
+@using StkMS.Contracts
+
+@inject IReportGenerator reportGenerator
+@inject IJSRuntime jsRuntime
+
 <MudDialog>
     <DialogContent>
-        <MudTable Items="@sale.Items" Hover="true" Breakpoint="Breakpoint.Sm" >
+        <MudText>Bon Nr. @sale.Id din @sale.DateTime.ToString("U")</MudText>
+        <MudTable Items="@sale.Items" Hover="true" Breakpoint="Breakpoint.Sm">
             <HeaderContent>
                 <MudTh>Product Code</MudTh>
+                <MudTh>Name</MudTh>
+                <MudTh>Unit</MudTh>
+                <MudTh>Unit Price</MudTh>
                 <MudTh>Quantity</MudTh>
+                <MudTh>Value</MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="Nr">@context.ProductCode</MudTd>
-                <MudTd DataLabel="Sign">@context.Quantity</MudTd>
+                <MudTd DataLabel="Product Code">@context.Code</MudTd>
+                <MudTd DataLabel="Name">@context.Name</MudTd>
+                <MudTd DataLabel="Unit">@context.Unit</MudTd>
+                <MudTd DataLabel="Unit Price">@context.UnitPrice.ToString("F2")</MudTd>
+                <MudTd DataLabel="Quantity">@context.Quantity.ToString("F2")</MudTd>
+                <MudTd DataLabel="Value">@context.Value.ToString("F2")</MudTd>
             </RowTemplate>
         </MudTable>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        <MudButton Color="Color.Secondary" OnClick="GenerateInventoryAsync">Print</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Cancel">Ok</MudButton>
     </DialogActions>
 </MudDialog>
 @code
@@ -22,8 +36,13 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
     [Parameter]
-    public Sale sale { get; set; }
+    public SaleDetailsViewModel sale { get; set; }
 
-    void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();
+
+    private async void GenerateInventoryAsync()
+    {
+        var bytes = reportGenerator.GenerateSaleReport(sale);
+        await jsRuntime.InvokeVoidAsync("BlazorDownloadFile", $"sale{sale.Id}.pdf", "application/octet-stream", bytes).ConfigureAwait(true);
+    }
 }

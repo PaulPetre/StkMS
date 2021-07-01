@@ -7,10 +7,10 @@ namespace StkMS.Library.Models
     {
         public int Id { get; }
         public DateTime DateTime { get; }
-        public ProductSale[] Items { get; }
+        public ProductSaleDetails[] Items { get; }
 
         // ReSharper disable once ParameterTypeCanBeEnumerable.Local
-        public Sale(int id, DateTime dateTime, ProductSale[] items)
+        public Sale(int id, DateTime dateTime, ProductSaleDetails[] items)
         {
             Id = id;
             DateTime = dateTime;

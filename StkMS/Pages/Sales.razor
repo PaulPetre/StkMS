@@ -3,8 +3,8 @@
 @using StkMS.Library.Models
 @using StkMS.ViewModels
 @using StkMS.Contracts
-@using StkMS.Shared
 @using BlazorBarcodeScanner.ZXing.JS
+@using ButtonType = MudBlazor.ButtonType
 
 @inject IApiClient apiClient
 @inject IMapper mapper
@@ -57,7 +57,7 @@
             </div>
 
             <div class="text-right">
-                <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Disabled="GetAddDisabled()">Add</MudButton>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Disabled="GetAddDisabled()">Add</MudButton>
                 @*<RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Add" disabled="@GetAddDisabled()" />*@
             </div>
         </EditForm>
@@ -129,16 +129,15 @@
             return;
 
         var saleDetails = mapper.MapToSaleDetailsViewModel(lastSale);
-        ShowSaleDetails(saleDetails);
+        await ShowSaleDetailsAsync(saleDetails).ConfigureAwait(true);
+    }
 
-        var parameters = new DialogParameters { ["sale"] = lastSale };
-        
+    private async Task ShowSaleDetailsAsync(SaleDetailsViewModel saleDetails)
+    {
+        var parameters = new DialogParameters { ["sale"] = saleDetails };
+
         var dialog = DialogService.Show<SaleDialog>("List with added products", parameters);
         await dialog.Result;
     }
 
-    private void ShowSaleDetails(SaleDetailsViewModel saleDetails)
-    {
-        // TODO
-    }
 }
