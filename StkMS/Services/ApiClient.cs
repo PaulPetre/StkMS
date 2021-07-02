@@ -1,11 +1,11 @@
-﻿using StkMS.Library;
-using StkMS.Library.Contracts;
-using StkMS.Library.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using StkMS.Library;
+using StkMS.Library.Contracts;
+using StkMS.Library.Models;
 
 namespace StkMS.Services
 {
@@ -71,6 +71,18 @@ namespace StkMS.Services
         public async Task CompleteSaleAsync()
         {
             var response = await PostAsync<object>("completeSale", null!).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task BeginInventoryAsync()
+        {
+            var response = await PostAsync<object>("beginInventory", null!).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task CompleteInventoryAsync()
+        {
+            var response = await PostAsync<object>("completeInventory", null!).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
         }
 

@@ -11,9 +11,9 @@ using Sale = StkMS.Library.Models.Sale;
 
 namespace StkMS.Data.Services
 {
-    internal class ProductStockStorage : IRepository
+    internal class Repository : IRepository
     {
-        public ProductStockStorage(IStkMSContext context, IDataMapper mapper)
+        public Repository(IStkMSContext context, IDataMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
@@ -110,6 +110,31 @@ namespace StkMS.Data.Services
             return currentSale.Id;
         }
 
+        public int BeginInventory()
+        {
+            var currentInventory = GetCurrentInventory();
+            if (currentInventory != null)
+                return currentInventory.Id;
+
+            var inventory = new Inventory { StartDate = DateTime.Now };
+            context.Inventory.Add(inventory);
+            context.SaveChanges();
+            return inventory.Id;
+        }
+
+        public int CompleteInventory()
+        {
+            var currentInventory = GetCurrentInventory();
+            if (currentInventory == null)
+                return 0;
+
+            currentInventory.EndDate = DateTime.Now;
+            context.Inventory.Update(currentInventory);
+            context.SaveChanges();
+
+            return currentInventory.Id;
+        }
+
         //
 
         private readonly IStkMSContext context;
@@ -132,6 +157,11 @@ namespace StkMS.Data.Services
             .Sales
             .Where(it => !it.IsComplete)
             .OrderBy(it => it.Id)
+            .FirstOrDefault();
+
+        private Inventory? GetCurrentInventory() => context
+            .Inventory
+            .Where(it => it.EndDate == null)
             .FirstOrDefault();
     }
 }

@@ -10,6 +10,8 @@ namespace StkMS.Data.Contracts
         DbSet<Sale> Sales { get; set; }
         DbSet<SaleItem> SaleItems { get; set; }
         DbSet<Customers> Customers { get; set; }
+        DbSet<Inventory> Inventory { get; set; }
+        DbSet<InventoryItem> InventoryItems { get; set; }
 
         int SaveChanges();
     }

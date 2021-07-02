@@ -129,6 +129,9 @@ namespace StkMS.Library.Services
         public Task SellProductAsync(ProductSale productSale) => decorated.SellProductAsync(productSale);
         public Task CompleteSaleAsync() => decorated.CompleteSaleAsync();
 
+        public Task BeginInventoryAsync() => decorated.BeginInventoryAsync();
+        public Task CompleteInventoryAsync() => decorated.CompleteInventoryAsync();
+
         //
 
         private const string ALL_CUSTOMERS_KEY = "CUSTOMERS";

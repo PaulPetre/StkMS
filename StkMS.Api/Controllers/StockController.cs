@@ -76,6 +76,12 @@ namespace StkMS.Api.Controllers
         [HttpPost("~/completeSale")]
         public int CompleteSale() => repository.CompleteSale();
 
+        [HttpPost("~/beginInventory")]
+        public int BeginInventory() => repository.BeginInventory();
+
+        [HttpPost("~/completeInventory")]
+        public int CompleteInventory() => repository.CompleteInventory();
+
         //
 
         private readonly IRepository repository;

@@ -15,7 +15,7 @@ namespace StkMS.Data
             services.AddSingleton<IDataMapper, DataMapper>();
 
             services.AddScoped<IStkMSContext, StkMSContext>();
-            services.AddScoped<IRepository, ProductStockStorage>();
+            services.AddScoped<IRepository, Repository>();
         }
     }
 }

@@ -84,6 +84,22 @@ namespace StkMS.Library.Services
             }
         }
 
+        public Task BeginInventoryAsync()
+        {
+            lock (GATE)
+            {
+                return decorated.BeginInventoryAsync();
+            }
+        }
+
+        public Task CompleteInventoryAsync()
+        {
+            lock (GATE)
+            {
+                return decorated.CompleteInventoryAsync();
+            }
+        }
+
         //
 
         private static readonly object GATE = new();

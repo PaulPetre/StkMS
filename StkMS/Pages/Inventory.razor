@@ -32,8 +32,8 @@
 
 <!-- V2 -->
 
-<button class="btn btn-primary" disabled="@(inventory.State != InventoryState.None)" @onclick="BeginInventory">Începe inventarul</button>
-<button class="btn btn-primary" disabled="@(inventory.State == InventoryState.None)" @onclick="CompleteInventory">Finalizează inventarul</button>
+<button class="btn btn-primary" disabled="@(inventory.State != InventoryState.None)" @onclick="BeginInventoryAsync">Începe inventarul</button>
+<button class="btn btn-primary" disabled="@(inventory.State == InventoryState.None)" @onclick="CompleteInventoryAsync">Finalizează inventarul</button>
 
 <hr />
 
@@ -124,14 +124,16 @@
         StateHasChanged();
     }
 
-    private void BeginInventory()
+    private async void BeginInventoryAsync()
     {
-        inventory.Begin();
+        //inventory.Begin();
+        await apiClient.BeginInventoryAsync().ConfigureAwait(true);
     }
 
-    private void CompleteInventory()
+    private async void CompleteInventoryAsync()
     {
-        inventory.Complete();
+        //inventory.Complete();
+        await apiClient.CompleteInventoryAsync().ConfigureAwait(true);
     }
 
     private async Task ProductScannedAsync(string productCode)
