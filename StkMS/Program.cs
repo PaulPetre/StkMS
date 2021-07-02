@@ -8,11 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 using PdfSharpCore.Fonts;
 using Radzen;
+using StkMS.Client.Services;
 using StkMS.Contracts;
 using StkMS.Library.Contracts;
 using StkMS.Library.Services;
-using StkMS.Client.Services;
-using StkMS.Client.Services.Interfaces;
 using StkMS.Services;
 
 namespace StkMS
@@ -26,12 +25,13 @@ namespace StkMS
 
             //Authentication
             builder.Services
-                .AddHttpClient("PlannerApp.Api",
+                .AddHttpClient(
+                    "PlannerApp.Api",
                     client => { client.BaseAddress = new Uri("https://plannerapp-api.azurewebsites.net"); })
                 .AddHttpMessageHandler<AuthorizationMessageHandler>();
             builder.Services.AddTransient<AuthorizationMessageHandler>();
 
-            builder.Services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient("PlannerApp.Api"));
+            builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("PlannerApp.Api"));
             builder.Services.AddAuthorizationCore();
             builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
             builder.Services.AddHttpClientServices();
@@ -39,8 +39,6 @@ namespace StkMS
             GlobalFontSettings.FontResolver = new FontResolver();
 
             builder.Services.AddBlazoredLocalStorage();
-
-            
 
             builder.Services.AddScoped<IMapper, Mapper>();
             builder.Services.AddScoped<ICache, LocalStorageCache>();
@@ -52,18 +50,16 @@ namespace StkMS
                     )
                 )
             );
-            builder.Services.AddScoped<IInventory, Inventory>();
             builder.Services.AddScoped<IReportGenerator, ReportGenerator>();
             builder.Services.AddScoped<DialogService>();
             builder.Services.AddScoped<NotificationService>();
             builder.Services.AddScoped<TooltipService>();
             builder.Services.AddScoped<ContextMenuService>();
+
             builder.Services.AddMudServices();
             builder.Services.AddMudBlazorDialog();
 
             return builder.Build().RunAsync();
         }
-
     }
 }
-

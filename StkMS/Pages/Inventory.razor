@@ -5,7 +5,6 @@
 @using StkMS.ViewModels
 @using BlazorBarcodeScanner.ZXing.JS
 @using StkMS.Library.Contracts
-@using StkMS.Library.Models
 @using System.Threading
 
 @inject IJSRuntime jsRuntime
@@ -13,22 +12,22 @@
 @inject ILocalStorageService localStorage
 @inject IMapper mapper
 @inject IApiClient apiClient
-@inject IInventory inventory
 @inject IReportGenerator reportGenerator
 
 @inject NotificationService notificationService
 
 <h1>Începe inventarul!</h1>
 
-<p>Stare inventar: @(inventory.State == InventoryState.None ? "Nu este " : "") În proces.</p>
-@if (inventory.StartedAt.HasValue)
+<p>Stare inventar: @(inventoryInProgress ? "" : "Nu este ") În curs de efectuare.</p>
+
+@*@if (inventory.StartedAt.HasValue)
 {
     <p>Inventarul a început la @inventory.StartedAt.Value.ToString("G")</p>
 }
 @if (inventory.CompletedAt.HasValue)
 {
     <p>Inventarul a fost finalizat la @inventory.CompletedAt.Value.ToString("G")</p>
-}
+}*@
 
 <!-- V2 -->
 
@@ -95,12 +94,12 @@
 <hr />
 
 <div>
-    <button class="btn btn-success" type="button" @onclick="async () => await GenerateInventoryAsync().ConfigureAwait(true)">Generează Raport</button>
+    <button class="btn btn-success" type="button" @onclick="GenerateInventoryAsync">Generează Raport</button>
 </div>
 
 @code
 {
-    private bool inventoryInProgress = false;
+    private bool inventoryInProgress;
 
     private StockViewModel stockViewModel = new();
 
@@ -157,7 +156,7 @@
         apiClient.AddOrUpdateAsync(product);
     }
 
-    private async ValueTask GenerateInventoryAsync()
+    private async void GenerateInventoryAsync()
     {
         var bytes = reportGenerator.GenerateInventory(await apiClient.GetAllAsync().ConfigureAwait(true));
         await jsRuntime.InvokeVoidAsync("BlazorDownloadFile", "report.pdf", "application/octet-stream", bytes).ConfigureAwait(true);
