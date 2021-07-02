@@ -60,6 +60,14 @@ namespace StkMS.Library.Services
             }
         }
 
+        public ValueTask<Inventory?> GetMostRecentInventoryAsync()
+        {
+            lock (GATE)
+            {
+                return decorated.GetMostRecentInventoryAsync();
+            }
+        }
+
         public Task RegisterInventoryAsync(ProductStock stock)
         {
             lock (GATE)

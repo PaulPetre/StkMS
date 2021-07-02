@@ -2,6 +2,7 @@
 using StkMS.Data.Contracts;
 using StkMS.Data.Models;
 using StkMS.Library.Models;
+using Inventory = StkMS.Library.Models.Inventory;
 using Product = StkMS.Library.Models.Product;
 using Sale = StkMS.Library.Models.Sale;
 
@@ -29,14 +30,8 @@ namespace StkMS.Data.Services
 
         public Sale MapSaleToDomain(Models.Sale sale) => new(sale.Id, sale.DateTime, sale.Items.Select(MapSaleItemToDomain).ToArray());
 
-        private static ProductSaleDetails MapSaleItemToDomain(SaleItem item) => new()
-        {
-            ProductCode = item.Product.Code,
-            ProductName = item.Product.Name,
-            ProductUnit = item.Product.Unit,
-            ProductUnitPrice = item.Product.UnitPrice,
-            Quantity = item.Quantity,
-        };
+        public Inventory MapInventoryToDomain(Models.Inventory inventory) =>
+            new(inventory.StartDate, inventory.EndDate, inventory.Items.Select(MapInventoryItemToDomain).ToArray());
 
         public Stock MapStockToData(ProductStock stock, int productId) => new()
         {
@@ -58,6 +53,7 @@ namespace StkMS.Data.Services
             ProductId = productId,
             Quantity = productSale.Quantity,
         };
+
         public Customer MapCustomers(Customers model) => model == null
             ? null
             : new Customer
@@ -78,5 +74,17 @@ namespace StkMS.Data.Services
             Unit = product.Unit,
             UnitPrice = product.UnitPrice,
         };
+
+        private static ProductSaleDetails MapSaleItemToDomain(SaleItem item) => new()
+        {
+            ProductCode = item.Product.Code,
+            ProductName = item.Product.Name,
+            ProductUnit = item.Product.Unit,
+            ProductUnitPrice = item.Product.UnitPrice,
+            Quantity = item.Quantity,
+        };
+
+        private static InventoryDetails MapInventoryItemToDomain(InventoryItem item) =>
+            new(MapProductToDomain(item.Product), item.OldPrice, item.NewPrice, item.OldQuantity, item.NewQuantity);
     }
 }

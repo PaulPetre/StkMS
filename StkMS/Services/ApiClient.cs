@@ -56,6 +56,13 @@ namespace StkMS.Services
             return await response.Content.ReadFromJsonAsync<Sale?>().ConfigureAwait(false);
         }
 
+        public async ValueTask<Inventory?> GetMostRecentInventoryAsync()
+        {
+            var response = await GetAsync("getMostRecentInventory").ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<Inventory?>().ConfigureAwait(false);
+        }
+
         public async Task RegisterInventoryAsync(ProductStock stock)
         {
             var response = await PostAsync("registerInventory", stock).ConfigureAwait(false);

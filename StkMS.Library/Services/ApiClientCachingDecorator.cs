@@ -94,6 +94,7 @@ namespace StkMS.Library.Services
         public ValueTask<Customer> CreateCustomerAsync(Customer customer) => decorated.CreateCustomerAsync(customer);
 
         public ValueTask<Sale?> GetLastCompleteSaleAsync() => decorated.GetLastCompleteSaleAsync();
+        public ValueTask<Inventory?> GetMostRecentInventoryAsync() => decorated.GetMostRecentInventoryAsync();
 
         public async Task RegisterInventoryAsync(ProductStock stock)
         {

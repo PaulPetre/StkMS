@@ -43,6 +43,9 @@ namespace StkMS.Api.Controllers
         [HttpGet("~/getLastCompleteSale")]
         public Sale? GetLastCompleteSale() => repository.GetLastCompleteSale();
 
+        [HttpGet("~/getMostRecentInventory")]
+        public Inventory? GetMostRecentInventory() => repository.GetMostRecentInventory();
+
         [HttpPost("~/registerInventory")]
         public ProductStock RegisterInventory([FromBody] ProductStock stock)
         {

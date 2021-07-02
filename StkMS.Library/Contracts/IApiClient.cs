@@ -12,6 +12,7 @@ namespace StkMS.Library.Contracts
         ValueTask<Product?> FindProductAsync(string productCode);
         ValueTask<Customer> CreateCustomerAsync(Customer customer);
         ValueTask<Sale?> GetLastCompleteSaleAsync();
+        ValueTask<Inventory?> GetMostRecentInventoryAsync();
 
         Task RegisterInventoryAsync(ProductStock stock);
         Task SellProductAsync(ProductSale productSale);

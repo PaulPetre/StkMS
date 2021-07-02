@@ -6,6 +6,7 @@ using StkMS.Library.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Inventory = StkMS.Data.Models.Inventory;
 using Product = StkMS.Library.Models.Product;
 using Sale = StkMS.Library.Models.Sale;
 
@@ -57,6 +58,17 @@ namespace StkMS.Data.Services
                 .OrderByDescending(it => it.DateTime)
                 .FirstOrDefault();
             return sale == null ? null : mapper.MapSaleToDomain(sale);
+        }
+
+        public Library.Models.Inventory? GetMostRecentInventory()
+        {
+            var inventory = context
+                .Inventory
+                .Include(it => it.Items)
+                .ThenInclude(it => it.Product)
+                .OrderByDescending(it => it.StartDate)
+                .FirstOrDefault();
+            return inventory == null ? null : mapper.MapInventoryToDomain(inventory);
         }
 
         public void UpdateStock(ProductStock stock)

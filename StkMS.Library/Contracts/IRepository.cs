@@ -11,6 +11,8 @@ namespace StkMS.Library.Contracts
         IEnumerable<Customer> GetAllCustomers();
         Sale? GetLastCompleteSale();
 
+        Inventory? GetMostRecentInventory();
+
         void UpdateStock(ProductStock stock);
         void AddSale(ProductSale productSale);
         int CompleteSale();
