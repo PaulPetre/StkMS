@@ -32,8 +32,8 @@
 
 <!-- V2 -->
 
-<button class="btn btn-primary" disabled="@(inventory.State != InventoryState.None)" @onclick="BeginInventoryAsync">Începe inventarul</button>
-<button class="btn btn-primary" disabled="@(inventory.State == InventoryState.None)" @onclick="CompleteInventoryAsync">Finalizează inventarul</button>
+<button class="btn btn-primary" disabled="@inventoryInProgress" @onclick="BeginInventoryAsync">Începe inventarul</button>
+<button class="btn btn-primary" disabled="@(!inventoryInProgress)" @onclick="CompleteInventoryAsync">Finalizează inventarul</button>
 
 <hr />
 
@@ -84,7 +84,7 @@
             </div>
 
             <div class="text-right">
-                <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Adaugă/Actualizează" Click=@(args => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs adăugat/actualizat", Duration = 4000 })) />
+                <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Adaugă/Actualizează" Disabled="@(!inventoryInProgress)" Click=@(args => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs adăugat/actualizat", Duration = 4000 })) />
 
                 @*<button type="submit" class="btn btn-primary" @onclick="@(() => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs added/updated" }))">Add/Update</button>*@
             </div>
@@ -100,6 +100,8 @@
 
 @code
 {
+    private bool inventoryInProgress = false;
+
     private StockViewModel stockViewModel = new();
 
     protected override async Task OnInitializedAsync()
@@ -126,14 +128,16 @@
 
     private async void BeginInventoryAsync()
     {
-        //inventory.Begin();
         await apiClient.BeginInventoryAsync().ConfigureAwait(true);
+        inventoryInProgress = true;
+        StateHasChanged();
     }
 
     private async void CompleteInventoryAsync()
     {
-        //inventory.Complete();
         await apiClient.CompleteInventoryAsync().ConfigureAwait(true);
+        inventoryInProgress = false;
+        StateHasChanged();
     }
 
     private async Task ProductScannedAsync(string productCode)
