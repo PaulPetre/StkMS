@@ -5,11 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using StkMS.Data;
-using StkMS.Data.Contracts;
-using StkMS.Data.Models;
-using StkMS.Data.Services;
-using StkMS.Library.Contracts;
-using StkMS.Library.Models;
 
 namespace StkMS.Api
 {
