@@ -42,8 +42,7 @@ namespace StkMS.Services
 
         private static PdfPage CreateInventoryPage(PdfDocument document, XFont font, IEnumerable<ProductStock> batch)
         {
-            var page = document.AddPage();
-            page.Size = PageSize.A4;
+            var font = new XFont("Arial", 10, XFontStyle.Regular);
 
             AddText(page, font, 05, 10, 25, 5, "Code", XStringFormats.Center);
             AddText(page, font, 30, 10, 35, 5, "Name", XStringFormats.Center);

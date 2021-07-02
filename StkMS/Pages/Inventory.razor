@@ -36,6 +36,17 @@
 <button class="btn btn-primary" disabled="@(inventory.State == InventoryState.None)" @onclick="CompleteInventory">Finalizează inventarul</button>
 
 <hr />
+
+<BlazorBarcodeScanner.ZXing.JS.BarcodeReader Title=" "
+                                             StartCameraAutomatically="true"
+                                             ShowStart="false"
+                                             ShowReset="false"
+                                             ShowVideoDeviceList="false"
+                                             VideoWidth="300"
+                                             VideoHeigth="200" />
+
+<hr />
+
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-lg-4 col-xl-2">
         <EditForm Model="@stockViewModel" OnValidSubmit="@AddOrUpdateProduct">
@@ -82,15 +93,7 @@
 </div>
 
 <hr />
-<BlazorBarcodeScanner.ZXing.JS.BarcodeReader Title=" "
-                                             StartCameraAutomatically="true"
-                                             ShowStart="false"
-                                             ShowReset="false"
-                                             ShowVideoDeviceList="false"
-                                             VideoWidth="300"
-                                             VideoHeigth="200" />
 
-<hr />
 <div>
     <button class="btn btn-success" type="button" @onclick="async () => await GenerateInventoryAsync().ConfigureAwait(true)">Generează Raport</button>
 </div>

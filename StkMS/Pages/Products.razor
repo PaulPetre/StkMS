@@ -14,7 +14,7 @@
 @inject IJSRuntime jsRuntime
 
 <h1>Listă Produse</h1>
-<RadzenButton Text="Excel" Icon="grid_on" Click="@GenerateExcel" Style="margin-bottom: 20px"/>
+<RadzenButton Text="Export în excel" Icon="grid_on" Click="@GenerateExcel" Size="ButtonSize.Medium" Style="margin-bottom: 20px"/>
 
 <RadzenDataGrid AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="5"
                 IsLoading="@isLoading" Count="@count" Data="@stockView" LoadData="@LoadData"
@@ -22,12 +22,13 @@
                 TItem="ProductStock"
                 ColumnWidth="200px" AllowColumnResize="true">
     <Columns>
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Code" Filterable="false" Title="ID" Frozen="true" Width="100px" TextAlign="TextAlign.Center"/>
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Name" Title="Nume Produs"/>
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Unit" Title="Unitate Măsură" Width="50px"/>
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.UnitPrice" Title="Preț"/>
-        <RadzenDataGridColumn TItem="ProductStock" Property="Quantity" Title="Cantitate" Width="100px"/>
-        <RadzenDataGridColumn TItem="ProductStock" Property="QuantityLabel" Title="Stare" Width="100px"/>
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Code" Filterable="false" Title="ID" Frozen="true" Width="100px" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Name" Title="Nume Produs" />
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Unit" Title="Unitate Măsură" Width="50px" />
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.UnitPrice" Title="Preț" />
+        <RadzenDataGridColumn TItem="ProductStock" Property="Quantity" Title="Cantitate" Width="100px" />
+        <RadzenDataGridColumn TItem="ProductStock" Property="QuantityLabel" Title="Stare" Width="100px" />
+
     </Columns>
 </RadzenDataGrid>
 
