@@ -6,14 +6,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace StkMS.Data.Models
 {
-    internal class Sale
+    internal class Inventory
     {
         [Key]
         public int Id { get; set; }
 
-        public DateTime DateTime { get; set; }
-        public bool IsComplete { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
-        public virtual ICollection<SaleItem> Items { get; set; }
+        public virtual ICollection<InventoryItem> Items { get; set; }
     }
 }

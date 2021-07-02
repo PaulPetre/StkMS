@@ -51,7 +51,7 @@ namespace StkMS.Data.Services
         {
             var sale = context
                 .Sales
-                .Include(it => it.SaleItems)
+                .Include(it => it.Items)
                 .ThenInclude(it => it.Product)
                 .Where(it => it.IsComplete)
                 .OrderByDescending(it => it.DateTime)

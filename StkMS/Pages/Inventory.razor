@@ -55,7 +55,7 @@
 
             <div class="form-group">
                 <label for="productCode">Cod Produs</label>
-                <InputText id="productCode" @bind-Value="stockViewModel.Code" class="form-control" />
+                <InputText id="productCode" @bind-Value="stockViewModel.Code" class="form-control" @onblur="LookUpProductAsync" />
             </div>
 
             <div class="form-group">
@@ -140,6 +140,11 @@
         stockViewModel = product == null ? new StockViewModel { Code = productCode } : mapper.MapToStockViewModel(product);
     }
 
+    private async Task LookUpProductAsync()
+    {
+        await ProductScannedAsync(stockViewModel.Code).ConfigureAwait(true);
+    }
+
     private void AddOrUpdateProduct()
     {
         var product = mapper.MapToDomain(stockViewModel!);
@@ -156,6 +161,7 @@
     {
         await apiClient.GetAllAsync().ConfigureAwait(true);
     }
+
     void ShowNotification(NotificationMessage message)
     {
         notificationService.Notify(message);

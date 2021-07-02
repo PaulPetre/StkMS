@@ -27,7 +27,7 @@ namespace StkMS.Data.Services
                 UnitPrice = product.UnitPrice,
             };
 
-        public Sale MapSaleToDomain(Models.Sale sale) => new(sale.Id, sale.DateTime, sale.SaleItems.Select(MapSaleItemToDomain).ToArray());
+        public Sale MapSaleToDomain(Models.Sale sale) => new(sale.Id, sale.DateTime, sale.Items.Select(MapSaleItemToDomain).ToArray());
 
         private static ProductSaleDetails MapSaleItemToDomain(SaleItem item) => new()
         {

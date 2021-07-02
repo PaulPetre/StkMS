@@ -13,6 +13,8 @@ namespace StkMS.Data.Models
         public virtual DbSet<Sale> Sales { get; set; }
         public virtual DbSet<SaleItem> SaleItems { get; set; }
         public virtual DbSet<Customers> Customers { get; set; }
+        public virtual DbSet<Inventory> Inventory { get; set; }
+        public virtual DbSet<InventoryItem> InventoryItems { get; set; }
 
         public StkMSContext(DbContextOptions<StkMSContext> options, IConfiguration configuration)
             : base(options)
@@ -43,7 +45,7 @@ namespace StkMS.Data.Models
             modelBuilder.Entity<Stock>(
                 entity =>
                 {
-                    entity.Property(e => e.Quantity).HasColumnType("decimal(10, 0)");
+                    entity.Property(e => e.Quantity).HasColumnType("decimal(18, 2)");
 
                     entity
                         .HasOne(it => it.Product)
@@ -55,9 +57,18 @@ namespace StkMS.Data.Models
             );
 
             modelBuilder.Entity<Sale>(
+                entity => { entity.HasMany(e => e.Items); }
+            );
+
+            modelBuilder.Entity<Inventory>(
+                entity => { entity.HasMany(e => e.Items); }
+            );
+
+            modelBuilder.Entity<InventoryItem>(
                 entity =>
                 {
-                    entity.HasMany(e => e.SaleItems);
+                    entity.Property(e => e.OldPrice).HasColumnType("smallmoney");
+                    entity.Property(e => e.NewPrice).HasColumnType("smallmoney");
                 }
             );
         }
