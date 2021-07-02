@@ -26,5 +26,11 @@ namespace StkMS.Library.Contracts
         /// </summary>
         /// <returns>The key (Id) of the completed inventory or 0.</returns>
         int CompleteInventory();
+
+        /// <summary>
+        ///     Add an inventory item record with the old values from the existing product and new values from the argument.
+        /// </summary>
+        /// <param name="stock">The new price and quantity.</param>
+        void RegisterInventory(ProductStock stock);
     }
 }

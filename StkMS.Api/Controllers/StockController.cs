@@ -43,13 +43,14 @@ namespace StkMS.Api.Controllers
         [HttpGet("~/getLastCompleteSale")]
         public Sale? GetLastCompleteSale() => repository.GetLastCompleteSale();
 
-        [HttpPost("~/addOrUpdate")]
-        public ProductStock AddOrUpdate([FromBody] ProductStock stock)
+        [HttpPost("~/registerInventory")]
+        public ProductStock RegisterInventory([FromBody] ProductStock stock)
         {
             if (stock is null)
                 throw new ArgumentNullException(nameof(stock));
 
-            repository.UpdateStock(stock);
+            //repository.UpdateStock(stock);
+            repository.RegisterInventory(stock);
             return stock;
         }
 

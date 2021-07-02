@@ -69,6 +69,8 @@ namespace StkMS.Data.Models
                 {
                     entity.Property(e => e.OldPrice).HasColumnType("smallmoney");
                     entity.Property(e => e.NewPrice).HasColumnType("smallmoney");
+                    entity.Property(e => e.OldQuantity).HasColumnType("decimal(18, 2)");
+                    entity.Property(e => e.NewQuantity).HasColumnType("decimal(18, 2)");
                 }
             );
         }

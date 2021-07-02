@@ -48,27 +48,27 @@ namespace StkMS.Tests.Services
             {
                 var productStock = AutoFaker.Generate<ProductStock>();
 
-                await sut.AddOrUpdateAsync(productStock).ConfigureAwait(false);
+                await sut.RegisterInventoryAsync(productStock).ConfigureAwait(false);
 
-                decorated.Verify(it => it.AddOrUpdateAsync(productStock));
+                decorated.Verify(it => it.RegisterInventoryAsync(productStock));
             }
 
             [TestMethod("Calls the decorated method for all enqueued items")]
             public async Task Test2()
             {
                 var productStocks = AutoFaker.Generate<ProductStock>(4);
-                decorated.Setup(it => it.AddOrUpdateAsync(It.IsAny<ProductStock>())).Throws<Exception>();
-                await sut.AddOrUpdateAsync(productStocks[0]).ConfigureAwait(false);
-                await sut.AddOrUpdateAsync(productStocks[1]).ConfigureAwait(false);
-                await sut.AddOrUpdateAsync(productStocks[2]).ConfigureAwait(false);
-                decorated.Setup(it => it.AddOrUpdateAsync(It.IsAny<ProductStock>())).Returns(Task.CompletedTask);
+                decorated.Setup(it => it.RegisterInventoryAsync(It.IsAny<ProductStock>())).Throws<Exception>();
+                await sut.RegisterInventoryAsync(productStocks[0]).ConfigureAwait(false);
+                await sut.RegisterInventoryAsync(productStocks[1]).ConfigureAwait(false);
+                await sut.RegisterInventoryAsync(productStocks[2]).ConfigureAwait(false);
+                decorated.Setup(it => it.RegisterInventoryAsync(It.IsAny<ProductStock>())).Returns(Task.CompletedTask);
 
-                await sut.AddOrUpdateAsync(productStocks[3]).ConfigureAwait(false);
+                await sut.RegisterInventoryAsync(productStocks[3]).ConfigureAwait(false);
 
-                decorated.Verify(it => it.AddOrUpdateAsync(productStocks[3]));
-                decorated.Verify(it => it.AddOrUpdateAsync(productStocks[0]), Times.Exactly(2));
-                decorated.Verify(it => it.AddOrUpdateAsync(productStocks[1]), Times.Exactly(2));
-                decorated.Verify(it => it.AddOrUpdateAsync(productStocks[2]), Times.Exactly(2));
+                decorated.Verify(it => it.RegisterInventoryAsync(productStocks[3]));
+                decorated.Verify(it => it.RegisterInventoryAsync(productStocks[0]), Times.Exactly(2));
+                decorated.Verify(it => it.RegisterInventoryAsync(productStocks[1]), Times.Exactly(2));
+                decorated.Verify(it => it.RegisterInventoryAsync(productStocks[2]), Times.Exactly(2));
             }
 
             [TestMethod("Calls FindStockAsync for the given product")]
@@ -76,7 +76,7 @@ namespace StkMS.Tests.Services
             {
                 var productStock = AutoFaker.Generate<ProductStock>();
 
-                await sut.AddOrUpdateAsync(productStock).ConfigureAwait(false);
+                await sut.RegisterInventoryAsync(productStock).ConfigureAwait(false);
 
                 decorated.Verify(it => it.FindStockAsync(productStock.ProductCode));
             }
@@ -85,9 +85,9 @@ namespace StkMS.Tests.Services
             public async Task Test3B()
             {
                 var productStock = AutoFaker.Generate<ProductStock>();
-                decorated.Setup(it => it.AddOrUpdateAsync(It.IsAny<ProductStock>())).Throws<Exception>();
+                decorated.Setup(it => it.RegisterInventoryAsync(It.IsAny<ProductStock>())).Throws<Exception>();
 
-                await sut.AddOrUpdateAsync(productStock).ConfigureAwait(false);
+                await sut.RegisterInventoryAsync(productStock).ConfigureAwait(false);
 
                 decorated.Verify(it => it.FindStockAsync(It.IsAny<string>()), Times.Never);
             }
@@ -96,11 +96,11 @@ namespace StkMS.Tests.Services
             public async Task Test4()
             {
                 var productStocks = AutoFaker.Generate<ProductStock>(2);
-                decorated.Setup(it => it.AddOrUpdateAsync(It.IsAny<ProductStock>())).Throws<Exception>();
-                await sut.AddOrUpdateAsync(productStocks[0]).ConfigureAwait(false);
-                decorated.Setup(it => it.AddOrUpdateAsync(It.IsAny<ProductStock>())).Returns(Task.CompletedTask);
+                decorated.Setup(it => it.RegisterInventoryAsync(It.IsAny<ProductStock>())).Throws<Exception>();
+                await sut.RegisterInventoryAsync(productStocks[0]).ConfigureAwait(false);
+                decorated.Setup(it => it.RegisterInventoryAsync(It.IsAny<ProductStock>())).Returns(Task.CompletedTask);
 
-                await sut.AddOrUpdateAsync(productStocks[1]).ConfigureAwait(false);
+                await sut.RegisterInventoryAsync(productStocks[1]).ConfigureAwait(false);
 
                 decorated.Verify(it => it.FindStockAsync(productStocks[0].ProductCode));
                 decorated.Verify(it => it.FindStockAsync(productStocks[1].ProductCode));
@@ -111,7 +111,7 @@ namespace StkMS.Tests.Services
             {
                 var productStock = AutoFaker.Generate<ProductStock>();
 
-                await sut.AddOrUpdateAsync(productStock).ConfigureAwait(false);
+                await sut.RegisterInventoryAsync(productStock).ConfigureAwait(false);
 
                 decorated.Verify(it => it.GetAllAsync());
             }
@@ -120,9 +120,9 @@ namespace StkMS.Tests.Services
             public async Task Test5B()
             {
                 var productStock = AutoFaker.Generate<ProductStock>();
-                decorated.Setup(it => it.AddOrUpdateAsync(It.IsAny<ProductStock>())).Throws<Exception>();
+                decorated.Setup(it => it.RegisterInventoryAsync(It.IsAny<ProductStock>())).Throws<Exception>();
 
-                await sut.AddOrUpdateAsync(productStock).ConfigureAwait(false);
+                await sut.RegisterInventoryAsync(productStock).ConfigureAwait(false);
 
                 decorated.Verify(it => it.GetAllAsync(), Times.Never);
             }
@@ -131,9 +131,9 @@ namespace StkMS.Tests.Services
             public async Task Test6()
             {
                 var productStock = AutoFaker.Generate<ProductStock>();
-                decorated.Setup(it => it.AddOrUpdateAsync(It.IsAny<ProductStock>())).Throws<Exception>();
+                decorated.Setup(it => it.RegisterInventoryAsync(It.IsAny<ProductStock>())).Throws<Exception>();
 
-                await sut.AddOrUpdateAsync(productStock).ConfigureAwait(false);
+                await sut.RegisterInventoryAsync(productStock).ConfigureAwait(false);
 
                 cache.VerifySet(it => it["STOCK:" + productStock.ProductCode] = JsonSerializer.Serialize(productStock));
             }
@@ -142,12 +142,12 @@ namespace StkMS.Tests.Services
             public async Task Test7()
             {
                 var productStocks = AutoFaker.Generate<ProductStock>(3);
-                decorated.Setup(it => it.AddOrUpdateAsync(It.IsAny<ProductStock>())).Throws<Exception>();
+                decorated.Setup(it => it.RegisterInventoryAsync(It.IsAny<ProductStock>())).Throws<Exception>();
                 cache.Setup(it => it["ALL"]).Returns(JsonSerializer.Serialize(productStocks.AsEnumerable()));
                 var newProductStock = AutoFaker.Generate<ProductStock>();
                 var newProductStocks = productStocks.Concat(new[] { newProductStock }).ToList();
 
-                await sut.AddOrUpdateAsync(newProductStock).ConfigureAwait(false);
+                await sut.RegisterInventoryAsync(newProductStock).ConfigureAwait(false);
 
                 cache.VerifySet(it => it["ALL"] = JsonSerializer.Serialize(newProductStocks));
             }
@@ -156,13 +156,13 @@ namespace StkMS.Tests.Services
             public async Task Test8()
             {
                 var productStocks = AutoFaker.Generate<ProductStock>(3);
-                decorated.Setup(it => it.AddOrUpdateAsync(It.IsAny<ProductStock>())).Throws<Exception>();
+                decorated.Setup(it => it.RegisterInventoryAsync(It.IsAny<ProductStock>())).Throws<Exception>();
                 cache.Setup(it => it["ALL"]).Returns(JsonSerializer.Serialize(productStocks.AsEnumerable()));
                 var newProductStocks = new List<ProductStock>(productStocks);
                 productStocks[1].Quantity = AutoFaker.Generate<decimal>();
                 productStocks[1].Product.UnitPrice = AutoFaker.Generate<decimal>();
 
-                await sut.AddOrUpdateAsync(productStocks[1]).ConfigureAwait(false);
+                await sut.RegisterInventoryAsync(productStocks[1]).ConfigureAwait(false);
 
                 cache.VerifySet(it => it["ALL"] = JsonSerializer.Serialize(newProductStocks));
             }

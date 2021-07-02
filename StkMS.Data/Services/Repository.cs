@@ -135,6 +135,28 @@ namespace StkMS.Data.Services
             return currentInventory.Id;
         }
 
+        public void RegisterInventory(ProductStock stock)
+        {
+            var currentInventory = GetCurrentInventory();
+            if (currentInventory == null)
+                return;
+
+            var existingStock = InternalFindStockByProductCode(stock.ProductCode);
+            var product = existingStock == null ? CreateNewProduct(stock) : existingStock.Product;
+
+            var item = new InventoryItem
+            {
+                InventoryId = currentInventory.Id,
+                ProductId = product.Id,
+                OldPrice = existingStock?.Product.UnitPrice ?? 0m,
+                NewPrice = stock.Product.UnitPrice,
+                OldQuantity = existingStock?.Quantity ?? 0m,
+                NewQuantity = stock.Quantity,
+            };
+            context.InventoryItems.Add(item);
+            context.SaveChanges();
+        }
+
         //
 
         private readonly IStkMSContext context;
@@ -163,5 +185,13 @@ namespace StkMS.Data.Services
             .Inventory
             .Where(it => it.EndDate == null)
             .FirstOrDefault();
+
+        private Models.Product CreateNewProduct(ProductStock stock)
+        {
+            var product = mapper.MapProductToData(stock.Product);
+            context.Products.Add(product);
+            context.SaveChanges();
+            return product;
+        }
     }
 }

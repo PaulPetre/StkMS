@@ -152,8 +152,8 @@
 
     private void AddOrUpdateProduct()
     {
-        var product = mapper.MapToDomain(stockViewModel!);
-        apiClient.AddOrUpdateAsync(product);
+        var stock = mapper.MapToDomain(stockViewModel!);
+        apiClient.RegisterInventoryAsync(stock);
     }
 
     private async void GenerateInventoryAsync()

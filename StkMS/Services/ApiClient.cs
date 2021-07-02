@@ -56,9 +56,9 @@ namespace StkMS.Services
             return await response.Content.ReadFromJsonAsync<Sale?>().ConfigureAwait(false);
         }
 
-        public async Task AddOrUpdateAsync(ProductStock stock)
+        public async Task RegisterInventoryAsync(ProductStock stock)
         {
-            var response = await PostAsync("addOrUpdate", stock).ConfigureAwait(false);
+            var response = await PostAsync("registerInventory", stock).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
         }
 

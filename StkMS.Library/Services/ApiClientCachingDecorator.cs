@@ -95,11 +95,11 @@ namespace StkMS.Library.Services
 
         public ValueTask<Sale?> GetLastCompleteSaleAsync() => decorated.GetLastCompleteSaleAsync();
 
-        public async Task AddOrUpdateAsync(ProductStock stock)
+        public async Task RegisterInventoryAsync(ProductStock stock)
         {
             try
             {
-                await decorated.AddOrUpdateAsync(stock).ConfigureAwait(false);
+                await decorated.RegisterInventoryAsync(stock).ConfigureAwait(false);
                 await FindStockAsync(stock.ProductCode).ConfigureAwait(false);
 
                 await PostFromQueueAsync().ConfigureAwait(false);
@@ -151,7 +151,7 @@ namespace StkMS.Library.Services
                 var item = queue.Dequeue();
                 try
                 {
-                    await decorated.AddOrUpdateAsync(item).ConfigureAwait(false);
+                    await decorated.RegisterInventoryAsync(item).ConfigureAwait(false);
                     await FindStockAsync(item.ProductCode).ConfigureAwait(false);
                 }
                 catch
