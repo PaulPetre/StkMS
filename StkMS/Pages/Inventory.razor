@@ -21,13 +21,13 @@
 <p>Stare inventar: @(inventoryInProgress ? "" : "Nu este ") În curs de efectuare.</p>
 
 @*@if (inventory.StartedAt.HasValue)
-{
-    <p>Inventarul a început la @inventory.StartedAt.Value.ToString("G")</p>
-}
-@if (inventory.CompletedAt.HasValue)
-{
-    <p>Inventarul a fost finalizat la @inventory.CompletedAt.Value.ToString("G")</p>
-}*@
+    {
+        <p>Inventarul a început la @inventory.StartedAt.Value.ToString("G")</p>
+    }
+    @if (inventory.CompletedAt.HasValue)
+    {
+        <p>Inventarul a fost finalizat la @inventory.CompletedAt.Value.ToString("G")</p>
+    }*@
 
 <!-- V2 -->
 
@@ -46,48 +46,51 @@
 
 <hr />
 
+
 <div class="row">
-    <div class="col-xs-12 col-sm-8 col-lg-4 col-xl-2">
-        <EditForm Model="@stockViewModel" OnValidSubmit="@AddOrUpdateProduct">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
+    <div class="col-xl-6">
+        <div class="col-xs-6 col-sm-8 col-lg-6">
+            <EditForm Model="@stockViewModel" OnValidSubmit="@AddOrUpdateProduct">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
 
-            <div class="form-group">
-                <label for="productCode">Cod Produs</label>
-                <InputText id="productCode" @bind-Value="stockViewModel.Code" class="form-control" @onblur="LookUpProductAsync" />
-            </div>
-
-            <div class="form-group">
-                <label for="productName">Nume Produs</label>
-                <InputText id="productName" @bind-Value="stockViewModel.Name" class="form-control" />
-            </div>
-
-            <div class="form-group">
-                <label for="productUnit">Unitate de măsură</label>
-                <InputText id="productUnit" @bind-Value="stockViewModel.Unit" class="form-control" />
-            </div>
-
-            <div class="form-group">
-                <label for="productUnitPrice">Preț</label>
-                <InputNumber id="productUnitPrice" @bind-Value="stockViewModel.UnitPrice" class="form-control" />
-            </div>
-
-            <div class="form-group">
-                <label for="productQuantity">Cantitate</label>
-                <InputNumber id="productQuantity" @bind-Value="stockViewModel.Quantity" class="form-control" />
-            </div>
-
-            <div class="row">
-                <div class="col">
+                <div class="form-group">
+                    <label for="productCode">Cod Produs</label>
+                    <InputText id="productCode" @bind-Value="stockViewModel.Code" class="form-control" @onblur="LookUpProductAsync" />
                 </div>
-            </div>
 
-            <div class="text-right">
-                <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Adaugă/Actualizează" Disabled="@(!inventoryInProgress)" Click=@(args => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs adăugat/actualizat", Duration = 4000 })) />
+                <div class="form-group">
+                    <label for="productName">Nume Produs</label>
+                    <InputText id="productName" @bind-Value="stockViewModel.Name" class="form-control" />
+                </div>
 
-                @*<button type="submit" class="btn btn-primary" @onclick="@(() => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs added/updated" }))">Add/Update</button>*@
-            </div>
-        </EditForm>
+                <div class="form-group">
+                    <label for="productUnit">Unitate de măsură</label>
+                    <InputText id="productUnit" @bind-Value="stockViewModel.Unit" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="productUnitPrice">Preț</label>
+                    <InputNumber id="productUnitPrice" @bind-Value="stockViewModel.UnitPrice" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="productQuantity">Cantitate</label>
+                    <InputNumber id="productQuantity" @bind-Value="stockViewModel.Quantity" class="form-control" />
+                </div>
+
+
+                <div class="text-right">
+                    <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Adaugă/Actualizează" Disabled="@(!inventoryInProgress)" Click=@(args => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs adăugat/actualizat", Duration = 4000 })) />
+
+                    @*<button type="submit" class="btn btn-primary" @onclick="@(() => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs added/updated" }))">Add/Update</button>*@
+                </div>
+            </EditForm>
+        </div>
+        <hr />
+    </div>
+    <div class="col-xl-6">
+        <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Istoric" Click=@(args => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs /actualizat", Duration = 4000 })) />
     </div>
 </div>
 

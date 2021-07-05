@@ -12,9 +12,9 @@
             get
             {
                 if (Quantity < 10)
-                    return "Danger";
+                    return "Nivel critic";
                 if (Quantity > 100)
-                    return "Too many";
+                    return "Suprastocare";
                 return "";
             }
         }

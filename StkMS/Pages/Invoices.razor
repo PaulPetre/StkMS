@@ -1,0 +1,89 @@
+﻿@page "/invoices"
+    @*@using StkMS.Library.Contracts
+    @using StkMS.Library.Models
+    @using DialogService = Radzen.DialogService
+    @inject IApiClient apiClient
+    @inject DialogService dialogService*@
+
+
+@*<RadzenContent Container="main">
+    <ChildContent>
+        <RadzenHeading Size="H1" Text="Invoices">
+        </RadzenHeading>
+        <div class="row">
+            <div class="col-md-12">
+                <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@Button0Click">
+                </RadzenButton>
+                <RadzenSplitButton Icon="get_app" style="margin-bottom: 10px; margin-left: 10px" Text="Export" Click="@Splitbutton0Click">
+                    <ChildContent>
+                        <RadzenSplitButtonItem Text="Excel" Value="xlsx">
+                        </RadzenSplitButtonItem>
+                        <RadzenSplitButtonItem Text="CSV" Value="csv">
+                        </RadzenSplitButtonItem>
+                    </ChildContent>
+                </RadzenSplitButton>
+                <RadzenTextBox Placeholder="Search ..." style="display: block; margin-bottom: 10px; width: 100%" Name="Textbox0" @oninput="@Value">
+                </RadzenTextBox>*@
+
+            @*@</div>
+        </div>
+    </ChildContent>
+</RadzenContent>*@
+
+@*@code{
+        protected RadzenGrid<Customer> grid0;
+        IEnumerable<StkMS.Data.Models.Invoice> _getInvoicesResult;
+        protected IEnumerable<StkMS.Data.Models.Invoice> getInvoicesResult
+        {
+            //get
+            //{
+            //    return _getInvoicesResult;
+            //}
+            //set
+            //{
+            //    if (!object.Equals(_getInvoicesResult, value))
+            //    {
+            //        var args = new PropertyChangedEventArgs() { Name = "getInvoicesResult", NewValue = value, OldValue = _getInvoicesResult };
+            //        _getInvoicesResult = value;
+            //        OnPropertyChanged(args);
+            //        Reload();
+            //    }
+            //}
+            get
+            {
+                return _getInvoicesResult;
+            }
+        }
+
+        async Task Value()
+        {
+            //
+        }
+
+        protected async Task Button0Click(MouseEventArgs args)
+        {
+            //
+        }
+        async Task GridDeleteButtonClick()
+        {
+            //
+        }
+        protected async System.Threading.Tasks.Task Splitbutton0Click(RadzenSplitButtonItem args)
+        {
+            //if (args?.Value == "csv")
+            //{
+            //    await SimpleInvoice.ExportInvoicesToCSV(new Query() { Filter = $@"{grid0.Query.Filter}", OrderBy = $"{grid0.Query.OrderBy}", Expand = "Company,Customer,Tax", Select = "InvoiceId,InvoiceNumber,Company.Name,Customer.Name,InvoiceDate,InvoiceDueDate,Tax.Name,Total,Discount,BeforeTax,TaxAmount,GrandTotal" }, $"Invoices");
+
+            //}
+
+            //if (args == null || args.Value == "xlsx")
+            //{
+            //    await SimpleInvoice.ExportInvoicesToExcel(new Query() { Filter = $@"{grid0.Query.Filter}", OrderBy = $"{grid0.Query.OrderBy}", Expand = "Company,Customer,Tax", Select = "InvoiceId,InvoiceNumber,Company.Name,Customer.Name,InvoiceDate,InvoiceDueDate,Tax.Name,Total,Discount,BeforeTax,TaxAmount,GrandTotal" }, $"Invoices");
+
+            //}
+        }
+        protected async System.Threading.Tasks.Task Grid0RowSelect(StkMS.Data.Models.Invoice args)
+        {
+            //UriHelper.NavigateTo($"edit-invoice/{args.InvoiceId}");
+        }
+    }*@-->
