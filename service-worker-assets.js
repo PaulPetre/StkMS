@@ -9,7 +9,7 @@
       "url": "404.html"
     },
     {
-      "hash": "sha256-SO\/fuIIWUxoIu1OABrOpK5n\/AvzxJcg+0H3PT1eutAE=",
+      "hash": "sha256-Z7SsKS8N1bHffrmSIxf21a45EZfQTz3xO2liXzcWs6U=",
       "url": "css\/app.css"
     },
     {
@@ -49,7 +49,7 @@
       "url": "css\/open-iconic\/README.md"
     },
     {
-      "hash": "sha256-6XIDDZ6\/WwmjrJxV517XybKiAQpCPlVJr5UfBmHZiP8=",
+      "hash": "sha256-B14zEnm1toUSX4saVur806dhVcEcWZ62L2LAVwnznF8=",
       "url": "css\/site.css"
     },
     {
@@ -121,7 +121,7 @@
       "url": "_framework\/dotnet.5.0.4.js"
     },
     {
-      "hash": "sha256-voVuh2ZdhOd\/DCg1rvYX3zR1b8lm6fs8Oj9Dj1JZ4lM=",
+      "hash": "sha256-4911tkeIbZOT1eRBpziq1b0XCF7WjHu2tJc3pa9sblY=",
       "url": "StkMS.styles.css"
     },
     {
@@ -481,11 +481,11 @@
       "url": "_framework\/StkMS.Client.Services.dll"
     },
     {
-      "hash": "sha256-41eMmz3jIOsyftJeCZiil2T5F9h73lrjMKV99EPYgTc=",
+      "hash": "sha256-hjq\/SlgqtSwxgeWNRI1oZ8l5O1iB+U27heBtJhcmv2E=",
       "url": "_framework\/StkMS.Data.dll"
     },
     {
-      "hash": "sha256-CSlyBJAyELi5l5k5oFuRZcN1t93amc+rRkMLi0HUmbo=",
+      "hash": "sha256-q6a1TqfabVjGiKwDI8NQGdoACliQdQGKtzhz2rd8Tjc=",
       "url": "_framework\/StkMS.Library.dll"
     },
     {
@@ -493,7 +493,7 @@
       "url": "_framework\/StkMS.Shared.dll"
     },
     {
-      "hash": "sha256-pbNAiol3tbhfup82Pr3UQPMLrzxdOwfmeDsyISpnS4w=",
+      "hash": "sha256-2+QweGYQWE4fLpdaah+BYSRhlCoi\/bq1rd6NAZrErzE=",
       "url": "_framework\/StkMS.dll"
     },
     {
@@ -733,7 +733,7 @@
       "url": "_framework\/de\/PdfSharpCore.resources.dll"
     },
     {
-      "hash": "sha256-UyIULjCF0m2eP98cILhz3awwGMkfW1klO8YhPOiJATA=",
+      "hash": "sha256-4okqV1TCL8MxZy2aetilCx7mKykWEmVtJGz06oyCUJY=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -741,5 +741,5 @@
       "url": "_framework\/blazor.webassembly.js"
     }
   ],
-  "version": "jXG7Dlcf"
+  "version": "sr2ha27Q"
 };
