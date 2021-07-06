@@ -11,6 +11,7 @@
 @inject IMapper mapper
 @inject IApiClient apiClient
 @inject IJSRuntime jsRuntime
+@inject Radzen.DialogService DialogService
 
 <h1>Listă Produse</h1>
 <RadzenButton Icon="grid_on" style="margin-bottom: 10px" Text="Export în excel" Click="@GenerateExcel" Size="ButtonSize.Medium" />
@@ -94,11 +95,31 @@
         //
     }
 
-    async Task AddItem()
+     async Task AddItem()
     {
-        //
+         var result = await DialogService.OpenAsync("Adauga produs", ds =>
+             @<MudDialog>
+                 <TitleContent>
+                     <MudText Typo="Typo.h6">
+                         <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                         Adauga produs
+                     </MudText>
+                 </TitleContent>
+                 <DialogContent>
+                     <MudTextField Value="@stockView" Label="Cod Produs" ReadOnly="true" />
+                     @*<MudTextField Value="" Label="Server Name" ReadOnly="true" />*@
+                     @*<MudTextField Value="" Label="Location" ReadOnly="true" />*@
+                     @*<MudTextField Value="" Label="IP Address" ReadOnly="true" />*@
+                 </DialogContent>
+                 <DialogActions>
+                     @*<MudButton OnClick="Cancel">Cancel</MudButton>*@
+                     @*<MudButton Color="Color.Error" OnClick="AddOrUpdateProduct">Adauga</MudButton>*@
+                 </DialogActions>
+             </MudDialog>);
+
     }
 
+    
     async Task LoadData(LoadDataArgs args)
     {
         isLoading = true;

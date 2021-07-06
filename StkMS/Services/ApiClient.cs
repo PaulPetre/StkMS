@@ -32,6 +32,11 @@ namespace StkMS.Services
 
             return result;
         }
+        public async Task AddOrUpdateAsync(ProductStock stock)
+        {
+            var response = await PostAsync("addOrUpdate", stock).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+        }
 
         public async ValueTask<ProductStock?> FindStockAsync(string productCode)
         {

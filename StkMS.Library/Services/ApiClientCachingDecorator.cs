@@ -2,6 +2,7 @@
 using StkMS.Library.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -51,6 +52,7 @@ namespace StkMS.Library.Services
             }
         }
 
+
         public async ValueTask<ProductStock?> FindStockAsync(string productCode)
         {
             try
@@ -90,11 +92,41 @@ namespace StkMS.Library.Services
                     : JsonSerializer.Deserialize<Product>(cachedResult) ?? null;
             }
         }
-
         public ValueTask<Customer> CreateCustomerAsync(Customer customer) => decorated.CreateCustomerAsync(customer);
 
         public ValueTask<Sale?> GetLastCompleteSaleAsync() => decorated.GetLastCompleteSaleAsync();
         public ValueTask<Inventory?> GetMostRecentInventoryAsync() => decorated.GetMostRecentInventoryAsync();
+
+        public async Task AddOrUpdateAsync(ProductStock stock)
+        {
+            try
+            {
+                await decorated.AddOrUpdateAsync(stock).ConfigureAwait(false);
+                await FindStockAsync(stock.ProductCode).ConfigureAwait(false);
+
+                await PostFromQueueAsync().ConfigureAwait(false);
+
+                await GetAllAsync().ConfigureAwait(false);
+            }
+            catch
+            {
+                cache[STOCK_KEY + stock.ProductCode] = JsonSerializer.Serialize(stock);
+                cache[PRODUCT_KEY + stock.ProductCode] = JsonSerializer.Serialize(stock.Product);
+
+                var cachedResult = cache[ALL_KEY] ?? "[]";
+                var all = (JsonSerializer.Deserialize<ProductStock[]>(cachedResult) ?? Enumerable.Empty<ProductStock>()).ToList();
+
+                var existing = all.Where(it => it.ProductCode == stock.ProductCode).FirstOrDefault();
+                if (existing == null)
+                    all.Add(stock);
+                else
+                    existing.CopyFrom(stock);
+
+                cache[ALL_KEY] = JsonSerializer.Serialize(all);
+
+                queue.Enqueue(stock);
+            }
+        }
 
         public async Task RegisterInventoryAsync(ProductStock stock)
         {

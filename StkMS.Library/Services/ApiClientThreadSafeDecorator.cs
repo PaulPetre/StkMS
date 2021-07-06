@@ -68,6 +68,14 @@ namespace StkMS.Library.Services
             }
         }
 
+        public Task AddOrUpdateAsync(ProductStock stock)
+        {
+            lock (GATE)
+            {
+                return decorated.AddOrUpdateAsync(stock);
+            }
+        }
+
         public Task RegisterInventoryAsync(ProductStock stock)
         {
             lock (GATE)

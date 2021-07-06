@@ -36,6 +36,15 @@ namespace StkMS.Api.Controllers
 
             return repository.FindProductByCode(productCode);
         }
+        [HttpPost("~/addOrUpdate")]
+        public ProductStock AddOrUpdate([FromBody] ProductStock stock)
+        {
+            if (stock is null)
+                throw new ArgumentNullException(nameof(stock));
+
+            repository.UpdateStock(stock);
+            return stock;
+        }
 
         [HttpGet("~/getCustomers")]
         public IEnumerable<Customer> GetAllCustomers() => repository.GetAllCustomers();
