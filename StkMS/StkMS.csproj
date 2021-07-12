@@ -19,7 +19,7 @@
     <PackageReference Include="MudBlazor" Version="5.0.14" />
     <PackageReference Include="MudBlazor.ThemeManager" Version="1.0.3" />
     <PackageReference Include="PdfSharpCore" Version="1.2.16" />
-    <PackageReference Include="Radzen.Blazor" Version="3.3.2" />
+    <PackageReference Include="Radzen.Blazor" Version="3.6.7" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
   </ItemGroup>
 

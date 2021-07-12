@@ -6,6 +6,7 @@
 @using StkMS.Library.Models
 @using System.Text
 @using System.IO
+@using Microsoft.EntityFrameworkCore
 
 @inject ILocalStorageService localStorage
 @inject IMapper mapper
@@ -19,12 +20,12 @@
 <RadzenTextBox Placeholder="Caută ..." style="display: block; margin-bottom: 10px; width: 100%" Name="Textbox0" @oninput="@Value" />
 
 <RadzenDataGrid AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="5"
-                IsLoading="@isLoading" Count="@count" Data="@stockView" LoadData="@LoadData"
+                IsLoading="@isLoading" Count="@Count" Data="@stockView" LoadData="@LoadData"
                 FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterMode="FilterMode.Advanced"
                 TItem="ProductStock"
                 ColumnWidth="200px" AllowColumnResize="true">
     <Columns>
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Code" Filterable="false" Title="ID" Frozen="true" Width="100px" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Code" Filterable="false" Title="Cod Produs" Frozen="true" Width="100px" TextAlign="TextAlign.Center" />
         <RadzenDataGridColumn TItem="ProductStock" Property="Product.Name" Title="Nume Produs" />
         <RadzenDataGridColumn TItem="ProductStock" Property="Product.Unit" Title="UM" Width="50px" />
         <RadzenDataGridColumn TItem="ProductStock" Property="Product.UnitPrice" Title="Preț" Width="50px" />
@@ -45,7 +46,7 @@
 
 @code {
     bool isLoading;
-    int count;
+    int Count;
 
     IEnumerable<ProductStock>? stockView;
 
@@ -95,37 +96,18 @@
         //
     }
 
-     async Task AddItem()
+    async Task AddItem()
     {
-         var result = await DialogService.OpenAsync("Adauga produs", ds =>
-             @<MudDialog>
-                 <TitleContent>
-                     <MudText Typo="Typo.h6">
-                         <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
-                         Adauga produs
-                     </MudText>
-                 </TitleContent>
-                 <DialogContent>
-                     <MudTextField Value="@stockView" Label="Cod Produs" ReadOnly="true" />
-                     @*<MudTextField Value="" Label="Server Name" ReadOnly="true" />*@
-                     @*<MudTextField Value="" Label="Location" ReadOnly="true" />*@
-                     @*<MudTextField Value="" Label="IP Address" ReadOnly="true" />*@
-                 </DialogContent>
-                 <DialogActions>
-                     @*<MudButton OnClick="Cancel">Cancel</MudButton>*@
-                     @*<MudButton Color="Color.Error" OnClick="AddOrUpdateProduct">Adauga</MudButton>*@
-                 </DialogActions>
-             </MudDialog>);
-
+        //
     }
 
-    
+
     async Task LoadData(LoadDataArgs args)
     {
         isLoading = true;
         var data = (await apiClient.GetAllAsync().ConfigureAwait(true)).ToArray();
         stockView = data;
-        count = data.Length;
+        Count = data.Length;
         isLoading = false;
     }
 
