@@ -1695,6 +1695,7 @@ ul.rz-profile-menu {
     color: #88989b; }
   .rz-rating a {
     text-decoration: none;
+    cursor: default;
     outline: none; }
   .rz-rating .rzi, .rz-rating .rz-datatable-loading-content .rzi-circle-o-notch, .rz-datatable-loading-content .rz-rating .rzi-circle-o-notch, .rz-rating .rz-datatable-header .rzi-plus, .rz-datatable-header .rz-rating .rzi-plus, .rz-rating .rz-sortable-column .rzi-grid-sort, .rz-sortable-column .rz-rating .rzi-grid-sort, .rz-rating .rz-datatable .rzi-chevron-circle-down, .rz-datatable .rz-rating .rzi-chevron-circle-down, .rz-rating .rz-datatable .rzi-chevron-circle-right, .rz-datatable .rz-rating .rzi-chevron-circle-right, .rz-rating .rz-fileupload-row .rz-button .rzi-close, .rz-rating .rz-fileupload-row .rz-paginator-element .rzi-close, .rz-fileupload-row .rz-button .rz-rating .rzi-close, .rz-fileupload-row .rz-paginator-element .rz-rating .rzi-close,
   .rz-rating .rz-fileupload-row .rz-button .rzi-times,
@@ -1717,10 +1718,12 @@ ul.rz-profile-menu {
     .rz-rating .rzi-star:before {
       content: "star"; }
 
-.rz-rating:not(.rz-state-disabled) .rzi-star-o:hover {
-  color: #ff6d41; }
-  .rz-rating:not(.rz-state-disabled) .rzi-star-o:hover:before {
-    content: "star"; }
+.rz-rating:not(.rz-state-disabled):not(.rz-state-readonly) .rzi-star-o {
+  cursor: pointer; }
+  .rz-rating:not(.rz-state-disabled):not(.rz-state-readonly) .rzi-star-o:hover {
+    color: #ff6d41; }
+    .rz-rating:not(.rz-state-disabled):not(.rz-state-readonly) .rzi-star-o:hover:before {
+      content: "star"; }
 
 .rz-selectbutton {
   display: inline-block; }
@@ -2587,7 +2590,6 @@ ul.rz-profile-menu {
   color: #3ba5fc !important; }
 
 .rz-data-grid {
-  border: 1px solid #ccc;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2641,7 +2643,7 @@ ul.rz-profile-menu {
     white-space: nowrap;
     overflow: hidden; }
 
-.rz-grid-table tbody > ::deep div {
+.rz-grid-table tbody > div {
   display: table-row; }
 
 .rz-paginator {
@@ -3282,7 +3284,7 @@ ul.rz-profile-menu {
   height: 100%;
   top: 0;
   bottom: 0;
-  z-index: 1000;
+  z-index: 1001;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;

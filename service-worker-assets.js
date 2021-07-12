@@ -73,7 +73,7 @@
       "url": "iconStkMS.png"
     },
     {
-      "hash": "sha256-ewlYXFi2LFq77rwxRuThIDqkZE7ksZtQndQj1mfqHUw=",
+      "hash": "sha256-UVNTCmv+xjMTjuceb4ANuboguPYSjr\/4GaxpRogE++A=",
       "url": "index.html"
     },
     {
@@ -125,35 +125,35 @@
       "url": "StkMS.styles.css"
     },
     {
-      "hash": "sha256-E76hWU9vzdWDwKbNElLs01RZke0cyCMocVPio3gHxbA=",
+      "hash": "sha256-tVlrrRRH3A46pk8D4kt3SqWk\/EXDeI8X734Tas5mKwg=",
       "url": "_content\/Radzen.Blazor\/css\/dark-base.css"
     },
     {
-      "hash": "sha256-PT8BNEDsWO\/sRx7lHViSznwMN4W\/TVq9Mziqy2fK3Pw=",
+      "hash": "sha256-cF95yabbpBFRjHhG17oDyA5FypxtPC3MUdwyxtGXEFc=",
       "url": "_content\/Radzen.Blazor\/css\/dark.css"
     },
     {
-      "hash": "sha256-ONd0Ipgy0YG69UZXUKvEijr6MhFqSYj6HHyJHijkT34=",
+      "hash": "sha256-cmVEhFVRQ17SOpyhO1O6gHARp0qr9934qzAYJFJl1lg=",
       "url": "_content\/Radzen.Blazor\/css\/default-base.css"
     },
     {
-      "hash": "sha256-Zqw+a0EfFkqEd9LqexS5naIA+Vjm0WWt82KmmVv8rvY=",
+      "hash": "sha256-8k8kYkSWyFvcfMP1suW2r2+kdG+guUu12BZHy3F96iE=",
       "url": "_content\/Radzen.Blazor\/css\/default.css"
     },
     {
-      "hash": "sha256-6xx8Xt49Pu9JCoB1IY7GRNj6dK0d1ierfjL84XBQGsI=",
+      "hash": "sha256-mhwf0lg1zlsMLjRMrcEL9w4cumysXW2S1qoHReRGF2U=",
       "url": "_content\/Radzen.Blazor\/css\/humanistic-base.css"
     },
     {
-      "hash": "sha256-Jrp7MjrcNuRMlpAEa++KfDPzDE\/1SntAQYkyzruiKco=",
+      "hash": "sha256-yoQ\/R06\/N0KF4q\/CddzerR48w3bCc4yGm3snpXFxoMQ=",
       "url": "_content\/Radzen.Blazor\/css\/humanistic.css"
     },
     {
-      "hash": "sha256-5VSGQsHSxg012F6XFD9RDkTJ2GlU7Q6WTZOfYrQWnsc=",
+      "hash": "sha256-pIBp0fr9wnqgmh9+fhYx1kETFZzW4BDXSnmENT2Gr44=",
       "url": "_content\/Radzen.Blazor\/css\/software-base.css"
     },
     {
-      "hash": "sha256-0wJOiK1NsItJDcL9lI4Am1pYjVOIOAryf9bXwbmsaYs=",
+      "hash": "sha256-fIRBCt2LmtjyPgIKyYEoDeX+Ea4VFvhqGDIC7qackVQ=",
       "url": "_content\/Radzen.Blazor\/css\/software.css"
     },
     {
@@ -221,7 +221,7 @@
       "url": "_content\/Radzen.Blazor\/fonts\/SourceSansPro-SemiboldIt.woff"
     },
     {
-      "hash": "sha256-QwXvgoYEtnuhlh\/JQC\/aV8Bm\/UfNwOyLsfYnRbsR1a4=",
+      "hash": "sha256-e9qDDX2JkeEUuc1MIA8vUVNKhxB\/y3y6fihYftKg2K0=",
       "url": "_content\/Radzen.Blazor\/Radzen.Blazor.js"
     },
     {
@@ -429,7 +429,7 @@
       "url": "_framework\/PdfSharpCore.dll"
     },
     {
-      "hash": "sha256-BX\/8U0vG2ocvkE\/AdbK10AmBLeNtnntIFMpoPCWUXBQ=",
+      "hash": "sha256-f6HEgjXhK3s\/+rbgXLn8YyTKUNVw+ml3g97yBkvEO\/A=",
       "url": "_framework\/Radzen.Blazor.dll"
     },
     {
@@ -481,11 +481,11 @@
       "url": "_framework\/StkMS.Client.Services.dll"
     },
     {
-      "hash": "sha256-JRSSo8\/yrstxpB21sDn+sbWXMTJuFCyhuyEq0IytgLA=",
+      "hash": "sha256-lUiaGiC03PbDVzo5TKYsAT8SF+C77Vrie6ViFL2RrQ0=",
       "url": "_framework\/StkMS.Data.dll"
     },
     {
-      "hash": "sha256-CwHhr0fp8L7NZsD\/s64QBWePMPTNYYXdt0vWQJeDviw=",
+      "hash": "sha256-mJ0UBJrx7tp4G9ViTnAKL+s7Ft538g7cyRJyvBgqC7o=",
       "url": "_framework\/StkMS.Library.dll"
     },
     {
@@ -493,7 +493,7 @@
       "url": "_framework\/StkMS.Shared.dll"
     },
     {
-      "hash": "sha256-JURbeNjh8hm0wFcstd5a5cOJU5nS\/CmCOgGCMZ1I9Pw=",
+      "hash": "sha256-Tj+ZJYX01mKeq3W4GvefO0pwX9cNbJglN2NxIuz4PY8=",
       "url": "_framework\/StkMS.dll"
     },
     {
@@ -725,7 +725,7 @@
       "url": "_framework\/System.Web.HttpUtility.dll"
     },
     {
-      "hash": "sha256-+cQlLDbcKmUARdfDJgKd9yPMJavbvgdlNRgVoqEezlM=",
+      "hash": "sha256-QGe93U\/PUNTSTZWNjMm\/xQsmEhhypL9BZtD0R1KnVpg=",
       "url": "_framework\/System.Private.CoreLib.dll"
     },
     {
@@ -733,7 +733,7 @@
       "url": "_framework\/de\/PdfSharpCore.resources.dll"
     },
     {
-      "hash": "sha256-DncE53y7SSV1Sbxm4CSD\/Z91qLDLw8SVRYjCycECxZE=",
+      "hash": "sha256-7Y0dTOPMDTkTab+VhFuPy\/D1tUUS+YtLYxGuIV8JwFY=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -741,5 +741,5 @@
       "url": "_framework\/blazor.webassembly.js"
     }
   ],
-  "version": "TKVaARJW"
+  "version": "5SoGNzpp"
 };
