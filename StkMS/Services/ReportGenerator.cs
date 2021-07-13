@@ -15,7 +15,7 @@ namespace StkMS.Services
     public class ReportGenerator : IReportGenerator
     {
 
-        public byte[] GenerateInventory(IEnumerable<ProductStock> inventory)
+        public byte[] GenerateInventory(IEnumerable<InventoryDetails> inventory)
         {
             var font = new XFont("Arial", 14, XFontStyle.Regular);
 
@@ -41,7 +41,7 @@ namespace StkMS.Services
 
 
 
-        private static PdfPage CreateInventoryPage(PdfDocument document, XFont font, IEnumerable<ProductStock> batch)
+        private static PdfPage CreateInventoryPage(PdfDocument document, XFont font, IEnumerable<InventoryDetails> batch)
         {
             var page = document.AddPage();
             page.Size = PageSize.A4;
