@@ -112,34 +112,34 @@
 
         var result = await dialogService.OpenAsync("Add or Update product", ds =>
             @<div>
-                 <div class="row">
-                     <div class="form-group">
-                         <RadzenLabel Text="Product Code"></RadzenLabel>
-                         <RadzenTextBox @bind-value="newStock.Product.Code" ReadOnly="@(newStock.Product.Code != "")"></RadzenTextBox>
-                     </div>
-                     <div class="form-group">
-                         <RadzenLabel Text="Product Name"></RadzenLabel>
-                         <RadzenTextBox @bind-value="newStock.Product.Name"></RadzenTextBox>
-                     </div>
-                     <div class="form-group">
-                         <RadzenLabel Text="Unit"></RadzenLabel>
-                         <RadzenTextBox @bind-value="newStock.Product.Unit"></RadzenTextBox>
-                     </div>
-                     <div class="form-group">
-                         <RadzenLabel Text="Unit Price"></RadzenLabel>
-                         <RadzenNumeric TValue="decimal" @bind-value="newStock.Product.UnitPrice"></RadzenNumeric>
-                     </div>
-                     <div class="form-group">
-                         <RadzenLabel Text="Quantity"></RadzenLabel>
-                         <RadzenNumeric TValue="decimal" @bind-value="newStock.Quantity"></RadzenNumeric>
-                     </div>
+                <div class="row">
+                    <div class="form-group">
+                        <RadzenLabel Text="Cod Produs"/>
+                        <RadzenTextBox @bind-value="newStock.Product.Code" ReadOnly="@(newStock.Product.Code != "")"/>
+                    </div>
+                    <div class="form-group">
+                        <RadzenLabel Text="Nume Produs"/>
+                        <RadzenTextBox @bind-value="newStock.Product.Name"/>
+                    </div>
+                    <div class="form-group">
+                        <RadzenLabel Text="Unitate de Masura"/>
+                        <RadzenTextBox @bind-value="newStock.Product.Unit"/>
+                    </div>
+                    <div class="form-group">
+                        <RadzenLabel Text="Pret"/>
+                        <RadzenNumeric TValue="decimal" @bind-value="newStock.Product.UnitPrice"/>
+                    </div>
+                    <div class="form-group">
+                        <RadzenLabel Text="Cantitate"/>
+                        <RadzenNumeric TValue="decimal" @bind-value="newStock.Quantity"/>
+                    </div>
 
-                     <div class="col-md-12">
-                         <RadzenButton Text="Ok" Click="() => ds.Close(true)" Style="margin-bottom: 10px; width: 150px" />
-                         <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Secondary" Style="margin-bottom: 10px; width: 150px" />
-                     </div>
-                 </div>
-            </div>);
+                        <div>
+                            <RadzenButton Text="Ok" Click="() => ds.Close(true)" Style="margin-bottom: 10px; width: 150px"/>
+                            <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Secondary" Style="margin-bottom: 10px; width: 150px"/>
+                        </div>
+                </div>
+            </div>, new Radzen.DialogOptions() { Style = "min-height:auto;min-width:auto;width:400px" });
 
         // result is an object here so I can't use !result
         if (result == false)

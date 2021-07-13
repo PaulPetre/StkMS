@@ -55,11 +55,13 @@ namespace StkMS.Services
             var row = 15;
             foreach (var stock in batch)
             {
-                AddText(page, font, 05, row, 25, 2, stock.Product.Code, XStringFormats.Center);
-                AddText(page, font, 30, row, 35, 2, stock.Product.Name, XStringFormats.Center);
-                AddText(page, font, 65, row, 10, 2, stock.Product.Unit, XStringFormats.Center);
-                AddText(page, font, 75, row, 10, 2, stock.Product.UnitPrice.ToString("C", new CultureInfo("ro-RO")), XStringFormats.Center);
-                AddText(page, font, 85, row, 10, 2, stock.Quantity.ToString("N1"), XStringFormats.CenterRight);
+                AddText(page, font, 05, row, 25, 2, stock.Code, XStringFormats.Center);
+                AddText(page, font, 30, row, 35, 2, stock.Name, XStringFormats.Center);
+                AddText(page, font, 65, row, 10, 2, stock.Unit, XStringFormats.Center);
+                AddText(page, font, 85, row, 10, 2, stock.OldQuantity.ToString("N1"), XStringFormats.CenterRight);
+                AddText(page, font, 85, row, 10, 2, stock.NewQuantity.ToString("N1"), XStringFormats.CenterRight);
+                AddText(page, font, 75, row, 10, 2, stock.OldPrice.ToString("C", new CultureInfo("ro-RO")), XStringFormats.Center);
+                AddText(page, font, 75, row, 10, 2, stock.NewPrice.ToString("C", new CultureInfo("ro-RO")), XStringFormats.Center);
 
                 row += 2;
             }
