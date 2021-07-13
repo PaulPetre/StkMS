@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -27,10 +28,7 @@ namespace StkMS.Library.Services
             }
             catch
             {
-                var cachedResult = cache[ALL_KEY];
-                return cachedResult == null
-                    ? Enumerable.Empty<ProductStock>()
-                    : JsonSerializer.Deserialize<ProductStock[]>(cachedResult) ?? Enumerable.Empty<ProductStock>();
+                return SafeDeserialize(cache[ALL_KEY], Array.Empty<ProductStock>());
             }
         }
 
@@ -44,10 +42,7 @@ namespace StkMS.Library.Services
             }
             catch
             {
-                var cachedResult = cache[ALL_CUSTOMERS_KEY];
-                return cachedResult == null
-                    ? Enumerable.Empty<Customer>()
-                    : JsonSerializer.Deserialize<Customer[]>(cachedResult) ?? Enumerable.Empty<Customer>();
+                return SafeDeserialize(cache[ALL_CUSTOMERS_KEY], Array.Empty<Customer>());
             }
         }
 
@@ -65,10 +60,7 @@ namespace StkMS.Library.Services
             }
             catch
             {
-                var cachedResult = cache[STOCK_KEY + productCode];
-                return cachedResult == null
-                    ? null
-                    : JsonSerializer.Deserialize<ProductStock>(cachedResult) ?? null;
+                return SafeDeserialize<ProductStock?>(cache[STOCK_KEY + productCode], null);
             }
         }
 
@@ -85,10 +77,7 @@ namespace StkMS.Library.Services
             }
             catch
             {
-                var cachedResult = cache[PRODUCT_KEY + productCode];
-                return cachedResult == null
-                    ? null
-                    : JsonSerializer.Deserialize<Product>(cachedResult) ?? null;
+                return SafeDeserialize<Product?>(cache[PRODUCT_KEY + productCode], null);
             }
         }
 
@@ -114,7 +103,7 @@ namespace StkMS.Library.Services
                 cache[PRODUCT_KEY + stock.ProductCode] = JsonSerializer.Serialize(stock.Product);
 
                 var cachedResult = cache[ALL_KEY] ?? "[]";
-                var all = (JsonSerializer.Deserialize<ProductStock[]>(cachedResult) ?? Enumerable.Empty<ProductStock>()).ToList();
+                var all = SafeDeserialize(cachedResult, new List<ProductStock>());
 
                 var existing = all.Where(it => it.ProductCode == stock.ProductCode).FirstOrDefault();
                 if (existing == null)
@@ -145,7 +134,7 @@ namespace StkMS.Library.Services
                 cache[PRODUCT_KEY + stock.ProductCode] = JsonSerializer.Serialize(stock.Product);
 
                 var cachedResult = cache[ALL_KEY] ?? "[]";
-                var all = (JsonSerializer.Deserialize<ProductStock[]>(cachedResult) ?? Enumerable.Empty<ProductStock>()).ToList();
+                var all = SafeDeserialize(cachedResult, new List<ProductStock>());
 
                 var existing = all.Where(it => it.ProductCode == stock.ProductCode).FirstOrDefault();
                 if (existing == null)
@@ -178,6 +167,18 @@ namespace StkMS.Library.Services
 
         private readonly IApiClient decorated;
         private readonly ICache cache;
+
+        private static T SafeDeserialize<T>(string? serialized, T defaultValue)
+        {
+            try
+            {
+                return serialized == null ? defaultValue : JsonSerializer.Deserialize<T>(serialized) ?? defaultValue;
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
 
         private async Task PostFromQueueAsync()
         {
