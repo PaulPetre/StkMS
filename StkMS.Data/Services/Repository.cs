@@ -74,12 +74,25 @@ namespace StkMS.Data.Services
 
         public void UpdateStock(ProductStock stock)
         {
+            if (string.IsNullOrEmpty(stock.ProductCode))
+                throw new Exception("Cannot add a product with an empty code.");
+
             var existing = InternalFindStockByProductCode(stock.ProductCode);
             if (existing != null)
             {
                 existing.Quantity = stock.Quantity;
                 context.Stocks.Update(existing);
                 context.SaveChanges();
+
+                var existingProduct = existing.Product;
+                var newProduct = stock.Product;
+
+                existingProduct.Name = newProduct.Name;
+                existingProduct.Unit = newProduct.Unit;
+                existingProduct.UnitPrice = newProduct.UnitPrice;
+                context.Products.Update(existingProduct);
+                context.SaveChanges();
+
                 return;
             }
 

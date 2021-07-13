@@ -98,7 +98,54 @@
 
     public async Task AddOrUpdateAsync(ProductStock stock)
     {
-        await apiClient.AddOrUpdateAsync(stock).ConfigureAwait(true);
+        var newStock = new ProductStock
+        {
+            Product = new Product
+            {
+                Code = stock.Product.Code,
+                Name = stock.Product.Name,
+                Unit = stock.Product.Unit,
+                UnitPrice = stock.Product.UnitPrice,
+            },
+            Quantity = stock.Quantity,
+        };
+
+        var result = await dialogService.OpenAsync("Add or Update product", ds =>
+            @<div>
+                 <div class="row">
+                     <div class="form-group">
+                         <RadzenLabel Text="Product Code"></RadzenLabel>
+                         <RadzenTextBox @bind-value="newStock.Product.Code" ReadOnly="@(newStock.Product.Code != "")"></RadzenTextBox>
+                     </div>
+                     <div class="form-group">
+                         <RadzenLabel Text="Product Name"></RadzenLabel>
+                         <RadzenTextBox @bind-value="newStock.Product.Name"></RadzenTextBox>
+                     </div>
+                     <div class="form-group">
+                         <RadzenLabel Text="Unit"></RadzenLabel>
+                         <RadzenTextBox @bind-value="newStock.Product.Unit"></RadzenTextBox>
+                     </div>
+                     <div class="form-group">
+                         <RadzenLabel Text="Unit Price"></RadzenLabel>
+                         <RadzenNumeric TValue="decimal" @bind-value="newStock.Product.UnitPrice"></RadzenNumeric>
+                     </div>
+                     <div class="form-group">
+                         <RadzenLabel Text="Quantity"></RadzenLabel>
+                         <RadzenNumeric TValue="decimal" @bind-value="newStock.Quantity"></RadzenNumeric>
+                     </div>
+
+                     <div class="col-md-12">
+                         <RadzenButton Text="Ok" Click="() => ds.Close(true)" Style="margin-bottom: 10px; width: 150px" />
+                         <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Secondary" Style="margin-bottom: 10px; width: 150px" />
+                     </div>
+                 </div>
+            </div>);
+
+        // result is an object here so I can't use !result
+        if (result == false)
+            return;
+
+        await apiClient.AddOrUpdateAsync(newStock).ConfigureAwait(true);
         await LoadDataAsync(new LoadDataArgs()).ConfigureAwait(true);
     }
 
