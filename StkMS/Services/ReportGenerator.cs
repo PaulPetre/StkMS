@@ -15,20 +15,21 @@ namespace StkMS.Services
     public class ReportGenerator : IReportGenerator
     {
 
-        public byte[] GenerateInventory(IEnumerable<InventoryDetails> inventory)
+        public byte[] GenerateInventory(Inventory inventory)
         {
             var font = new XFont("Arial", 14, XFontStyle.Regular);
 
             var document = new PdfDocument { PageLayout = PdfPageLayout.OneColumn };
-
+            
             _ = inventory
+                .Items
                 .GetBatches(20)
                 .Select(batch => CreateInventoryPage(document, font, batch))
                 .ToArray();
 
             return GetDocumentBytes(document);
         }
-
+       
         public byte[] GenerateSaleReport(SaleDetailsViewModel saleDetails)
         {
             var font = new XFont("Arial", 10, XFontStyle.Regular);

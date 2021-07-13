@@ -161,8 +161,8 @@
 
     private async void GenerateInventoryAsync()
     {
-        //var bytes = reportGenerator.GenerateInventory(await apiClient.GetMostRecentInventoryAsync().ConfigureAwait(true));
-        //await jsRuntime.InvokeVoidAsync("BlazorDownloadFile", "report.pdf", "application/octet-stream", bytes).ConfigureAwait(true);
+        var bytes = reportGenerator.GenerateInventory(await apiClient.GetMostRecentInventoryAsync().ConfigureAwait(true));
+        await jsRuntime.InvokeVoidAsync("BlazorDownloadFile", "report.pdf", "application/octet-stream", bytes).ConfigureAwait(true);
     }
 
     private async ValueTask RefreshStockAsync()

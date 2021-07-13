@@ -6,7 +6,7 @@ namespace StkMS.Contracts
 {
     public interface IReportGenerator
     {
-        byte[] GenerateInventory(IEnumerable<InventoryDetails> inventory);
+        byte[] GenerateInventory(Inventory inventory);
         byte[] GenerateSaleReport(SaleDetailsViewModel saleDetails);
     }
 }
