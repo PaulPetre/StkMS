@@ -47,22 +47,26 @@ namespace StkMS.Services
             var page = document.AddPage();
             page.Size = PageSize.A4;
 
-            AddText(page, font, 05, 10, 25, 5, "Code", XStringFormats.Center);
-            AddText(page, font, 30, 10, 35, 5, "Name", XStringFormats.Center);
-            AddText(page, font, 65, 10, 10, 5, "Unit", XStringFormats.Center);
-            AddText(page, font, 75, 10, 10, 5, "Price", XStringFormats.Center);
-            AddText(page, font, 85, 10, 10, 5, "Qty", XStringFormats.Center);
+            AddHeader(page, font);
 
-            var row = 15;
+            AddText(page, font, 03, 15, 18, 5, "Cod Produs", XStringFormats.Center);
+            AddText(page, font, 21, 15, 29, 5, "Nume Produs", XStringFormats.Center);
+            AddText(page, font, 50, 15, 8, 5, "U.M", XStringFormats.Center);
+            AddText(page, font, 58, 15, 10, 5, "StocS", XStringFormats.Center);
+            AddText(page, font, 68, 15, 10, 5, "StocF", XStringFormats.Center);
+            AddText(page, font, 78, 15, 10, 5, "PretV", XStringFormats.Center);
+            AddText(page, font, 88, 15, 10, 5, "PretN", XStringFormats.Center);
+
+            var row = 20;
             foreach (var stock in batch)
             {
-                AddText(page, font, 05, row, 25, 2, stock.Code, XStringFormats.Center);
-                AddText(page, font, 30, row, 35, 2, stock.Name, XStringFormats.Center);
-                AddText(page, font, 65, row, 10, 2, stock.Unit, XStringFormats.Center);
-                AddText(page, font, 85, row, 10, 2, stock.OldQuantity.ToString("N1"), XStringFormats.CenterRight);
-                AddText(page, font, 85, row, 10, 2, stock.NewQuantity.ToString("N1"), XStringFormats.CenterRight);
-                AddText(page, font, 75, row, 10, 2, stock.OldPrice.ToString("C", new CultureInfo("ro-RO")), XStringFormats.Center);
-                AddText(page, font, 75, row, 10, 2, stock.NewPrice.ToString("C", new CultureInfo("ro-RO")), XStringFormats.Center);
+                AddText(page, font, 03, row, 18, 2, stock.Code, XStringFormats.Center);
+                AddText(page, font, 21, row, 29, 2, stock.Name, XStringFormats.Center);
+                AddText(page, font, 50, row, 8, 2, stock.Unit, XStringFormats.Center);
+                AddText(page, font, 58, row, 10, 2, stock.OldQuantity.ToString("N2"), XStringFormats.Center);
+                AddText(page, font, 68, row, 10, 2, stock.NewQuantity.ToString("N2"), XStringFormats.Center);
+                AddText(page, font, 78, row, 10, 2, stock.OldPrice.ToString("N2"), XStringFormats.Center);
+                AddText(page, font, 88, row, 10, 2, stock.NewPrice.ToString("N2"), XStringFormats.Center);
 
                 row += 2;
             }
@@ -104,8 +108,7 @@ namespace StkMS.Services
 
             gfx.DrawRectangle(pen, x0 * xScale, y0 * yScale, w * xScale, h * yScale);
         }
-
-        private static void AddFooter(PdfPage page, XFont font)
+        private static void AddHeader(PdfPage page, XFont font)
         {
             using var gfx = XGraphics.FromPdfPage(page);
 
@@ -113,8 +116,19 @@ namespace StkMS.Services
                 "Produse inventariate",
                 font,
                 XBrushes.Black,
-                new XRect(10, 10, page.Width, page.Height),
+                new XRect(5, 5, page.Width, page.Height),
                 XStringFormats.Center);
+        }
+        private static void AddFooter(PdfPage page, XFont font)
+        {
+            //using var gfx = XGraphics.FromPdfPage(page);
+
+            //gfx.DrawString(
+            //    "Produse inventariate",
+            //    font,
+            //    XBrushes.Black,
+            //    new XRect(10, 10, page.Width, page.Height),
+            //    XStringFormats.Center);
         }
 
         private static byte[] GetDocumentBytes(PdfDocument document)
