@@ -17,7 +17,7 @@
 
 <h1>Listă Produse</h1>
 <RadzenButton Icon="grid_on" style="margin-bottom: 10px" Text="Export în excel" Click="@GenerateExcel" Size="ButtonSize.Medium"/>
-<RadzenButton Icon="add_circle_outline" Text="Adaugă" Click="@AddItem" style="margin-bottom: 10px"/>
+<RadzenButton Icon="add_circle_outline" Text="Adaugă" Click="@(() => AddOrUpdateAsync(new ProductStock { Product = new Product() }))" style="margin-bottom: 10px"/>
 <RadzenTextBox Placeholder="Caută ..." style="display: block; margin-bottom: 10px; width: 100%" Name="Textbox0" @oninput="@Value"/>
 
 <RadzenDataGrid AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="5"
@@ -34,7 +34,7 @@
         <RadzenDataGridColumn TItem="ProductStock" Property="QuantityLabel" Title="Stare" Width="100px"/>
         <RadzenDataGridColumn TItem="ProductStock" Property="Actions" Title="Acțiuni" Width="100px">
             <Template Context="productStock">
-                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="edit" Size="ButtonSize.Small" Click="@Edit"/>
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="edit" Size="ButtonSize.Small" Click="@(() => AddOrUpdateAsync(productStock))"/>
                 <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="close" Size="ButtonSize.Small" Click="@(() => DeleteAsync(productStock.Product))"/>
             </Template>
         </RadzenDataGridColumn>
@@ -78,33 +78,31 @@
         await jsRuntime.SaveAs("Excel-Products.csv", bytes).ConfigureAwait(true);
     }
 
-    async Task Value()
+    public async Task Value()
     {
     //
     }
 
-    async Task Edit()
+    public async Task DeleteAsync(Product product)
     {
-    //
-    }
+        var confirm = await dialogService
+            .Confirm("Are you sure you want to delete " + product.Name + "?", "Delete", new ConfirmOptions { OkButtonText = "Yes", CancelButtonText = "No" })
+            .ConfigureAwait(true);
 
-
-    async Task DeleteAsync(Product product)
-    {
-        var confirm = await jsRuntime.InvokeAsync<bool>("confirm", new[] { "Are you sure you want to delete " + product.Name + "?" }).ConfigureAwait(true);
-        if (!confirm)
+        if (!confirm.GetValueOrDefault())
             return;
 
         await apiClient.DeleteProductAsync(product.Code).ConfigureAwait(true);
         await LoadDataAsync(new LoadDataArgs()).ConfigureAwait(true);
     }
 
-    async Task AddItem()
+    public async Task AddOrUpdateAsync(ProductStock stock)
     {
-    //
+        await apiClient.AddOrUpdateAsync(stock).ConfigureAwait(true);
+        await LoadDataAsync(new LoadDataArgs()).ConfigureAwait(true);
     }
 
-    async Task LoadDataAsync(LoadDataArgs args)
+    public async Task LoadDataAsync(LoadDataArgs args)
     {
         isLoading = true;
         var data = (await apiClient.GetAllAsync().ConfigureAwait(true)).ToArray();
