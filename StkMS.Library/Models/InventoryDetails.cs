@@ -11,11 +11,11 @@
         public decimal OldQuantity { get; }
         public decimal NewQuantity { get; }
 
-        public InventoryDetails(Product product, decimal oldPrice, decimal newPrice, decimal oldQuantity, decimal newQuantity)
+        public InventoryDetails(string code, string name, string unit, decimal oldPrice, decimal newPrice, decimal oldQuantity, decimal newQuantity)
         {
-            Code = product.Code;
-            Name = product.Name;
-            Unit = product.Unit;
+            Code = code;
+            Name = name;
+            Unit = unit;
 
             OldPrice = oldPrice;
             NewPrice = newPrice;

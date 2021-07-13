@@ -85,6 +85,6 @@ namespace StkMS.Data.Services
         };
 
         private static InventoryDetails MapInventoryItemToDomain(InventoryItem item) =>
-            new(MapProductToDomain(item.Product), item.OldPrice, item.NewPrice, item.OldQuantity, item.NewQuantity);
+            new(item.Product.Code, item.Product.Name, item.Product.Unit, item.OldPrice, item.NewPrice, item.OldQuantity, item.NewQuantity);
     }
 }

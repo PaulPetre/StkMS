@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace StkMS.Library.Models
 {
@@ -16,6 +15,5 @@ namespace StkMS.Library.Models
             EndDate = endDate;
             Items = items;
         }
-
     }
 }
