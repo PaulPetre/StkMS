@@ -23,6 +23,7 @@ namespace StkMS.Data.Services
         public IEnumerable<ProductStock> GetStock() => context
             .Stocks
             .Include(it => it.Product)
+            .Where(it => !it.Product.IsDisabled)
             .AsEnumerable()
             .Select(mapper.MapStockToDomain)
             .ToArray()!;
@@ -30,14 +31,14 @@ namespace StkMS.Data.Services
         public ProductStock? FindStockByProductCode(string productCode) => context
             .Stocks
             .Include(it => it.Product)
-            .Where(it => it.Product.Code == productCode)
+            .Where(it => it.Product.Code == productCode && !it.Product.IsDisabled)
             .AsEnumerable()
             .Select(mapper.MapStockToDomain)
             .FirstOrDefault();
 
         public Product? FindProductByCode(string productCode) => context
             .Products
-            .Where(it => it.Code == productCode)
+            .Where(it => it.Code == productCode && !it.IsDisabled)
             .AsEnumerable()
             .Select(mapper.MapProductToDomain)
             .FirstOrDefault();
@@ -96,7 +97,7 @@ namespace StkMS.Data.Services
                 throw new ArgumentNullException(nameof(productSale));
 
             var product = InternalFindProductByCode(productSale.ProductCode);
-            if (product == null)
+            if (product == null || product.IsDisabled)
                 throw new KeyNotFoundException("Could not find the product with the given code.");
 
             var currentSale = GetOrCreateCurrentSale();
@@ -167,6 +168,19 @@ namespace StkMS.Data.Services
             };
             context.InventoryItems.Add(item);
             context.SaveChanges();
+        }
+
+        public int DeleteProduct(string productCode)
+        {
+            var existing = InternalFindProductByCode(productCode);
+            if (existing == null)
+                return 0;
+
+            existing.IsDisabled = true;
+            context.Products.Update(existing);
+            context.SaveChanges();
+
+            return existing.Id;
         }
 
         //

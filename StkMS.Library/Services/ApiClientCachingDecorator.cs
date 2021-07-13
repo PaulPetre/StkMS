@@ -1,10 +1,9 @@
-﻿using StkMS.Library.Contracts;
-using StkMS.Library.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using StkMS.Library.Contracts;
+using StkMS.Library.Models;
 
 namespace StkMS.Library.Services
 {
@@ -92,6 +91,7 @@ namespace StkMS.Library.Services
                     : JsonSerializer.Deserialize<Product>(cachedResult) ?? null;
             }
         }
+
         public ValueTask<Customer> CreateCustomerAsync(Customer customer) => decorated.CreateCustomerAsync(customer);
 
         public ValueTask<Sale?> GetLastCompleteSaleAsync() => decorated.GetLastCompleteSaleAsync();
@@ -164,6 +164,8 @@ namespace StkMS.Library.Services
 
         public Task BeginInventoryAsync() => decorated.BeginInventoryAsync();
         public Task CompleteInventoryAsync() => decorated.CompleteInventoryAsync();
+
+        public Task DeleteProductAsync(string productCode) => decorated.DeleteProductAsync(productCode);
 
         //
 

@@ -116,6 +116,14 @@ namespace StkMS.Library.Services
             }
         }
 
+        public Task DeleteProductAsync(string productCode)
+        {
+            lock (GATE)
+            {
+                return decorated.DeleteProductAsync(productCode);
+            }
+        }
+
         //
 
         private static readonly object GATE = new();

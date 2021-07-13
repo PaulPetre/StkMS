@@ -13,5 +13,7 @@ namespace StkMS.Data.Models
         public string Name { get; set; }
         public string Unit { get; set; }
         public decimal UnitPrice { get; set; }
+
+        public bool IsDisabled { get; set; }
     }
 }

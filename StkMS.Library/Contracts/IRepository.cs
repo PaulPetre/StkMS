@@ -34,5 +34,12 @@ namespace StkMS.Library.Contracts
         /// </summary>
         /// <param name="stock">The new price and quantity.</param>
         void RegisterInventory(ProductStock stock);
+
+        /// <summary>
+        ///     Deletes the product with the given code.
+        /// </summary>
+        /// <param name="productCode">The product code.</param>
+        /// <returns>The Id of the deleted product or 0 if it was not found.</returns>
+        int DeleteProduct(string productCode);
     }
 }

@@ -36,6 +36,7 @@ namespace StkMS.Api.Controllers
 
             return repository.FindProductByCode(productCode);
         }
+
         [HttpPost("~/addOrUpdate")]
         public ProductStock AddOrUpdate([FromBody] ProductStock stock)
         {
@@ -94,6 +95,9 @@ namespace StkMS.Api.Controllers
 
         [HttpPost("~/completeInventory")]
         public int CompleteInventory() => repository.CompleteInventory();
+
+        [HttpPost("~/deleteProduct")]
+        public int DeleteProduct(Product product) => repository.DeleteProduct(product.Code);
 
         //
 

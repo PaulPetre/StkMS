@@ -20,5 +20,7 @@ namespace StkMS.Library.Contracts
         Task CompleteSaleAsync();
         Task BeginInventoryAsync();
         Task CompleteInventoryAsync();
+
+        Task DeleteProductAsync(string productCode);
     }
 }

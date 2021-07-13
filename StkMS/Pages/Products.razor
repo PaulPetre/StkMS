@@ -1,44 +1,43 @@
 ﻿@page "/products"
+
 @using StkMS.Library.Services
 @using Blazored.LocalStorage
 @using StkMS.Contracts
 @using StkMS.Library.Contracts
 @using StkMS.Library.Models
+@using DialogService = Radzen.DialogService
 @using System.Text
 @using System.IO
-@using Microsoft.EntityFrameworkCore
 
 @inject ILocalStorageService localStorage
 @inject IMapper mapper
 @inject IApiClient apiClient
 @inject IJSRuntime jsRuntime
-@inject Radzen.DialogService DialogService
+@inject DialogService dialogService
 
 <h1>Listă Produse</h1>
-<RadzenButton Icon="grid_on" style="margin-bottom: 10px" Text="Export în excel" Click="@GenerateExcel" Size="ButtonSize.Medium" />
-<RadzenButton Icon="add_circle_outline" Text="Adaugă" Click="@AddItem" style="margin-bottom: 10px" />
-<RadzenTextBox Placeholder="Caută ..." style="display: block; margin-bottom: 10px; width: 100%" Name="Textbox0" @oninput="@Value" />
+<RadzenButton Icon="grid_on" style="margin-bottom: 10px" Text="Export în excel" Click="@GenerateExcel" Size="ButtonSize.Medium"/>
+<RadzenButton Icon="add_circle_outline" Text="Adaugă" Click="@AddItem" style="margin-bottom: 10px"/>
+<RadzenTextBox Placeholder="Caută ..." style="display: block; margin-bottom: 10px; width: 100%" Name="Textbox0" @oninput="@Value"/>
 
 <RadzenDataGrid AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="5"
-                IsLoading="@isLoading" Count="@Count" Data="@stockView" LoadData="@LoadData"
+                IsLoading="@isLoading" Count="@count" Data="@stockView" LoadData="@LoadDataAsync"
                 FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterMode="FilterMode.Advanced"
                 TItem="ProductStock"
                 ColumnWidth="200px" AllowColumnResize="true">
     <Columns>
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Code" Filterable="false" Title="Cod Produs" Frozen="true" Width="100px" TextAlign="TextAlign.Center" />
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Name" Title="Nume Produs" />
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Unit" Title="UM" Width="50px" />
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.UnitPrice" Title="Preț" Width="50px" />
-        <RadzenDataGridColumn TItem="ProductStock" Property="Quantity" Title="Cantitate" Width="100px" />
-        <RadzenDataGridColumn TItem="ProductStock" Property="QuantityLabel" Title="Stare" Width="100px" />
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Code" Filterable="false" Title="Cod Produs" Frozen="true" Width="100px" TextAlign="TextAlign.Center"/>
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Name" Title="Nume Produs"/>
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Unit" Title="UM" Width="50px"/>
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.UnitPrice" Title="Preț" Width="50px"/>
+        <RadzenDataGridColumn TItem="ProductStock" Property="Quantity" Title="Cantitate" Width="100px"/>
+        <RadzenDataGridColumn TItem="ProductStock" Property="QuantityLabel" Title="Stare" Width="100px"/>
         <RadzenDataGridColumn TItem="ProductStock" Property="Actions" Title="Acțiuni" Width="100px">
-            <Template Context="ProductStock">
-                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="edit" Size="ButtonSize.Small" Click="@Edit" />
-                <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="close" Size="ButtonSize.Small" Click="@Delete" />
+            <Template Context="productStock">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="edit" Size="ButtonSize.Small" Click="@Edit"/>
+                <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="close" Size="ButtonSize.Small" Click="@(() => DeleteAsync(productStock.Product))"/>
             </Template>
         </RadzenDataGridColumn>
-
-
 
 
     </Columns>
@@ -46,7 +45,7 @@
 
 @code {
     bool isLoading;
-    int Count;
+    int count;
 
     IEnumerable<ProductStock>? stockView;
 
@@ -70,7 +69,6 @@
             sb.Append(",");
             sb.Append(pStock.Quantity);
             sb.AppendLine();
-
         }
 
         await using var ms = new MemoryStream();
@@ -82,32 +80,36 @@
 
     async Task Value()
     {
-        //
+    //
     }
 
     async Task Edit()
     {
-        //
+    //
     }
 
 
-    async Task Delete()
+    async Task DeleteAsync(Product product)
     {
-        //
+        var confirm = await jsRuntime.InvokeAsync<bool>("confirm", new[] { "Are you sure you want to delete " + product.Name + "?" }).ConfigureAwait(true);
+        if (!confirm)
+            return;
+
+        await apiClient.DeleteProductAsync(product.Code).ConfigureAwait(true);
+        await LoadDataAsync(new LoadDataArgs()).ConfigureAwait(true);
     }
 
     async Task AddItem()
     {
-        //
+    //
     }
 
-
-    async Task LoadData(LoadDataArgs args)
+    async Task LoadDataAsync(LoadDataArgs args)
     {
         isLoading = true;
         var data = (await apiClient.GetAllAsync().ConfigureAwait(true)).ToArray();
         stockView = data;
-        Count = data.Length;
+        count = data.Length;
         isLoading = false;
     }
 

@@ -32,6 +32,7 @@ namespace StkMS.Services
 
             return result;
         }
+
         public async Task AddOrUpdateAsync(ProductStock stock)
         {
             var response = await PostAsync("addOrUpdate", stock).ConfigureAwait(false);
@@ -95,6 +96,12 @@ namespace StkMS.Services
         public async Task CompleteInventoryAsync()
         {
             var response = await PostAsync<object>("completeInventory", null!).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task DeleteProductAsync(string productCode)
+        {
+            var response = await PostAsync("deleteProduct", new Product { Code = productCode }).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
         }
 
