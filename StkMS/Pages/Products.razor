@@ -55,7 +55,7 @@
 
         var sb = new StringBuilder();
 
-        sb.AppendLine("Code,Name,Unit,\"Unit Price\",Quantity");
+        sb.AppendLine("Cod,Nume,UM,\"Preț\",Cantitate");
 
         foreach (var pStock in stocks)
         {
@@ -86,7 +86,7 @@
     public async Task DeleteAsync(Product product)
     {
         var confirm = await dialogService
-            .Confirm("Are you sure you want to delete " + product.Name + "?", "Delete", new ConfirmOptions { OkButtonText = "Yes", CancelButtonText = "No" })
+            .Confirm("Ești sigur că vrei să ștergi " + product.Name + "?", "Șterge", new ConfirmOptions { OkButtonText = "Da", CancelButtonText = "Nu" })
             .ConfigureAwait(true);
 
         if (!confirm.GetValueOrDefault())
@@ -110,7 +110,7 @@
             Quantity = stock.Quantity,
         };
 
-        var result = await dialogService.OpenAsync("Add or Update product", ds =>
+        var result = await dialogService.OpenAsync("Adaugă sau actualizează produs", ds =>
             @<div>
                 <div class="row">
                     <div class="form-group">

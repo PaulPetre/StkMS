@@ -111,7 +111,7 @@ namespace StkMS.Services
         private static void AddHeader(PdfPage page, XFont font)
         {
             using var gfx = XGraphics.FromPdfPage(page);
-
+            //de pus deasupra tabelului
             gfx.DrawString(
                 "Produse inventariate",
                 font,

@@ -1,5 +1,6 @@
 ﻿@using StkMS.ViewModels
 @using StkMS.Contracts
+@using System.Globalization;
 
 @inject IReportGenerator reportGenerator
 @inject IJSRuntime jsRuntime
@@ -9,20 +10,21 @@
         <MudText>Bon Nr. @sale.Id din @sale.DateTime.ToString("U")</MudText>
         <MudTable Items="@sale.Items" Hover="true" Breakpoint="Breakpoint.Sm">
             <HeaderContent>
-                <MudTh>Product Code</MudTh>
-                <MudTh>Name</MudTh>
-                <MudTh>Unit</MudTh>
-                <MudTh>Unit Price</MudTh>
-                <MudTh>Quantity</MudTh>
-                <MudTh>Value</MudTh>
+                <MudTh>Cod Produs</MudTh>
+                <MudTh>Nume</MudTh>
+                <MudTh>U.M</MudTh>
+                <MudTh>Preț</MudTh>
+                <MudTh>Cantitate</MudTh>
+                <MudTh>Valoare</MudTh>
+
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="Product Code">@context.Code</MudTd>
-                <MudTd DataLabel="Name">@context.Name</MudTd>
-                <MudTd DataLabel="Unit">@context.Unit</MudTd>
-                <MudTd DataLabel="Unit Price">@context.UnitPrice.ToString("F2")</MudTd>
-                <MudTd DataLabel="Quantity">@context.Quantity.ToString("F2")</MudTd>
-                <MudTd DataLabel="Value">@context.Value.ToString("F2")</MudTd>
+                <MudTd DataLabel="Cod Produs">@context.Code</MudTd>
+                <MudTd DataLabel="Nume">@context.Name</MudTd>
+                <MudTd DataLabel="U.M">@context.Unit</MudTd>
+                <MudTd DataLabel="Preț">@context.UnitPrice.ToString("F2")</MudTd>
+                <MudTd DataLabel="Cantitate">@context.Quantity.ToString("F2")</MudTd>
+                <MudTd DataLabel="Valoare">@context.Value.ToString("F2")</MudTd>
             </RowTemplate>
         </MudTable>
     </DialogContent>
@@ -37,6 +39,7 @@
 
     [Parameter]
     public SaleDetailsViewModel sale { get; set; }
+
 
     void Cancel() => MudDialog.Cancel();
 

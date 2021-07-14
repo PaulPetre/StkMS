@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Shared\EventConsole.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BlazorBarcodeScanner.ZXing.JS" Version="0.2.0" />
     <PackageReference Include="Blazored.FluentValidation" Version="2.0.1" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.1.2" />
@@ -47,6 +51,18 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Shared\EventConsole.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Shared\EventConsole.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Shared\EventConsole.razor" />
   </ItemGroup>
 
 </Project>

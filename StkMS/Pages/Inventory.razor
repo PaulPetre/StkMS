@@ -6,6 +6,7 @@
 @using BlazorBarcodeScanner.ZXing.JS
 @using StkMS.Library.Contracts
 @using System.Threading
+@using StkMS.Shared.
 
 @inject IJSRuntime jsRuntime
 
@@ -90,7 +91,7 @@
         <hr />
     </div>
     <div class="col-xl-6">
-        <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Istoric" Click=@(args => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs /actualizat", Duration = 4000 })) />
+        <EventConsole @ref=@console />
     </div>
 </div>
 
@@ -102,6 +103,8 @@
 
 @code
 {
+    EventConsole console;
+
     private bool inventoryInProgress;
 
     private StockViewModel stockViewModel = new();
@@ -114,7 +117,7 @@
 
         JsInteropClass.BarcodeReceived += LocalReceivedBarcodeTextAsync;
 
-        await ProductScannedAsync("123500234976823456").ConfigureAwait(true);
+        await ProductScannedAsync("").ConfigureAwait(true);
     }
 
     private async void timer_Tick(object? state)

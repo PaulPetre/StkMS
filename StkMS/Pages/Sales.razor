@@ -136,7 +136,7 @@
     {
         var parameters = new DialogParameters { ["sale"] = saleDetails };
 
-        var dialog = DialogService.Show<SaleDialog>("List with added products", parameters);
+        var dialog = DialogService.Show<SaleDialog>("Lista cu produsele adăugate", parameters);
         await dialog.Result.ConfigureAwait(true);
     }
 
