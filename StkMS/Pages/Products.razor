@@ -25,10 +25,10 @@
 <h1>Listă Produse</h1>
 <RadzenButton Icon="grid_on" style="margin-bottom: 10px" Text="Export în excel" Click="@GenerateExcel" Size="ButtonSize.Medium" />
 <RadzenButton Icon="add_circle_outline" Text="Adaugă" Click="@(() => AddOrUpdateAsync(new ProductStock { Product = new Product() }))" style="margin-bottom: 10px" />
-
+<RadzenButton Text="Reset" Click="@Reset" Style="margin-bottom: 20px;" />
 <RadzenAutoComplete Placeholder="Caută..." Style="display: block; margin-bottom: 10px; width: 100%" Data=@stockView TextProperty="Product.Code" Change=@(args => OnSearch(args)) />
 
-<RadzenDataGrid AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="5"
+<RadzenDataGrid @ref="grid" AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="5"
                 IsLoading="@isLoading" Count="@count" Data="@stockView" LoadData="@LoadDataAsync"
                 FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterMode="FilterMode.Advanced"
                 TItem="ProductStock"
@@ -54,10 +54,11 @@
     </Columns>
 </RadzenDataGrid>
 
-@code {bool isLoading;
+@code {
+    bool isLoading;
     int count;
     IEnumerable<ProductStock>? stockView;
-
+    RadzenDataGrid<ProductStock> grid;
     public async Task OnSearch(object value)
     {
         var singleProduct = await apiClient.FindStockAsync(value.ToString()).ConfigureAwait(true);
@@ -73,6 +74,12 @@
             stockView = list.ToArray();
             isLoading = false;
         }
+    }
+
+    async Task Reset()
+    {
+        grid.Reset(true);
+        await grid.FirstPage(true);
     }
 
     public async Task GenerateExcel()
@@ -137,63 +144,63 @@
         };
 
         var result = await dialogService.OpenAsync("Adaugă sau actualizează produs", ds =>
-@<div class="row">
-    <div class="col-md-12">
-        <div class="form-group row">
-            <div class="col-4 col-form-label">
-                <RadzenLabel Text="Cod Produs" />
+    @<div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-4 col-form-label">
+                    <RadzenLabel Text="Cod Produs" />
+                </div>
+                <RadzenTextBox @bind-value="newStock.Product.Code" ReadOnly="@(newStock.Product.Code != "")" />
             </div>
-            <RadzenTextBox @bind-value="newStock.Product.Code" ReadOnly="@(newStock.Product.Code != "")" />
-        </div>
-        <div class="form-group row">
-            <div class="col-4 col-form-label">
-                <RadzenLabel Text="Nume Produs" />
+            <div class="form-group row">
+                <div class="col-4 col-form-label">
+                    <RadzenLabel Text="Nume Produs" />
+                </div>
+                <RadzenTextBox @bind-value="newStock.Product.Name" />
             </div>
-            <RadzenTextBox @bind-value="newStock.Product.Name" />
-        </div>
-        <div class="form-group row">
-            <div class="col-4 col-form-label">
-                <RadzenLabel Text="Unitate de Masura" />
+            <div class="form-group row">
+                <div class="col-4 col-form-label">
+                    <RadzenLabel Text="Unitate de Masura" />
+                </div>
+
+                <RadzenTextBox @bind-value="newStock.Product.Unit" />
+            </div>
+            <div class="form-group row">
+                <div class="col-4 col-form-label">
+                    <RadzenLabel Text="Pret" />
+                </div>
+                <RadzenNumeric TValue="decimal" @bind-value="newStock.Product.UnitPrice" />
+            </div>
+            <div class="form-group row">
+                <div class="col-4 col-form-label">
+                    <RadzenLabel Text="Cantitate" />
+                </div>
+
+                <RadzenNumeric TValue="decimal" @bind-value="newStock.Quantity" />
             </div>
 
-            <RadzenTextBox @bind-value="newStock.Product.Unit" />
-        </div>
-        <div class="form-group row">
-            <div class="col-4 col-form-label">
-                <RadzenLabel Text="Pret" />
+            <div>
+                <RadzenButton Text="Ok" Click="() => ds.Close(true)" Style="margin-bottom: 10px; width: 150px" />
+                <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Secondary" Style="margin-bottom: 10px; width: 150px" />
             </div>
-            <RadzenNumeric TValue="decimal" @bind-value="newStock.Product.UnitPrice" />
         </div>
-        <div class="form-group row">
-            <div class="col-4 col-form-label">
-                <RadzenLabel Text="Cantitate" />
-            </div>
+    </div>, new Radzen.DialogOptions() { Style = "min-height:auto;min-width:auto;width:400px" });
 
-            <RadzenNumeric TValue="decimal" @bind-value="newStock.Quantity" />
-        </div>
+          // result is an object here so I can't use !result
+          if (result == false)
+              return;
 
-        <div>
-            <RadzenButton Text="Ok" Click="() => ds.Close(true)" Style="margin-bottom: 10px; width: 150px" />
-            <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Secondary" Style="margin-bottom: 10px; width: 150px" />
-        </div>
-    </div>
-</div>, new Radzen.DialogOptions() { Style = "min-height:auto;min-width:auto;width:400px" });
+          await apiClient.AddOrUpdateAsync(newStock).ConfigureAwait(true);
+          await LoadDataAsync(new LoadDataArgs()).ConfigureAwait(true);
+      }
 
-  // result is an object here so I can't use !result
-  if (result == false)
-      return;
+      public async Task LoadDataAsync(LoadDataArgs args)
+      {
+          isLoading = true;
+          var data = (await apiClient.GetAllAsync().ConfigureAwait(true)).ToArray();
 
-  await apiClient.AddOrUpdateAsync(newStock).ConfigureAwait(true);
-  await LoadDataAsync(new LoadDataArgs()).ConfigureAwait(true);
-}
-
-public async Task LoadDataAsync(LoadDataArgs args)
-{
-  isLoading = true;
-  var data = (await apiClient.GetAllAsync().ConfigureAwait(true)).ToArray();
-
-  stockView = data;
-  count = data.Length;
-  isLoading = false;
-}
+          stockView = data;
+          count = data.Length;
+          isLoading = false;
+      }
 }

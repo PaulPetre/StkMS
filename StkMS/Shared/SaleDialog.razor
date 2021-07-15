@@ -27,8 +27,9 @@
                 <MudTd DataLabel="Valoare">@context.Value.ToString("F2")</MudTd>
             </RowTemplate>
         </MudTable>
-
-        <label>Total Valoare</label> <label>@sale.TotalValue</label>
+        <MudPaper Class="d-flex flex-row-reverse py-2 px-1" >
+            <MudText > Total Valoare @sale.TotalValue</MudText>
+        </MudPaper>
     </DialogContent>
     <DialogActions>
         <MudButton Color="Color.Secondary" OnClick="GenerateInventoryAsync">Print</MudButton>
