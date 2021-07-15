@@ -9,6 +9,8 @@
 @using System.Text
 @using System.IO
 @using System.Net.Http.Json
+@using System.Collections
+@using System.Runtime.CompilerServices
 
 @attribute [Authorize]
 
@@ -23,9 +25,9 @@
 <h1>Listă Produse</h1>
 <RadzenButton Icon="grid_on" style="margin-bottom: 10px" Text="Export în excel" Click="@GenerateExcel" Size="ButtonSize.Medium" />
 <RadzenButton Icon="add_circle_outline" Text="Adaugă" Click="@(() => AddOrUpdateAsync(new ProductStock { Product = new Product() }))" style="margin-bottom: 10px" />
-@*<RadzenTextBox Placeholder="Caută ..." Data=@stockView TextProperty="Product.Code" Style="display: block; margin-bottom: 10px; width: 100%" Name="Textbox0" @oninput="@Value"/>*@
 
-<RadzenAutoComplete Placeholder="Caută..." Style="display: block; margin-bottom: 10px; width: 100%" Name="Textbox0" />
+<RadzenAutoComplete Placeholder="Caută..." Style="display: block; margin-bottom: 10px; width: 100%" Data=@stockView TextProperty="Product.Code" Change=@(args => OnSearch(args)) />
+
 <RadzenDataGrid AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="5"
                 IsLoading="@isLoading" Count="@count" Data="@stockView" LoadData="@LoadDataAsync"
                 FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterMode="FilterMode.Advanced"
@@ -52,10 +54,26 @@
     </Columns>
 </RadzenDataGrid>
 
-@code {
-    bool isLoading;
+@code {bool isLoading;
     int count;
     IEnumerable<ProductStock>? stockView;
+
+    public async Task OnSearch(object value)
+    {
+        var singleProduct = await apiClient.FindStockAsync(value.ToString()).ConfigureAwait(true);
+
+        if (singleProduct == null)
+        {
+            await LoadDataAsync(new LoadDataArgs()).ConfigureAwait(true);
+        }
+        else
+        {
+            var list = new List<ProductStock?> { singleProduct };
+            isLoading = true;
+            stockView = list.ToArray();
+            isLoading = false;
+        }
+    }
 
     public async Task GenerateExcel()
     {
@@ -119,47 +137,47 @@
         };
 
         var result = await dialogService.OpenAsync("Adaugă sau actualizează produs", ds =>
-    @<div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-4 col-form-label">
-                    <RadzenLabel Text="Cod Produs" />
-                </div>
-                <RadzenTextBox @bind-value="newStock.Product.Code" ReadOnly="@(newStock.Product.Code != "")" />
+@<div class="row">
+    <div class="col-md-12">
+        <div class="form-group row">
+            <div class="col-4 col-form-label">
+                <RadzenLabel Text="Cod Produs" />
             </div>
-            <div class="form-group row">
-                <div class="col-4 col-form-label">
-                    <RadzenLabel Text="Nume Produs" />
-                </div>
-                <RadzenTextBox @bind-value="newStock.Product.Name" />
-            </div>
-            <div class="form-group row">
-                <div class="col-4 col-form-label">
-                    <RadzenLabel Text="Unitate de Masura" />
-                </div>
-
-                <RadzenTextBox @bind-value="newStock.Product.Unit" />
-            </div>
-            <div class="form-group row">
-                <div class="col-4 col-form-label">
-                    <RadzenLabel Text="Pret" />
-                </div>
-                <RadzenNumeric TValue="decimal" @bind-value="newStock.Product.UnitPrice" />
-            </div>
-            <div class="form-group row">
-                <div class="col-4 col-form-label">
-                    <RadzenLabel Text="Cantitate" />
-                </div>
-
-                <RadzenNumeric TValue="decimal" @bind-value="newStock.Quantity" />
-            </div>
-
-            <div>
-                <RadzenButton Text="Ok" Click="() => ds.Close(true)" Style="margin-bottom: 10px; width: 150px" />
-                <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Secondary" Style="margin-bottom: 10px; width: 150px" />
-            </div>
+            <RadzenTextBox @bind-value="newStock.Product.Code" ReadOnly="@(newStock.Product.Code != "")" />
         </div>
-    </div>, new Radzen.DialogOptions() { Style = "min-height:auto;min-width:auto;width:400px" });
+        <div class="form-group row">
+            <div class="col-4 col-form-label">
+                <RadzenLabel Text="Nume Produs" />
+            </div>
+            <RadzenTextBox @bind-value="newStock.Product.Name" />
+        </div>
+        <div class="form-group row">
+            <div class="col-4 col-form-label">
+                <RadzenLabel Text="Unitate de Masura" />
+            </div>
+
+            <RadzenTextBox @bind-value="newStock.Product.Unit" />
+        </div>
+        <div class="form-group row">
+            <div class="col-4 col-form-label">
+                <RadzenLabel Text="Pret" />
+            </div>
+            <RadzenNumeric TValue="decimal" @bind-value="newStock.Product.UnitPrice" />
+        </div>
+        <div class="form-group row">
+            <div class="col-4 col-form-label">
+                <RadzenLabel Text="Cantitate" />
+            </div>
+
+            <RadzenNumeric TValue="decimal" @bind-value="newStock.Quantity" />
+        </div>
+
+        <div>
+            <RadzenButton Text="Ok" Click="() => ds.Close(true)" Style="margin-bottom: 10px; width: 150px" />
+            <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Secondary" Style="margin-bottom: 10px; width: 150px" />
+        </div>
+    </div>
+</div>, new Radzen.DialogOptions() { Style = "min-height:auto;min-width:auto;width:400px" });
 
   // result is an object here so I can't use !result
   if (result == false)
@@ -173,6 +191,7 @@ public async Task LoadDataAsync(LoadDataArgs args)
 {
   isLoading = true;
   var data = (await apiClient.GetAllAsync().ConfigureAwait(true)).ToArray();
+
   stockView = data;
   count = data.Length;
   isLoading = false;
