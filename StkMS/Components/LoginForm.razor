@@ -1,5 +1,4 @@
 ﻿@namespace StkMS.Components
-@*@inject NavigationManager NavigationManager*@
 
 <EditForm Model="_model" OnValidSubmit="LoginUserAsync">
     <DataAnnotationsValidator />
@@ -28,7 +27,7 @@
     </MudCardContent>
 
     <MudCardActions>
-        <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-1" Disabled="_isBusy" Size="Size.Large" FullWidth="true" OnClick="RedirectToHome">Conectează-te</MudButton>
+        <MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-1" Disabled="_isBusy" Size="Size.Large" FullWidth="true">Conectează-te</MudButton>
 
         @*<MudButton ButtonType="MudBlazor.ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Disabled="_isBusy">Login</MudButton>*@
         @*<MudButton Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-1" Disabled="_isBusy" OnClick="RedirectToRegister">Create Account</MudButton>*@
@@ -56,11 +55,5 @@
             PasswordInput = InputType.Text;
         }
     }
-    //private void RedirectToHome()
-    //{
-    //    if (_model.Email != null && _model.Password != null)
-    //    {
-    //        Navigation.NavigateTo("/");
-    //    }
-    //}
+    
 }

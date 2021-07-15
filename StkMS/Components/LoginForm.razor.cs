@@ -60,12 +60,6 @@ namespace StkMS.Components
             Navigation.NavigateTo("Register");
         }
 
-        private void RedirectToHome()
-        {
-            if (_model.Email != null && _model.Password != null)
-            {
-                Navigation.NavigateTo("/StkMS");
-            }
-        }
+      
     }
 }

@@ -24,14 +24,13 @@ namespace StkMS
             builder.RootComponents.Add<App>("#app");
 
             //Authentication
-            builder.Services
-                .AddHttpClient(
-                    "PlannerApp.Api",
-                    client => { client.BaseAddress = new Uri("https://plannerapp-api.azurewebsites.net"); })
-                .AddHttpMessageHandler<AuthorizationMessageHandler>();
+            builder.Services.AddHttpClient("PlannerApp.Api",client => 
+            { 
+                client.BaseAddress = new Uri("https://plannerapp-api.azurewebsites.net"); 
+            }).AddHttpMessageHandler<AuthorizationMessageHandler>();
             builder.Services.AddTransient<AuthorizationMessageHandler>();
 
-            builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("PlannerApp.Api"));
+            builder.Services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient("PlannerApp.Api"));
             builder.Services.AddAuthorizationCore();
             builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
             builder.Services.AddHttpClientServices();

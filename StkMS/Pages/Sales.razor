@@ -6,6 +6,8 @@
 @using BlazorBarcodeScanner.ZXing.JS
 @using ButtonType = MudBlazor.ButtonType
 
+@attribute [Authorize]
+
 @inject IApiClient apiClient
 @inject IMapper mapper
 @inject IDialogService DialogService
@@ -18,13 +20,13 @@
                                              ShowReset="false"
                                              ShowVideoDeviceList="false"
                                              VideoWidth="300"
-                                             VideoHeigth="200"/>
+                                             VideoHeigth="200" />
 
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-lg-4 col-xl-2">
         <EditForm Model="@saleViewModel" OnValidSubmit="@AddSaleAsync">
-            <DataAnnotationsValidator/>
-            <ValidationSummary/>
+            <DataAnnotationsValidator />
+            <ValidationSummary />
 
             <div class="form-group">
                 <label for="productCode">Cod Produs</label>
@@ -98,7 +100,7 @@
 
         StateHasChanged();
 
-    // TODO: focus the quantity field
+        // TODO: focus the quantity field
     }
 
     private async Task LookUpProductAsync()
