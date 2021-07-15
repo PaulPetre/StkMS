@@ -27,6 +27,8 @@
                 <MudTd DataLabel="Valoare">@context.Value.ToString("F2")</MudTd>
             </RowTemplate>
         </MudTable>
+
+        <label>Total Valoare</label> <label>@sale.TotalValue</label>
     </DialogContent>
     <DialogActions>
         <MudButton Color="Color.Secondary" OnClick="GenerateInventoryAsync">Print</MudButton>
@@ -34,8 +36,7 @@
     </DialogActions>
 </MudDialog>
 @code
-{
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+{ [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
     [Parameter]
     public SaleDetailsViewModel sale { get; set; }
@@ -47,5 +48,4 @@
     {
         var bytes = reportGenerator.GenerateSaleReport(sale);
         await jsRuntime.InvokeVoidAsync("BlazorDownloadFile", $"sale{sale.Id}.pdf", "application/octet-stream", bytes).ConfigureAwait(true);
-    }
-}
+    } }
