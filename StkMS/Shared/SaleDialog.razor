@@ -7,7 +7,7 @@
 
 <MudDialog>
     <DialogContent>
-        <MudText>Bon Nr. @sale.Id din @sale.DateTime.ToString("U")</MudText>
+        <MudText>Bon Nr. @sale.Id din @sale.FormatDateTime.ToString()</MudText>
         <MudTable Items="@sale.Items" Hover="true" Breakpoint="Breakpoint.Sm">
             <HeaderContent>
                 <MudTh>Cod Produs</MudTh>
