@@ -25,7 +25,7 @@
 <h1>Listă Produse</h1>
 <RadzenButton Icon="grid_on" style="margin-bottom: 10px" Text="Export în excel" Click="@GenerateExcel" Size="ButtonSize.Medium" />
 <RadzenButton Icon="add_circle_outline" Text="Adaugă" Click="@(() => AddOrUpdateAsync(new ProductStock { Product = new Product() }))" style="margin-bottom: 10px" />
-<RadzenButton Text="Reset" Click="@Reset" Style="margin-bottom: 20px;" />
+<RadzenButton Text="Reset" Click="@Reset" Style="margin-bottom: 10px;" />
 <RadzenAutoComplete Placeholder="Caută..." Style="display: block; margin-bottom: 10px; width: 100%" Data=@stockView TextProperty="Product.Code" Change=@(args => OnSearch(args)) />
 
 <RadzenDataGrid @ref="grid" AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="5"
