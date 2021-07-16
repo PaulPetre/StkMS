@@ -82,6 +82,8 @@ namespace StkMS.Services
             XFont font3 = new XFont("Arial", 10);
             XFont font4 = new XFont("Arial", 8);
 
+            AddHeader(page, font);
+
             AddText(page, font, 05, 10, 25, 5, $"Bon Nr. {saleDetails.Id} din {saleDetails.FormatDateTime}", XStringFormats.Center);
 
             AddText(page, font, 05, 27, 20, 3, "Cod Produs", XStringFormats.Center);
@@ -100,11 +102,8 @@ namespace StkMS.Services
             AddText(page, font3, 60, 69, 35, 3, $"{saleDetails.TotalValue}           ", XStringFormats.CenterRight);
             // rect semnatura primire
             AddText(page, font2 , 60, 69, 35, 8, "  Semnatura de primire", XStringFormats.CenterLeft);
-            //rect semnatura stanga
-            
-            AddText(page, font4, 05, 68, 25, 8, "Valabil fara semnatura si stampila \n conform L227/2015, \n Art.319(29)", XStringFormats.Center);
-            AddText(page, font4, 05, 69, 25, 8, "conform L227/2015,", XStringFormats.Center);
-
+           
+            AddFooter(page, font4);
 
             var row = 30;
             foreach (var item in saleDetails.Items)
@@ -136,23 +135,26 @@ namespace StkMS.Services
         {
             using var gfx = XGraphics.FromPdfPage(page);
             //de pus deasupra tabelului
-            gfx.DrawString(
-                "Produse inventariate",
-                font,
-                XBrushes.Black,
-                new XRect(5, 5, page.Width, page.Height),
-                XStringFormats.Center);
+            gfx.DrawString("FACTURA", font, XBrushes.Black, new XRect(5, 5, page.Width, page.Height), XStringFormats.Center);
         }
         private static void AddFooter(PdfPage page, XFont font)
         {
-            //using var gfx = XGraphics.FromPdfPage(page);
+            using var gfx = XGraphics.FromPdfPage(page);
 
-            //gfx.DrawString(
-            //    "Produse inventariate",
-            //    font,
-            //    XBrushes.Black,
-            //    new XRect(10, 10, page.Width, page.Height),
-            //    XStringFormats.Center);
+            //footer partea stanga
+            gfx.DrawString("Valabil fara", font, XBrushes.Black, new XRect(45, 181, page.Width, page.Height), XStringFormats.CenterLeft);
+            gfx.DrawString("semnatura si stampila", font, XBrushes.Black, new XRect(40, 189, page.Width, page.Height), XStringFormats.CenterLeft);
+            gfx.DrawString("conform L227/2015,", font, XBrushes.Black, new XRect(42, 198, page.Width, page.Height), XStringFormats.CenterLeft);
+            gfx.DrawString("Art.319(29)", font, XBrushes.Black, new XRect(45, 206 , page.Width, page.Height), XStringFormats.CenterLeft);
+
+            //footer mijloc
+            gfx.DrawString("Date privind expeditia:", font, XBrushes.Black, new XRect(130, 173, page.Width, page.Height), XStringFormats.CenterLeft);
+            gfx.DrawString("Numele delegatului:", font, XBrushes.Black, new XRect(130, 181, page.Width, page.Height), XStringFormats.CenterLeft);
+            gfx.DrawString("BI/CI : seria: nr. eliberat(a)", font, XBrushes.Black, new XRect(130, 189, page.Width, page.Height), XStringFormats.CenterLeft);
+            gfx.DrawString("Mijlocul de transport:", font, XBrushes.Black, new XRect(130, 198, page.Width, page.Height), XStringFormats.CenterLeft);
+            gfx.DrawString("Expedierea s-a facut in prezenta noastra", font, XBrushes.Black, new XRect(130, 207, page.Width, page.Height), XStringFormats.CenterLeft);
+            gfx.DrawString("la data de", font, XBrushes.Black, new XRect(130, 215, page.Width, page.Height), XStringFormats.CenterLeft);
+
         }
 
         private static byte[] GetDocumentBytes(PdfDocument document)
