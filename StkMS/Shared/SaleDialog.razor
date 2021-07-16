@@ -23,7 +23,7 @@
                 <MudTd DataLabel="Nume">@context.Name</MudTd>
                 <MudTd DataLabel="U.M">@context.Unit</MudTd>
                 <MudTd DataLabel="Preț">@context.UnitPrice.ToString("F2")</MudTd>
-                <MudTd DataLabel="Cantitate">@context.Quantity.ToString("F2")</MudTd>
+                <MudTd DataLabel="Cantitate">@context.Quantity.ToString("0.##")</MudTd>
                 <MudTd DataLabel="Valoare">@context.Value.ToString("F2")</MudTd>
             </RowTemplate>
         </MudTable>

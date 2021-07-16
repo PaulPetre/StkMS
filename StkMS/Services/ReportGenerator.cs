@@ -81,7 +81,7 @@ namespace StkMS.Services
             var page = document.AddPage();
             page.Size = PageSize.A4;
 
-            AddText(page, font, 05, 10, 25, 5, $"Bon Nr. {saleDetails.Id} din {saleDetails.DateTime:U}", XStringFormats.Center);
+            AddText(page, font, 05, 10, 25, 5, $"Bon Nr. {saleDetails.Id} din {saleDetails.FormatDateTime}", XStringFormats.Center);
 
             var row = 20;
             foreach (var item in saleDetails.Items)

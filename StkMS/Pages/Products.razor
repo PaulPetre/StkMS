@@ -23,10 +23,11 @@
 @inject DialogService dialogService
 
 <h1>Listă Produse</h1>
-<RadzenButton Icon="grid_on" style="margin-bottom: 10px" Text="Export în excel" Click="@GenerateExcel" Size="ButtonSize.Medium" />
-<RadzenButton Icon="add_circle_outline" Text="Adaugă" Click="@(() => AddOrUpdateAsync(new ProductStock { Product = new Product() }))" style="margin-bottom: 10px" />
-<RadzenButton Text="Reset" Click="@Reset" Style="margin-bottom: 10px;" />
-<RadzenAutoComplete Placeholder="Caută..." Style="display: block; margin-bottom: 10px; width: 100%" Data=@stockView TextProperty="Product.Code" Change=@(args => OnSearch(args)) />
+<RadzenButton Icon="grid_on" Style="margin-bottom: 10px" Text="Export în excel" Click="@GenerateExcel" Size="ButtonSize.Medium" />
+<RadzenButton Icon="add_circle_outline" Text="Adaugă" Click="@(() => AddOrUpdateAsync(new ProductStock { Product = new Product() }))" Style="margin-bottom: 10px" />
+<br />
+<RadzenAutoComplete Placeholder="Caută..." Style="display: block; margin-bottom: 10px; width: 90%" Data=@stockView TextProperty="Product.Code" Change=@(args => OnSearch(args)) />
+<RadzenButton Text="Resetare" Click="@Reset" Style="margin-bottom: 12px;" />
 
 <RadzenDataGrid @ref="grid" AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="5"
                 IsLoading="@isLoading" Count="@count" Data="@stockView" LoadData="@LoadDataAsync"
@@ -45,7 +46,7 @@
         <RadzenDataGridColumn TItem="ProductStock" Property="Product.UnitPrice" Title="Preț" Width="50px" />
         <RadzenDataGridColumn TItem="ProductStock" Property="Quantity" Title="Cantitate" Width="100px" />
         <RadzenDataGridColumn TItem="ProductStock" Property="QuantityLabel" Title="Stare" Width="100px" />
-        <RadzenDataGridColumn TItem="ProductStock" Property="Actions" Title="Acțiuni" Width="100px">
+        <RadzenDataGridColumn TItem="ProductStock" Property="Actions" Title="Acțiuni" Width="50px">
             <Template Context="productStock">
                 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="edit" Size="ButtonSize.Small" Click="@(() => AddOrUpdateAsync(productStock))" />
                 <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="close" Size="ButtonSize.Small" Click="@(() => DeleteAsync(productStock.Product))" />
@@ -186,21 +187,21 @@
         </div>
     </div>, new Radzen.DialogOptions() { Style = "min-height:auto;min-width:auto;width:400px" });
 
-          // result is an object here so I can't use !result
-          if (result == false)
-              return;
+  // result is an object here so I can't use !result
+  if (result == false)
+      return;
 
-          await apiClient.AddOrUpdateAsync(newStock).ConfigureAwait(true);
-          await LoadDataAsync(new LoadDataArgs()).ConfigureAwait(true);
-      }
+  await apiClient.AddOrUpdateAsync(newStock).ConfigureAwait(true);
+  await LoadDataAsync(new LoadDataArgs()).ConfigureAwait(true);
+}
 
-      public async Task LoadDataAsync(LoadDataArgs args)
-      {
-          isLoading = true;
-          var data = (await apiClient.GetAllAsync().ConfigureAwait(true)).ToArray();
+public async Task LoadDataAsync(LoadDataArgs args)
+{
+  isLoading = true;
+  var data = (await apiClient.GetAllAsync().ConfigureAwait(true)).ToArray();
 
-          stockView = data;
-          count = data.Length;
-          isLoading = false;
-      }
+  stockView = data;
+  count = data.Length;
+  isLoading = false;
+}
 }
