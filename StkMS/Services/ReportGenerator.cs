@@ -34,7 +34,6 @@ namespace StkMS.Services
         public byte[] GenerateSaleReport(SaleDetailsViewModel saleDetails)
         {
             var font = new XFont("Arial", 10, XFontStyle.Regular);
-            var font2 = new XFont("Arial", 9, XFontStyle.Regular);
             var document = new PdfDocument { PageLayout = PdfPageLayout.OneColumn };
             CreateSalePage(document, font, saleDetails);
 
@@ -81,8 +80,12 @@ namespace StkMS.Services
             XFont font2 = new XFont("Arial", 9);
             XFont font3 = new XFont("Arial", 10);
             XFont font4 = new XFont("Arial", 8);
+            XFont font5 = new XFont("Arial", 30);
+
 
             AddHeader(page, font);
+            AddHeader2(page, font2, saleDetails);
+            AddHeader3(page, font3, saleDetails);
 
             AddText(page, font, 05, 10, 25, 5, $"Bon Nr. {saleDetails.Id} din {saleDetails.FormatDateTime}", XStringFormats.Center);
 
@@ -94,7 +97,6 @@ namespace StkMS.Services
             AddText(page, font, 85, 27, 10, 3, "Valoare", XStringFormats.Center);
             // rect mare
             AddText(page, font, 05, 27, 90, 50, "", XStringFormats.Center);
-            
             // rect mare de jos stanga
             AddText(page, font, 05, 69, 55, 8, "", XStringFormats.Center);
             // rect pentru total
@@ -133,10 +135,27 @@ namespace StkMS.Services
         }
         private static void AddHeader(PdfPage page, XFont font)
         {
+            XFont font5 = new XFont("Arial", 30);
             using var gfx = XGraphics.FromPdfPage(page);
-            //de pus deasupra tabelului
-            gfx.DrawString("FACTURA", font, XBrushes.Black, new XRect(5, 5, page.Width, page.Height), XStringFormats.Center);
+            //header mijloc
+            gfx.DrawString("FACTURA", font5, XBrushes.Black, new XRect(05,40, page.Width, page.Height), XStringFormats.TopCenter);
+
         }
+        private static void AddHeader2(PdfPage page, XFont font, SaleDetailsViewModel saleDetails)
+        {
+            using var gfx = XGraphics.FromPdfPage(page);
+            //header mijloc
+            gfx.DrawString($"Nr. facturii {saleDetails.Id}", font, XBrushes.Black, new XRect(01, 80, page.Width, page.Height), XStringFormats.TopCenter);
+            gfx.DrawString($"Data: {saleDetails.FormatDateTime}", font, XBrushes.Black, new XRect(01, 88, page.Width, page.Height), XStringFormats.TopCenter);
+
+        }
+        private static void AddHeader3(PdfPage page, XFont font, SaleDetailsViewModel saleDetails)
+        {
+            using var gfx = XGraphics.FromPdfPage(page);
+            //header mijloc
+            gfx.DrawString("Furnizor: StkMS", font, XBrushes.Black, new XRect(05, 30, page.Width, page.Height), XStringFormats.TopLeft);
+        }
+
         private static void AddFooter(PdfPage page, XFont font)
         {
             using var gfx = XGraphics.FromPdfPage(page);
