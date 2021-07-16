@@ -53,7 +53,7 @@ namespace StkMS.Services
             return await response.Content.ReadFromJsonAsync<Product?>().ConfigureAwait(false);
         }
 
-        public async ValueTask<Customer> CreateCustomerAsync(Customer customer) => throw new NotImplementedException();
+        public ValueTask<Customer> CreateCustomerAsync(Customer customer) => throw new NotImplementedException();
 
         public async ValueTask<Sale?> GetLastCompleteSaleAsync()
         {

@@ -2,9 +2,10 @@
 
 @using Blazored.LocalStorage
 @using StkMS.Contracts
+@using StkMS.Library.Contracts
 @using StkMS.ViewModels
 @using BlazorBarcodeScanner.ZXing.JS
-@using StkMS.Library.Contracts
+@using ButtonType = Radzen.ButtonType
 @using System.Threading
 
 @*@attribute [Authorize]*@
@@ -80,10 +81,13 @@
                     <label for="productQuantity">Cantitate</label>
                     <InputNumber id="productQuantity" @bind-Value="stockViewModel.Quantity" class="form-control" />
                 </div>
-
+                
+                <div class="text-left">
+                    <RadzenSwitch @bind-Value=@isConsoleVisible Style="margin-bottom: 20px" Change="ToggleConsoleAsync"/>
+                </div>
 
                 <div class="text-right">
-                    <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Adaugă" Disabled="@(!inventoryInProgress)" Click=@(args => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs adăugat/actualizat", Duration = 4000 })) />
+                    <RadzenButton ButtonType="ButtonType.Submit" Text="Adaugă" Disabled="@(!inventoryInProgress)" Click=@(args => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs adăugat/actualizat", Duration = 4000 }))/>
 
                     @*<button type="submit" class="btn btn-primary" @onclick="@(() => ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Produs added/updated" }))">Add/Update</button>*@
                 </div>
@@ -92,7 +96,9 @@
         <hr />
     </div>
     <div class="col-xl-6">
-        @*<EventConsole @ref=@console />*@
+        <div id="consolePanel" style="display: none;">
+            <EventConsole @ref="@console"/>
+        </div>
     </div>
 </div>
 
@@ -104,7 +110,8 @@
 
 @code
 {
-    //EventConsole console;
+    bool isConsoleVisible;
+    EventConsole console = new();
 
     private bool inventoryInProgress;
 
@@ -148,6 +155,13 @@
 
     private async Task ProductScannedAsync(string productCode)
     {
+        if (string.IsNullOrEmpty(productCode))
+        {
+            stockViewModel = new StockViewModel();
+            StateHasChanged();
+            return;
+        }
+
         var product = await apiClient.FindStockAsync(productCode).ConfigureAwait(true);
         stockViewModel = product == null ? new StockViewModel { Code = productCode } : mapper.MapToStockViewModel(product);
     }
@@ -157,10 +171,11 @@
         await ProductScannedAsync(stockViewModel.Code).ConfigureAwait(true);
     }
 
-    private void AddOrUpdateProduct()
+    private async void AddOrUpdateProduct()
     {
         var stock = mapper.MapToDomain(stockViewModel!);
-        apiClient.RegisterInventoryAsync(stock);
+        await apiClient.RegisterInventoryAsync(stock).ConfigureAwait(true);
+        console.Log($"{stock.Product.Name}, {stock.Quantity}");
     }
 
     private async void GenerateInventoryAsync()
@@ -181,5 +196,10 @@
     void ShowNotification(NotificationMessage message)
     {
         notificationService.Notify(message);
+    }
+
+    private async void ToggleConsoleAsync()
+    {
+        await jsRuntime.InvokeVoidAsync("toggleConsoleDiv").ConfigureAwait(true);
     }
 }

@@ -62,7 +62,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Shared\EventConsole.razor" />
+    <None Include="Components\EventConsole.razor" />
   </ItemGroup>
 
 </Project>

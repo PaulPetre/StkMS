@@ -44,3 +44,11 @@ function base64DecToArr(sBase64, nBlocksSize) {
     }
     return taBytes;
 }
+
+function scrollToBottom(ref) {
+    ref.scrollTop = ref.scrollHeight;
+}
+
+function toggleConsoleDiv() {
+    $("#consolePanel").toggle();
+}
