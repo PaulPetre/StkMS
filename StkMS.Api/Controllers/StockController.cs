@@ -50,6 +50,27 @@ namespace StkMS.Api.Controllers
         [HttpGet("~/getCustomers")]
         public IEnumerable<Customer> GetAllCustomers() => repository.GetAllCustomers();
 
+        [HttpGet("~/findCostumer/{CUI?}")]
+        public Product? FindCostumer(string? CUI)
+        {
+            if (CUI is null)
+                throw new ArgumentNullException(nameof(CUI));
+
+            return repository.FindCostumerByCUI(CUI);
+        }
+
+        [HttpPost("~/addOrUpdateCostumer")]
+        public ProductStock AddOrUpdateCostumer([FromBody] ProductStock stock)
+        {
+            if (stock is null)
+                throw new ArgumentNullException(nameof(stock));
+
+            repository.UpdateStock(stock);
+            return stock;
+        }
+        [HttpPost("~/deleteCostumer")]
+        public int DeleteCostumer(Product product) => repository.DeleteProduct(product.Code);
+
         [HttpGet("~/getLastCompleteSale")]
         public Sale? GetLastCompleteSale() => repository.GetLastCompleteSale();
 
