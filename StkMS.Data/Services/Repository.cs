@@ -204,6 +204,52 @@ namespace StkMS.Data.Services
                 .Select(mapper.MapCustomers)
                 .FirstOrDefault();
 
+        public void UpdateCustomer(Customer customer)
+        {
+            if (string.IsNullOrEmpty(customer.CUI))
+                throw new Exception("Cannot add a customer with an empty cui.");
+
+            var existing = InternalFindCustomerByCUI(customer.CUI);
+            if (existing != null)
+            {
+                // existing.Quantity = stock.Quantity;
+                // context.Stocks.Update(existing);
+                // context.SaveChanges();
+                //
+                // var existingProduct = existing.Product;
+                // var newProduct = stock.Product;
+                //
+                // existingProduct.Name = newProduct.Name;
+                // existingProduct.Unit = newProduct.Unit;
+                // existingProduct.UnitPrice = newProduct.UnitPrice;
+                // context.Products.Update(existingProduct);
+                // context.SaveChanges();
+
+                return;
+            }
+
+            // var product = InternalFindProductByCode(stock.ProductCode) ?? mapper.MapProductToData(stock.Product);
+            // context.Products.Update(product);
+            // context.SaveChanges();
+            //
+            // context.Stocks.Add(mapper.MapStockToData(stock, product.Id));
+            context.SaveChanges();
+        }
+
+        public int DeleteCustomer(string customerCui)
+        {
+            var existing = InternalFindCustomerByCUI(customerCui);
+            if (existing == null)
+                return 0;
+
+            //  existing.IsDisabled = true;
+            context.Customers.Update(existing);
+            context.SaveChanges();
+
+            return existing.CustomerId;
+        }
+
+
         //
 
         private readonly IStkMSContext context;
@@ -215,6 +261,11 @@ namespace StkMS.Data.Services
             .Where(it => it.Product.Code == productCode)
             .FirstOrDefault();
 
+        private Customers? InternalFindCustomerByCUI(string customerCui)
+        {
+            var dd = context.Customers.Where(it => it.CUI == customerCui).FirstOrDefault();
+            return dd;
+        }
         private Models.Product? InternalFindProductByCode(string productCode) => context
             .Products
             .Where(it => it.Code == productCode)

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using StkMS.Library.Contracts;
+﻿using StkMS.Library.Contracts;
 using StkMS.Library.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace StkMS.Library.Services
 {
@@ -33,6 +33,14 @@ namespace StkMS.Library.Services
             lock (GATE)
             {
                 return decorated.FindStockAsync(productCode);
+            }
+        }
+
+        public ValueTask<ProductStock?> FindCustomerAsync(string cui)
+        {
+            lock (GATE)
+            {
+                return decorated.FindCustomerAsync(cui);
             }
         }
 
@@ -73,6 +81,14 @@ namespace StkMS.Library.Services
             lock (GATE)
             {
                 return decorated.AddOrUpdateAsync(stock);
+            }
+        }
+
+        public Task AddOrUpdateCustomerAsync(Customer customer)
+        {
+            lock (GATE)
+            {
+                return decorated.AddOrUpdateCustomerAsync(customer);
             }
         }
 
@@ -121,6 +137,14 @@ namespace StkMS.Library.Services
             lock (GATE)
             {
                 return decorated.DeleteProductAsync(productCode);
+            }
+        }
+
+        public Task DeleteCustomerAsync(string customerCui)
+        {
+            lock (GATE)
+            {
+                return decorated.DeleteCustomerAsync(customerCui);
             }
         }
 

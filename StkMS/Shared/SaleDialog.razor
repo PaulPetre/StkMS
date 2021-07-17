@@ -1,12 +1,21 @@
 ﻿@using StkMS.ViewModels
 @using StkMS.Contracts
 @using System.Globalization;
+@using System.Threading
+@using StkMS.Library.Contracts
+@using StkMS.Library.Models
 
 @inject IReportGenerator reportGenerator
 @inject IJSRuntime jsRuntime
-
+@inject IApiClient apiClient
 <MudDialog>
     <DialogContent>
+        <div class="col-xl-6 mb-5">
+            <h3>Binding to simple collection</h3>
+            <RadzenDropDown AllowClear="true" TValue="string" Style="width: 300px"
+                            Data=@(customers.Select(c => c.Name).Distinct())
+                            Change=@(args => OnChange(args, "DropDown")) />
+        </div>
         <MudText>Bon Nr. @sale.Id din @sale.FormatDateTime.ToString()</MudText>
         <MudTable Items="@sale.Items" Hover="true" Breakpoint="Breakpoint.Sm">
             <HeaderContent>
@@ -27,21 +36,29 @@
                 <MudTd DataLabel="Valoare">@context.Value.ToString("F2")</MudTd>
             </RowTemplate>
         </MudTable>
-        <MudPaper Class="d-flex flex-row-reverse py-2 px-1" >
-            <MudText > Total Valoare @sale.TotalValue</MudText>
+        <MudPaper Class="d-flex flex-row-reverse py-2 px-1">
+            <MudText> Total Valoare @sale.TotalValue</MudText>
         </MudPaper>
     </DialogContent>
     <DialogActions>
         <MudButton Color="Color.Secondary" OnClick="GenerateInventoryAsync">Print</MudButton>
         <MudButton Color="Color.Primary" OnClick="Cancel">Ok</MudButton>
     </DialogActions>
+
 </MudDialog>
 @code
 { [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    IEnumerable<Customer> customers;
 
     [Parameter]
     public SaleDetailsViewModel sale { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync().ConfigureAwait(true);
+
+        customers = await apiClient.GetAllCustomerAsync().ConfigureAwait(true);
+    }
 
     void Cancel() => MudDialog.Cancel();
 
@@ -49,4 +66,11 @@
     {
         var bytes = reportGenerator.GenerateSaleReport(sale);
         await jsRuntime.InvokeVoidAsync("BlazorDownloadFile", $"sale{sale.Id}.pdf", "application/octet-stream", bytes).ConfigureAwait(true);
+    }
+
+    void OnChange(object value, string name)
+    {
+        var valueSelected = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
+
+        var dd = valueSelected;
     } }

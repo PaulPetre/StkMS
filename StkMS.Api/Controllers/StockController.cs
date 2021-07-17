@@ -60,16 +60,16 @@ namespace StkMS.Api.Controllers
         }
 
         [HttpPost("~/addOrUpdateCostumer")]
-        public ProductStock AddOrUpdateCostumer([FromBody] ProductStock stock)
+        public Customer AddOrUpdateCostumer([FromBody] Customer customer)
         {
-            if (stock is null)
-                throw new ArgumentNullException(nameof(stock));
+            if (customer is null)
+                throw new ArgumentNullException(nameof(customer));
 
-            repository.UpdateStock(stock);
-            return stock;
+            repository.UpdateCustomer(customer);
+            return customer;
         }
         [HttpPost("~/deleteCostumer")]
-        public int DeleteCostumer(Product product) => repository.DeleteProduct(product.Code);
+        public int DeleteCostumer(Customer customer) => repository.DeleteCustomer(customer.CUI);
 
         [HttpGet("~/getLastCompleteSale")]
         public Sale? GetLastCompleteSale() => repository.GetLastCompleteSale();

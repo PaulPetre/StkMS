@@ -39,6 +39,12 @@ namespace StkMS.Services
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task AddOrUpdateCustomerAsync(Customer customer)
+        {
+            var response = await PostAsync("addOrUpdateCostumer", customer).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+        }
+
         public async ValueTask<ProductStock?> FindStockAsync(string productCode)
         {
             var response = await GetAsync("findStock/" + productCode).ConfigureAwait(false);
@@ -105,6 +111,17 @@ namespace StkMS.Services
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task DeleteCustomerAsync(string customerCui)
+        {
+            var response = await PostAsync("deleteCostumer", new Customer { CUI = customerCui }).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();//todo: implementeaza deleteCustomer
+        }
+
+        public ValueTask<ProductStock?> FindCustomerAsync(string cui)
+        {
+            throw new NotImplementedException(); //todo si asta de implementat
+        }
+
         //
 
         private static readonly HttpClient HTTP = new();
@@ -112,5 +129,7 @@ namespace StkMS.Services
         private static Task<HttpResponseMessage> GetAsync(string method) => HTTP.GetAsync(Constants.API_BASE_URL + "/" + method);
 
         private static Task<HttpResponseMessage> PostAsync<T>(string method, T value) => HTTP.PostAsJsonAsync(Constants.API_BASE_URL + "/" + method, value);
+
+
     }
 }

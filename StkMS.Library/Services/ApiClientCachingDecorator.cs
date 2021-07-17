@@ -1,10 +1,10 @@
-﻿using System;
+﻿using StkMS.Library.Contracts;
+using StkMS.Library.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using StkMS.Library.Contracts;
-using StkMS.Library.Models;
 
 namespace StkMS.Library.Services
 {
@@ -61,6 +61,23 @@ namespace StkMS.Library.Services
             catch
             {
                 return SafeDeserialize<ProductStock?>(cache[STOCK_KEY + productCode], null);
+            }
+        }
+
+        public async ValueTask<ProductStock?> FindCustomerAsync(string cui)
+        {
+            try
+            {
+                await PostFromQueueCustomersAsync().ConfigureAwait(false);
+
+                var result = await decorated.FindStockAsync(cui).ConfigureAwait(false);
+                if (result != null)
+                    cache[STOCK_KEY + cui] = JsonSerializer.Serialize(result);
+                return result;
+            }
+            catch
+            {
+                return SafeDeserialize<ProductStock?>(cache[STOCK_KEY + cui], null);
             }
         }
 
@@ -156,14 +173,47 @@ namespace StkMS.Library.Services
 
         public Task DeleteProductAsync(string productCode) => decorated.DeleteProductAsync(productCode);
 
+        public async Task AddOrUpdateCustomerAsync(Customer customer)
+        {
+            try
+            {
+                await decorated.AddOrUpdateCustomerAsync(customer).ConfigureAwait(false);
+                await FindStockAsync(customer.CUI).ConfigureAwait(false);
+
+                await PostFromQueueCustomersAsync().ConfigureAwait(false);
+
+                await GetAllCustomerAsync().ConfigureAwait(false);
+            }
+            catch
+            {
+                cache[CUSTOMER_KEY + customer.CUI] = JsonSerializer.Serialize(customer.CUI);
+
+                var cachedResult = cache[ALL_KEY] ?? "[]";
+                var all = SafeDeserialize(cachedResult, new List<Customer>());
+
+                var existing = all.Where(it => it.CUI == customer.CUI).FirstOrDefault();
+                if (existing == null)
+                    all.Add(customer);
+                // else 
+                // existing.CopyFrom(customer);
+
+                cache[ALL_KEY] = JsonSerializer.Serialize(all);
+
+                queueCustomers.Enqueue(customer);
+            }
+        }
+
+        public Task DeleteCustomerAsync(string customerCui) => decorated.DeleteCustomerAsync(customerCui);
         //
 
         private const string ALL_CUSTOMERS_KEY = "CUSTOMERS";
         private const string ALL_KEY = "ALL";
         private const string STOCK_KEY = "STOCK:";
         private const string PRODUCT_KEY = "PRODUCT:";
+        private const string CUSTOMER_KEY = "CUSTOMER:";
 
         private readonly Queue<ProductStock> queue = new();
+        private readonly Queue<Customer> queueCustomers = new();
 
         private readonly IApiClient decorated;
         private readonly ICache cache;
@@ -193,6 +243,24 @@ namespace StkMS.Library.Services
                 catch
                 {
                     queue.Enqueue(item);
+                    break;
+                }
+            }
+        }
+
+        private async Task PostFromQueueCustomersAsync()
+        {
+            while (queueCustomers.Any())
+            {
+                var item = queueCustomers.Dequeue();
+                try
+                {
+                    //  await decorated.RegisterInventoryAsync(item).ConfigureAwait(false);
+                    await FindStockAsync(item.CUI).ConfigureAwait(false);
+                }
+                catch
+                {
+                    queueCustomers.Enqueue(item);
                     break;
                 }
             }

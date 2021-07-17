@@ -43,5 +43,7 @@ namespace StkMS.Library.Contracts
         int DeleteProduct(string productCode);
 
         Customer? FindCostumerByCUI(string cui);
+        void UpdateCustomer(Customer customer);
+        int DeleteCustomer(string customerCui);
     }
 }

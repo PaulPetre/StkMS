@@ -15,6 +15,7 @@ namespace StkMS.Library.Contracts
         ValueTask<Inventory?> GetMostRecentInventoryAsync();
 
         Task AddOrUpdateAsync(ProductStock stock);
+        Task AddOrUpdateCustomerAsync(Customer customer);
         Task RegisterInventoryAsync(ProductStock stock);
         Task SellProductAsync(ProductSale productSale);
         Task CompleteSaleAsync();
@@ -22,5 +23,7 @@ namespace StkMS.Library.Contracts
         Task CompleteInventoryAsync();
 
         Task DeleteProductAsync(string productCode);
+        Task DeleteCustomerAsync(string customerCui);
+        ValueTask<ProductStock?> FindCustomerAsync(string cui);
     }
 }
