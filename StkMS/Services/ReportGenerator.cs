@@ -25,7 +25,7 @@ namespace StkMS.Services
             _ = inventory
                 .Items
                 .GetBatches(20)
-                .Select(batch => CreateInventoryPage(document, font, batch))
+                .Select(batch => CreateInventoryPage(document, font, batch, inventory))
                 .ToArray();
 
             return GetDocumentBytes(document);
@@ -39,22 +39,25 @@ namespace StkMS.Services
 
             return GetDocumentBytes(document);
         }
-        private static PdfPage CreateInventoryPage(PdfDocument document, XFont font, IEnumerable<InventoryDetails> batch)
+        private static PdfPage CreateInventoryPage(PdfDocument document, XFont font, IEnumerable<InventoryDetails> batch, Inventory inventory)
         {
             var page = document.AddPage();
             page.Size = PageSize.A4;
+            var font2 = new XFont("Arial", 10, XFontStyle.Regular);
 
-            AddHeader(page, font);
+            AddReportHeader(page, font);
+            AddReportHeader2(page, font2);
+            AddReportHeader3(page, font2, inventory);
 
-            AddText(page, font, 03, 15, 18, 5, "Cod Produs", XStringFormats.Center);
-            AddText(page, font, 21, 15, 29, 5, "Nume Produs", XStringFormats.Center);
-            AddText(page, font, 50, 15, 8, 5, "U.M", XStringFormats.Center);
-            AddText(page, font, 58, 15, 10, 5, "StocS", XStringFormats.Center);
-            AddText(page, font, 68, 15, 10, 5, "StocF", XStringFormats.Center);
-            AddText(page, font, 78, 15, 10, 5, "PretV", XStringFormats.Center);
-            AddText(page, font, 88, 15, 10, 5, "PretN", XStringFormats.Center);
+            AddText(page, font, 03, 20, 18, 5, "Cod Produs", XStringFormats.Center);
+            AddText(page, font, 21, 20, 29, 5, "Nume Produs", XStringFormats.Center);
+            AddText(page, font, 50, 20, 8, 5, "U.M", XStringFormats.Center);
+            AddText(page, font, 58, 20, 10, 5, "StocS", XStringFormats.Center);
+            AddText(page, font, 68, 20, 10, 5, "StocF", XStringFormats.Center);
+            AddText(page, font, 78, 20, 10, 5, "PretV", XStringFormats.Center);
+            AddText(page, font, 88, 20, 10, 5, "PretN", XStringFormats.Center);
 
-            var row = 20;
+            var row = 25;
             foreach (var stock in batch)
             {
                 AddText(page, font, 03, row, 18, 2, stock.Code, XStringFormats.Center);
@@ -68,8 +71,6 @@ namespace StkMS.Services
                 row += 2;
             }
 
-            AddFooter(page, font);
-
             return page;
         }
 
@@ -82,12 +83,12 @@ namespace StkMS.Services
             XFont font4 = new XFont("Arial", 8);
             XFont font6 = new XFont("Arial", 9, XFontStyle.Bold);
 
-            AddHeader(page, font);
-            AddHeader2(page, font2, saleDetails);
-            AddHeader3(page, font2);
-            AddHeader4(page, font6);
-            AddHeader5(page, font2);
-            AddHeader6(page, font2);
+            AddInvoiceHeader(page, font);
+            AddInvoiceHeader2(page, font2, saleDetails);
+            AddInvoiceHeader3(page, font2);
+            AddInvoiceHeader4(page, font6);
+            AddInvoiceHeader5(page, font2);
+            AddInvoiceHeader6(page, font2);
 
             AddText(page, font, 05, 27, 20, 3, "Cod Produs", XStringFormats.Center);
             AddText(page, font, 25, 27, 30, 3, "Nume Produs", XStringFormats.Center);
@@ -105,7 +106,7 @@ namespace StkMS.Services
             // rect semnatura primire
             AddText(page, font2 , 60, 69, 35, 8, "  Semnatura de primire", XStringFormats.CenterLeft);
            
-            AddFooter(page, font4);
+            AddInvoiceFooter(page, font4);
 
             var row = 30;
             foreach (var item in saleDetails.Items)
@@ -133,7 +134,30 @@ namespace StkMS.Services
 
             gfx.DrawRectangle(pen, x0 * xScale, y0 * yScale, w * xScale, h * yScale);
         }
-        private static void AddHeader(PdfPage page, XFont font)
+
+        private static void AddReportHeader(PdfPage page, XFont font)
+        {
+            XFont font5 = new XFont("Arial", 20, XFontStyle.Bold);
+            using var gfx = XGraphics.FromPdfPage(page);
+            //header mijloc
+            gfx.DrawString("Lista de inventariere", font5, XBrushes.Black, new XRect(05, 40, page.Width, page.Height), XStringFormats.TopCenter);
+
+        }
+        private static void AddReportHeader2(PdfPage page, XFont font)
+        {
+            using var gfx = XGraphics.FromPdfPage(page);
+            //header mijloc
+            gfx.DrawString("Inventar inceput la:", font, XBrushes.Black, new XRect(29, 100, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("Inventar finalizat la:", font, XBrushes.Black, new XRect(29, 114, page.Width, page.Height), XStringFormats.TopLeft);
+        }
+        private static void AddReportHeader3(PdfPage page, XFont font, Inventory inventory)
+        {
+            using var gfx = XGraphics.FromPdfPage(page);
+            //header mijloc
+            gfx.DrawString($"{inventory.StartDate}", font, XBrushes.Black, new XRect(120, 100, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString($"{inventory.EndDate}", font, XBrushes.Black, new XRect(120, 114, page.Width, page.Height), XStringFormats.TopLeft);
+        }
+        private static void AddInvoiceHeader(PdfPage page, XFont font)
         {
             XFont font5 = new XFont("Arial", 30, XFontStyle.Bold);
             using var gfx = XGraphics.FromPdfPage(page);
@@ -141,7 +165,7 @@ namespace StkMS.Services
             gfx.DrawString("FACTURA", font5, XBrushes.Black, new XRect(05,40, page.Width, page.Height), XStringFormats.TopCenter);
 
         }
-        private static void AddHeader2(PdfPage page, XFont font, SaleDetailsViewModel saleDetails)
+        private static void AddInvoiceHeader2(PdfPage page, XFont font, SaleDetailsViewModel saleDetails)
         {
             using var gfx = XGraphics.FromPdfPage(page);
             //header mijloc
@@ -149,7 +173,7 @@ namespace StkMS.Services
             gfx.DrawString($"Data: {saleDetails.FormatDateTime}", font, XBrushes.Black, new XRect(01, 88, page.Width, page.Height), XStringFormats.TopCenter);
 
         }
-        private static void AddHeader3(PdfPage page, XFont font)
+        private static void AddInvoiceHeader3(PdfPage page, XFont font)
         {
             using var gfx = XGraphics.FromPdfPage(page);
             //header mijloc
@@ -162,7 +186,7 @@ namespace StkMS.Services
             gfx.DrawString("Email:", font, XBrushes.Black, new XRect(29, 146, page.Width, page.Height), XStringFormats.TopLeft);
 
         }
-        private static void AddHeader4(PdfPage page, XFont font)
+        private static void AddInvoiceHeader4(PdfPage page, XFont font)
         {
             using var gfx = XGraphics.FromPdfPage(page);
             XFont font6 = new XFont("Arial", 9, XFontStyle.Bold);
@@ -176,8 +200,7 @@ namespace StkMS.Services
             gfx.DrawString("www.gestoc@gmail.com", font6, XBrushes.Black, new XRect(90, 146, page.Width, page.Height), XStringFormats.TopLeft);
 
         }
-
-        private static void AddHeader5(PdfPage page, XFont font)
+        private static void AddInvoiceHeader5(PdfPage page, XFont font)
         {
             using var gfx = XGraphics.FromPdfPage(page);
             //header mijloc
@@ -188,8 +211,7 @@ namespace StkMS.Services
             gfx.DrawString("Oras:", font, XBrushes.Black, new XRect(400, 124, page.Width, page.Height), XStringFormats.TopLeft);
             gfx.DrawString("Cont:", font, XBrushes.Black, new XRect(400, 135, page.Width, page.Height), XStringFormats.TopLeft);
         }
-
-        private static void AddHeader6(PdfPage page, XFont font)
+        private static void AddInvoiceHeader6(PdfPage page, XFont font)
         {
             using var gfx = XGraphics.FromPdfPage(page);
             //header mijloc
@@ -200,7 +222,7 @@ namespace StkMS.Services
             gfx.DrawString("Targoviste", font, XBrushes.Black, new XRect(450, 124, page.Width, page.Height), XStringFormats.TopLeft);
             gfx.DrawString("", font, XBrushes.Black, new XRect(450, 135, page.Width, page.Height), XStringFormats.TopLeft);
         }
-        private static void AddFooter(PdfPage page, XFont font)
+        private static void AddInvoiceFooter(PdfPage page, XFont font)
         {
             using var gfx = XGraphics.FromPdfPage(page);
 
@@ -219,7 +241,6 @@ namespace StkMS.Services
             gfx.DrawString("la data de", font, XBrushes.Black, new XRect(130, 215, page.Width, page.Height), XStringFormats.CenterLeft);
 
         }
-
         private static byte[] GetDocumentBytes(PdfDocument document)
         {
             using var ms = new MemoryStream();
