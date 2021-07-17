@@ -481,11 +481,11 @@
       "url": "_framework\/StkMS.Client.Services.dll"
     },
     {
-      "hash": "sha256-X+AdPhR37irzAgKx6nxBmjJB2F11bpqvXxHoOHWHqYU=",
+      "hash": "sha256-Cu2MMy22lc1cGJnuVcogAHVHW3eP9t2FJVmLyQ6ese0=",
       "url": "_framework\/StkMS.Data.dll"
     },
     {
-      "hash": "sha256-Hbb5xRh7FYv+X7njsLbeonhOMBoEAd6ob92tmONJNA4=",
+      "hash": "sha256-UZsTaijvVjQhlBYsqLKwriPrtYDytYslhVgOeTMz4vA=",
       "url": "_framework\/StkMS.Library.dll"
     },
     {
@@ -493,7 +493,7 @@
       "url": "_framework\/StkMS.Shared.dll"
     },
     {
-      "hash": "sha256-SxeVPworEcE03mPZKpkNqkI79V08zu7mrM7GpgmfKcU=",
+      "hash": "sha256-iP2RtmgDlz1GOWflQukuFfQQv1DlfkK5K9a53chfbeU=",
       "url": "_framework\/StkMS.dll"
     },
     {
@@ -733,7 +733,7 @@
       "url": "_framework\/de\/PdfSharpCore.resources.dll"
     },
     {
-      "hash": "sha256-V9g5zi71unv6H8d1e8loSadbPuft2L7Ln6owwpJLLDs=",
+      "hash": "sha256-npFClmJQ5wao6pN908QYDKSB8ImBR6KjPdtFAEUOc3I=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -741,5 +741,5 @@
       "url": "_framework\/blazor.webassembly.js"
     }
   ],
-  "version": "EA5utxu7"
+  "version": "SXS0wf7W"
 };
