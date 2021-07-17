@@ -15,17 +15,18 @@
         </RadzenHeading>
         <div class="row">
             <div class="col-md-12">
-                <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Adaugă" Click="@Button0Click" />
+                <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Adaugă" />
 
-                <RadzenTextBox Placeholder="Caută ..." style="display: block; margin-bottom: 10px; width: 100%" Name="Textbox0" @oninput="@Value" />
-                <RadzenGrid @ref="grid0" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Count="@count" Data="customers" LoadData="@LoadData" FilterMode="FilterMode.Advanced" TItem="Customer">
+                <RadzenTextBox Placeholder="Caută ..." style="display: block; margin-bottom: 10px; width: 100%" Name="Textbox0" />
+                <RadzenGrid AllowFiltering="true" AllowPaging="true" AllowSorting="true" IsLoading="@isLoading" Count="@count" Data="customers" LoadData="@LoadData" FilterMode="FilterMode.Advanced" TItem="Customer">
                     <Columns>
-                        <RadzenGridColumn TItem="Customer" Property="CustomerId" Title="Customer Id" Visible="false" />
+                        <RadzenGridColumn TItem="Customer" Property="CustomerId" Title="Id" Visible="false" />
                         <RadzenGridColumn TItem="Customer" Property="Name" Title="Nume" />
-                        @* de schimbat numele coloanei description punand CUI *@
-                        <RadzenGridColumn TItem="Customer" Property="Description" Title="CUI" />
+                        <RadzenGridColumn TItem="Customer" Property="CUI" Title="CUI" />
                         <RadzenGridColumn TItem="Customer" Property="Address" Title="Adresă" />
                         <RadzenGridColumn TItem="Customer" Property="City" Title="Oraș" />
+                        <RadzenGridColumn TItem="Customer" Property="Phone" Title="Telefon" />
+                        <RadzenGridColumn TItem="Customer" Property="Email" Title="Email" />
                     </Columns>
                 </RadzenGrid>
             </div>
@@ -35,26 +36,14 @@
 
 
 @code { int count;
-
-    protected RadzenGrid<Customer> grid0;
+    bool isLoading;
     IEnumerable<Customer> customers;
 
     async Task LoadData(LoadDataArgs args)
     {
+        isLoading = true;
         var data = (await apiClient.GetAllCustomerAsync().ConfigureAwait(true)).ToArray();
         customers = data;
         count = data.Length;
-    }
-
-    async Task Value()
-    {
-        //
-    }
-
-    protected async Task Button0Click(MouseEventArgs args)
-    {
-        var dialogResult = await dialogService.OpenAsync<AddCustomer>("Add Customer", null);
-        await grid0.Reload();
-
-        await InvokeAsync(() => { StateHasChanged(); });
+        isLoading = false;
     } }

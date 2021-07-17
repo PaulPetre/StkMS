@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StkMS.Library.Contracts;
 using StkMS.Library.Models;
+using System;
+using System.Collections.Generic;
 
 namespace StkMS.Api.Controllers
 {
@@ -50,13 +50,13 @@ namespace StkMS.Api.Controllers
         [HttpGet("~/getCustomers")]
         public IEnumerable<Customer> GetAllCustomers() => repository.GetAllCustomers();
 
-        [HttpGet("~/findCostumer/{CUI?}")]
-        public Product? FindCostumer(string? CUI)
+        [HttpGet("~/findCostumer/{cui}")]
+        public Customer? FindCostumer(string cui)
         {
-            if (CUI is null)
-                throw new ArgumentNullException(nameof(CUI));
+            if (cui is null)
+                throw new ArgumentNullException(nameof(cui));
 
-            return repository.FindCostumerByCUI(CUI);
+            return repository.FindCostumerByCUI(cui);
         }
 
         [HttpPost("~/addOrUpdateCostumer")]

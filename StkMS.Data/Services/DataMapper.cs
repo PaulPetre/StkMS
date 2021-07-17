@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using StkMS.Data.Contracts;
+﻿using StkMS.Data.Contracts;
 using StkMS.Data.Models;
 using StkMS.Library.Models;
+using System.Linq;
 using Inventory = StkMS.Library.Models.Inventory;
 using Product = StkMS.Library.Models.Product;
 using Sale = StkMS.Library.Models.Sale;
@@ -54,16 +54,16 @@ namespace StkMS.Data.Services
             Quantity = productSale.Quantity,
         };
 
-        public Customer MapCustomers(Customers model) => model == null
-            ? null
-            : new Customer
-            {
-                CustomerId = model.CustomerId,
-                Name = model.Name,
-                Address = model.Address,
-                Description = model.Description,
-                City = model.City,
-            };
+        public Customer MapCustomers(Customers model) => new()
+        {
+            CustomerId = model.CustomerId,
+            Name = model.Name,
+            Address = model.Address,
+            CUI = model.CUI,
+            City = model.City,
+            Phone = model.Phone,
+            Email = model.Email,
+        };
 
         //
 

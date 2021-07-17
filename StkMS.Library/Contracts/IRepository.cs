@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using StkMS.Library.Models;
+﻿using StkMS.Library.Models;
+using System.Collections.Generic;
 
 namespace StkMS.Library.Contracts
 {
@@ -41,5 +41,7 @@ namespace StkMS.Library.Contracts
         /// <param name="productCode">The product code.</param>
         /// <returns>The Id of the deleted product or 0 if it was not found.</returns>
         int DeleteProduct(string productCode);
+
+        Customer? FindCostumerByCUI(string cui);
     }
 }

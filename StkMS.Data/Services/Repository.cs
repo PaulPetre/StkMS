@@ -47,7 +47,7 @@ namespace StkMS.Data.Services
             .Customers
             .AsEnumerable()
             .Select(mapper.MapCustomers)
-            .ToArray();
+            .ToArray()!;
 
         public Sale? GetLastCompleteSale()
         {
@@ -195,6 +195,14 @@ namespace StkMS.Data.Services
 
             return existing.Id;
         }
+
+        public Customer? FindCostumerByCUI(string cui) =>
+            context
+                .Customers
+                .Where(it => it.CUI == cui)
+                .AsEnumerable()
+                .Select(mapper.MapCustomers)
+                .FirstOrDefault();
 
         //
 
