@@ -80,14 +80,14 @@ namespace StkMS.Services
             XFont font2 = new XFont("Arial", 9);
             XFont font3 = new XFont("Arial", 10);
             XFont font4 = new XFont("Arial", 8);
-            XFont font5 = new XFont("Arial", 30);
-
+            XFont font6 = new XFont("Arial", 9, XFontStyle.Bold);
 
             AddHeader(page, font);
             AddHeader2(page, font2, saleDetails);
-            AddHeader3(page, font3, saleDetails);
-
-            AddText(page, font, 05, 10, 25, 5, $"Bon Nr. {saleDetails.Id} din {saleDetails.FormatDateTime}", XStringFormats.Center);
+            AddHeader3(page, font2);
+            AddHeader4(page, font6);
+            AddHeader5(page, font2);
+            AddHeader6(page, font2);
 
             AddText(page, font, 05, 27, 20, 3, "Cod Produs", XStringFormats.Center);
             AddText(page, font, 25, 27, 30, 3, "Nume Produs", XStringFormats.Center);
@@ -113,7 +113,7 @@ namespace StkMS.Services
                 AddText(page, font, 05, row, 20, 2, item.Code, XStringFormats.Center);
                 AddText(page, font, 25, row, 30, 2, item.Name, XStringFormats.Center);
                 AddText(page, font, 55, row, 10, 2, item.Unit, XStringFormats.Center);
-                AddText(page, font, 65, row, 10, 2, item.UnitPrice.ToString(), XStringFormats.Center);
+                AddText(page, font, 65, row, 10, 2, item.UnitPrice.ToString("N2"), XStringFormats.Center);
                 AddText(page, font, 75, row, 10, 2, item.Quantity.ToString("0.##"), XStringFormats.Center);
                 AddText(page, font, 85, row, 10, 2, item.Value.ToString("N2"), XStringFormats.Center);
 
@@ -135,7 +135,7 @@ namespace StkMS.Services
         }
         private static void AddHeader(PdfPage page, XFont font)
         {
-            XFont font5 = new XFont("Arial", 30);
+            XFont font5 = new XFont("Arial", 30, XFontStyle.Bold);
             using var gfx = XGraphics.FromPdfPage(page);
             //header mijloc
             gfx.DrawString("FACTURA", font5, XBrushes.Black, new XRect(05,40, page.Width, page.Height), XStringFormats.TopCenter);
@@ -149,13 +149,57 @@ namespace StkMS.Services
             gfx.DrawString($"Data: {saleDetails.FormatDateTime}", font, XBrushes.Black, new XRect(01, 88, page.Width, page.Height), XStringFormats.TopCenter);
 
         }
-        private static void AddHeader3(PdfPage page, XFont font, SaleDetailsViewModel saleDetails)
+        private static void AddHeader3(PdfPage page, XFont font)
         {
             using var gfx = XGraphics.FromPdfPage(page);
             //header mijloc
-            gfx.DrawString("Furnizor: StkMS", font, XBrushes.Black, new XRect(05, 30, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("Furnizor:", font, XBrushes.Black, new XRect(29, 80, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("Capital social:", font, XBrushes.Black, new XRect(29, 91, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("CUI:", font, XBrushes.Black, new XRect(29, 102, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("Adresa:", font, XBrushes.Black, new XRect(29, 113, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("Cont:", font, XBrushes.Black, new XRect(29, 124, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("Telefon:", font, XBrushes.Black, new XRect(29, 135, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("Email:", font, XBrushes.Black, new XRect(29, 146, page.Width, page.Height), XStringFormats.TopLeft);
+
+        }
+        private static void AddHeader4(PdfPage page, XFont font)
+        {
+            using var gfx = XGraphics.FromPdfPage(page);
+            XFont font6 = new XFont("Arial", 9, XFontStyle.Bold);
+            //header stanga
+            gfx.DrawString("S.C. GeSTOC S.R.L", font6, XBrushes.Black, new XRect(90, 80, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("435034", font6, XBrushes.Black, new XRect(90, 91, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("234123", font6, XBrushes.Black, new XRect(90, 102, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("Merilor, nr.2, Targoviste", font6, XBrushes.Black, new XRect(90, 113, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("RO73RDZG0000000563455", font6, XBrushes.Black, new XRect(90, 124, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("0723233233", font6, XBrushes.Black, new XRect(90, 135, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("www.gestoc@gmail.com", font6, XBrushes.Black, new XRect(90, 146, page.Width, page.Height), XStringFormats.TopLeft);
+
         }
 
+        private static void AddHeader5(PdfPage page, XFont font)
+        {
+            using var gfx = XGraphics.FromPdfPage(page);
+            //header mijloc
+            gfx.DrawString("Client:", font, XBrushes.Black, new XRect(400, 80, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("Nr. inregistrare:", font, XBrushes.Black, new XRect(400, 91, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("CUI:", font, XBrushes.Black, new XRect(400, 102, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("Adresa:", font, XBrushes.Black, new XRect(400, 113, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("Oras:", font, XBrushes.Black, new XRect(400, 124, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("Cont:", font, XBrushes.Black, new XRect(400, 135, page.Width, page.Height), XStringFormats.TopLeft);
+        }
+
+        private static void AddHeader6(PdfPage page, XFont font)
+        {
+            using var gfx = XGraphics.FromPdfPage(page);
+            //header mijloc
+            gfx.DrawString("S.C. DACMA S.R.L", font, XBrushes.Black, new XRect(450, 80, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("", font, XBrushes.Black, new XRect(450, 91, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("345456", font, XBrushes.Black, new XRect(450, 102, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("str.Puntii, nr.2, bl.2A", font, XBrushes.Black, new XRect(450, 113, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("Targoviste", font, XBrushes.Black, new XRect(450, 124, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("", font, XBrushes.Black, new XRect(450, 135, page.Width, page.Height), XStringFormats.TopLeft);
+        }
         private static void AddFooter(PdfPage page, XFont font)
         {
             using var gfx = XGraphics.FromPdfPage(page);
