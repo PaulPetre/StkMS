@@ -31,11 +31,11 @@ namespace StkMS.Services
             return GetDocumentBytes(document);
         }
        
-        public byte[] GenerateSaleReport(SaleDetailsViewModel saleDetails)
+        public byte[] GenerateSaleReport(SaleDetailsViewModel saleDetails, Customer customer)
         {
             var font = new XFont("Arial", 10, XFontStyle.Regular);
             var document = new PdfDocument { PageLayout = PdfPageLayout.OneColumn };
-            CreateSalePage(document, font, saleDetails);
+            CreateSalePage(document, font, saleDetails, customer);
 
             return GetDocumentBytes(document);
         }
@@ -74,21 +74,21 @@ namespace StkMS.Services
             return page;
         }
 
-        private static void CreateSalePage(PdfDocument document, XFont font, SaleDetailsViewModel saleDetails)
+        private static void CreateSalePage(PdfDocument document, XFont font, SaleDetailsViewModel saleDetails, Customer customer)
         {
             var page = document.AddPage();
             page.Size = PageSize.A4;
             XFont font2 = new XFont("Arial", 9);
             XFont font3 = new XFont("Arial", 10);
             XFont font4 = new XFont("Arial", 8);
-            XFont font6 = new XFont("Arial", 9, XFontStyle.Bold);
+            XFont font6 = new XFont("Arial", 9);
 
             AddInvoiceHeader(page, font);
             AddInvoiceHeader2(page, font2, saleDetails);
             AddInvoiceHeader3(page, font2);
             AddInvoiceHeader4(page, font6);
             AddInvoiceHeader5(page, font2);
-            AddInvoiceHeader6(page, font2);
+            AddInvoiceHeader6(page, font2, customer);
 
             AddText(page, font, 05, 27, 20, 3, "Cod Produs", XStringFormats.Center);
             AddText(page, font, 25, 27, 30, 3, "Nume Produs", XStringFormats.Center);
@@ -189,7 +189,7 @@ namespace StkMS.Services
         private static void AddInvoiceHeader4(PdfPage page, XFont font)
         {
             using var gfx = XGraphics.FromPdfPage(page);
-            XFont font6 = new XFont("Arial", 9, XFontStyle.Bold);
+            XFont font6 = new XFont("Arial", 9);
             //header stanga
             gfx.DrawString("S.C. GeSTOC S.R.L", font6, XBrushes.Black, new XRect(90, 80, page.Width, page.Height), XStringFormats.TopLeft);
             gfx.DrawString("435034", font6, XBrushes.Black, new XRect(90, 91, page.Width, page.Height), XStringFormats.TopLeft);
@@ -211,15 +211,15 @@ namespace StkMS.Services
             gfx.DrawString("Oras:", font, XBrushes.Black, new XRect(400, 124, page.Width, page.Height), XStringFormats.TopLeft);
             gfx.DrawString("Cont:", font, XBrushes.Black, new XRect(400, 135, page.Width, page.Height), XStringFormats.TopLeft);
         }
-        private static void AddInvoiceHeader6(PdfPage page, XFont font)
+        private static void AddInvoiceHeader6(PdfPage page, XFont font, Customer customer)
         {
             using var gfx = XGraphics.FromPdfPage(page);
             //header mijloc
-            gfx.DrawString("S.C. DACMA S.R.L", font, XBrushes.Black, new XRect(450, 80, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString($"{customer.Name}", font, XBrushes.Black, new XRect(450, 80, page.Width, page.Height), XStringFormats.TopLeft);
             gfx.DrawString("", font, XBrushes.Black, new XRect(450, 91, page.Width, page.Height), XStringFormats.TopLeft);
-            gfx.DrawString("345456", font, XBrushes.Black, new XRect(450, 102, page.Width, page.Height), XStringFormats.TopLeft);
-            gfx.DrawString("str.Puntii, nr.2, bl.2A", font, XBrushes.Black, new XRect(450, 113, page.Width, page.Height), XStringFormats.TopLeft);
-            gfx.DrawString("Targoviste", font, XBrushes.Black, new XRect(450, 124, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString($"{customer.CUI}", font, XBrushes.Black, new XRect(450, 102, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString($"{customer.Address}", font, XBrushes.Black, new XRect(450, 113, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString($"{customer.City}", font, XBrushes.Black, new XRect(450, 124, page.Width, page.Height), XStringFormats.TopLeft);
             gfx.DrawString("", font, XBrushes.Black, new XRect(450, 135, page.Width, page.Height), XStringFormats.TopLeft);
         }
         private static void AddInvoiceFooter(PdfPage page, XFont font)

@@ -1,13 +1,15 @@
 ﻿@page "/Customers"
 @using StkMS.Library.Contracts
 @using StkMS.Library.Models
-@using StkMS.Services
 @using DialogService = Radzen.DialogService
-
+@using StkMS.Library.Services
+@using System.Text
+@using System.IO
 @*@attribute [Authorize]*@
 
 @inject IApiClient apiClient
 @inject DialogService dialogService
+@inject IJSRuntime jsRuntime
 
 <RadzenContent Container="main">
     <ChildContent>
@@ -15,20 +17,21 @@
         </RadzenHeading>
         <div class="row">
             <div class="col-md-12">
+                <RadzenButton Icon="grid_on" Style="margin-bottom: 10px" Text="Export în excel" Click="@GenerateExcel" Size="ButtonSize.Medium" />
                 <RadzenButton Icon="add_circle_outline" Text="Adaugă" Click="@(() => AddOrUpdateCustomerAsync(new Customer()))" Style="margin-bottom: 10px" />
+                <RadzenButton Text="Resetare" Click="@Reset" Style="margin-bottom: 12px;" />
+                <RadzenAutoComplete Placeholder="Caută..." Style="display: block; margin-bottom: 10px; width: 90%" Data=@customers TextProperty="Costumer.CUI" Change=@(args => OnSearch(args)) />
 
-
-                <RadzenTextBox Placeholder="Caută ..." style="display: block; margin-bottom: 10px; width: 100%" Name="Textbox0" />
-                <RadzenGrid AllowFiltering="true" AllowPaging="true" AllowSorting="true" IsLoading="@isLoading" Count="@count" Data="customers" LoadData="@LoadDataAsync" FilterMode="FilterMode.Advanced" TItem="Customer">
+                <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" AllowSorting="true" IsLoading="@isLoading" Count="@count" Data="customers" LoadData="@LoadDataAsync" FilterMode="FilterMode.Advanced" TItem="Customer">
                     <Columns>
-                        <RadzenGridColumn TItem="Customer" Property="CustomerId" Title="Id" Visible="false" />
-                        <RadzenGridColumn TItem="Customer" Property="Name" Title="Nume" />
-                        <RadzenGridColumn TItem="Customer" Property="CUI" Title="CUI" />
-                        <RadzenGridColumn TItem="Customer" Property="Address" Title="Adresă" />
-                        <RadzenGridColumn TItem="Customer" Property="City" Title="Oraș" />
-                        <RadzenGridColumn TItem="Customer" Property="Phone" Title="Telefon" />
-                        <RadzenGridColumn TItem="Customer" Property="Email" Title="Email" />
-                        <RadzenDataGridColumn TItem="Customer" Property="Actions" Title="Acțiuni" Width="50px">
+                        <RadzenDataGridColumn TItem="Customer" Property="CustomerId" Title="Id" Frozen="true" Visible="true" Width="60px" />
+                        <RadzenDataGridColumn TItem="Customer" Property="Name" Title="Nume" Width="180px" />
+                        <RadzenDataGridColumn TItem="Customer" Property="CUI" Title="CUI" Width="100px" />
+                        <RadzenDataGridColumn TItem="Customer" Property="Address" Title="Adresă" Width="250px" />
+                        <RadzenDataGridColumn TItem="Customer" Property="City" Title="Oraș" Width="100px" />
+                        <RadzenDataGridColumn TItem="Customer" Property="Phone" Title="Telefon" Width="110px" />
+                        <RadzenDataGridColumn TItem="Customer" Property="Email" Title="Email" Width="100px" />
+                        <RadzenDataGridColumn TItem="Customer" Property="Actions" Title="Acțiuni" Width="100px">
                             <Template Context="customer">
                                 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="edit" Size="ButtonSize.Small" Click="@(() => AddOrUpdateCustomerAsync(customer))" />
                                 <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="close" Size="ButtonSize.Small" Click="@(() => DeleteCustomerAsync(customer))" />
@@ -36,7 +39,7 @@
                         </RadzenDataGridColumn>
                     </Columns>
 
-                </RadzenGrid>
+                </RadzenDataGrid>
             </div>
         </div>
     </ChildContent>
@@ -46,6 +49,17 @@
 @code { int count;
     bool isLoading;
     IEnumerable<Customer> customers;
+    RadzenDataGrid<Customer> grid;
+    public async Task OnSearch(object value)
+    {
+        //
+    }
+
+    async Task Reset()
+    {
+        grid.Reset(true);
+        await grid.FirstPage(true);
+    }
 
     public async Task AddOrUpdateCustomerAsync(Customer customer)
     {
@@ -61,83 +75,114 @@
         };
 
         var result = await dialogService.OpenAsync("Adaugă sau actualizează produs", ds =>
-@<div class="row">
-    <div class="col-md-12">
-        <div class="form-group row">
-            <div class="col-4 col-form-label">
-                <RadzenLabel Text="CUI" />
+    @<div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-4 col-form-label">
+                    <RadzenLabel Text="CUI" />
+                </div>
+                <RadzenTextBox @bind-value="newCustomer.CUI" ReadOnly="@(newCustomer.CUI != "")" />
             </div>
-            <RadzenTextBox @bind-value="newCustomer.CUI" ReadOnly="@(newCustomer.CUI != "")" />
-        </div>
-        <div class="form-group row">
-            <div class="col-4 col-form-label">
-                <RadzenLabel Text="Nume client" />
+            <div class="form-group row">
+                <div class="col-4 col-form-label">
+                    <RadzenLabel Text="Nume client" />
+                </div>
+                <RadzenTextBox @bind-value="newCustomer.Name" />
             </div>
-            <RadzenTextBox @bind-value="newCustomer.Name" />
-        </div>
-        <div class="form-group row">
-            <div class="col-4 col-form-label">
-                <RadzenLabel Text="Adresa" />
+            <div class="form-group row">
+                <div class="col-4 col-form-label">
+                    <RadzenLabel Text="Adresa" />
+                </div>
+
+                <RadzenTextBox @bind-value="newCustomer.Address" />
             </div>
-
-            <RadzenTextBox @bind-value="newCustomer.Address" />
-        </div>
-        <div class="form-group row">
-            <div class="col-4 col-form-label">
-                <RadzenLabel Text="Oras" />
+            <div class="form-group row">
+                <div class="col-4 col-form-label">
+                    <RadzenLabel Text="Oras" />
+                </div>
+                <RadzenTextBox @bind-value="newCustomer.City" />
             </div>
-            <RadzenNumeric TValue="decimal" @bind-value="newCustomer.City" />
-        </div>
-        <div class="form-group row">
-            <div class="col-4 col-form-label">
-                <RadzenLabel Text="Telefon" />
+            <div class="form-group row">
+                <div class="col-4 col-form-label">
+                    <RadzenLabel Text="Telefon" />
+                </div>
+
+                <RadzenTextBox @bind-value="newCustomer.Phone" />
             </div>
+            <div class="form-group row">
+                <div class="col-4 col-form-label">
+                    <RadzenLabel Text="Email" />
+                </div>
 
-            <RadzenNumeric TValue="decimal" @bind-value="newCustomer.Phone" />
-        </div>
-        <div class="form-group row">
-            <div class="col-4 col-form-label">
-                <RadzenLabel Text="Email" />
+                <RadzenTextBox @bind-value="newCustomer.Email" />
             </div>
-
-            <RadzenNumeric TValue="decimal" @bind-value="newCustomer.Email" />
+            <div>
+                <RadzenButton Text="Ok" Click="() => ds.Close(true)" Style="margin-bottom: 10px; width: 150px" />
+                <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Secondary" Style="margin-bottom: 10px; width: 150px" />
+            </div>
         </div>
-        <div>
-            <RadzenButton Text="Ok" Click="() => ds.Close(true)" Style="margin-bottom: 10px; width: 150px" />
-            <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Secondary" Style="margin-bottom: 10px; width: 150px" />
-        </div>
-    </div>
-</div>, new Radzen.DialogOptions() { Style = "min-height:auto;min-width:auto;width:400px" });
+    </div>, new Radzen.DialogOptions() { Style = "min-height:auto;min-width:auto;width:400px" });
 
-      // result is an object here so I can't use !result
-      if (result == false)
-          return;
+        // result is an object here so I can't use !result
+        if (result == false)
+            return;
 
-      await apiClient.AddOrUpdateCustomerAsync(newCustomer).ConfigureAwait(true);
-      await LoadDataAsync(new LoadDataArgs()).ConfigureAwait(true);
-  }
+        await apiClient.AddOrUpdateCustomerAsync(newCustomer).ConfigureAwait(true);
+        await LoadDataAsync(new LoadDataArgs()).ConfigureAwait(true);
+    }
 
-  public async Task DeleteCustomerAsync(Customer customer)
-  {
-      var confirm = await dialogService
-      .Confirm("Ești sigur că vrei să ștergi " + customer.Name + "?", "Șterge", new ConfirmOptions { OkButtonText = "Da", CancelButtonText = "Nu" })
-      .ConfigureAwait(true);
+    public async Task DeleteCustomerAsync(Customer customer)
+    {
+        var confirm = await dialogService
+        .Confirm("Ești sigur că vrei să ștergi " + customer.Name + "?", "Șterge", new ConfirmOptions { OkButtonText = "Da", CancelButtonText = "Nu" })
+        .ConfigureAwait(true);
 
-      if (!confirm.GetValueOrDefault())
-          return;
+        if (!confirm.GetValueOrDefault())
+            return;
 
-      await apiClient.DeleteCustomerAsync(customer.CUI).ConfigureAwait(true);
-      await LoadDataAsync(new LoadDataArgs()).ConfigureAwait(true);
-  }
+        await apiClient.DeleteCustomerAsync(customer.CUI).ConfigureAwait(true);
+        await LoadDataAsync(new LoadDataArgs()).ConfigureAwait(true);
+    }
 
-  async Task LoadDataAsync(LoadDataArgs args)
-  {
-      isLoading = true;
-      var data = (await apiClient.GetAllCustomerAsync().ConfigureAwait(true)).ToArray();
-      customers = data;
-      count = data.Length;
-      isLoading = false;
-  }
+    public async Task GenerateExcel()
+    {
+        var stocks = (await apiClient.GetAllCustomerAsync().ConfigureAwait(true)).ToArray();
+
+        var sb = new StringBuilder();
+
+        sb.AppendLine("CUI,Nume,\"Adresa\",Oras,Telefon,Email");
+
+        foreach (var customer in customers)
+        {
+            sb.Append(( customer.CUI).InQuotes());
+            sb.Append(",");
+            sb.Append(customer.Name.InQuotes());
+            sb.Append(",");
+            sb.Append(customer.Address.InQuotes());
+            sb.Append(",");
+            sb.Append(customer.City);
+            sb.Append(",");
+            sb.Append("'" + customer.Phone);
+            sb.Append(",");
+            sb.Append(customer.Email);
+            sb.AppendLine();
+        }
+
+        await using var ms = new MemoryStream();
+        await ms.WriteAsync(Encoding.UTF8.GetBytes(sb.ToString())).ConfigureAwait(true);
+        var bytes = ms.ToArray();
+
+        await jsRuntime.SaveAs("Excel-Clients.csv", bytes).ConfigureAwait(true);
+    }
+
+    async Task LoadDataAsync(LoadDataArgs args)
+    {
+        isLoading = true;
+        var data = (await apiClient.GetAllCustomerAsync().ConfigureAwait(true)).ToArray();
+        customers = data;
+        count = data.Length;
+        isLoading = false;
+    }
 
 
 }

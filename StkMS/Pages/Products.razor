@@ -25,9 +25,9 @@
 <h1>Listă Produse</h1>
 <RadzenButton Icon="grid_on" Style="margin-bottom: 10px" Text="Export în excel" Click="@GenerateExcel" Size="ButtonSize.Medium" />
 <RadzenButton Icon="add_circle_outline" Text="Adaugă" Click="@(() => AddOrUpdateAsync(new ProductStock { Product = new Product() }))" Style="margin-bottom: 10px" />
+<RadzenButton Text="Resetare" Click="@Reset" Style="margin-bottom: 10px;" />
 <br />
 <RadzenAutoComplete Placeholder="Caută..." Style="display: block; margin-bottom: 10px; width: 90%" Data=@stockView TextProperty="Product.Code" Change=@(args => OnSearch(args)) />
-<RadzenButton Text="Resetare" Click="@Reset" Style="margin-bottom: 12px;" />
 
 <RadzenDataGrid @ref="grid" AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="5"
                 IsLoading="@isLoading" Count="@count" Data="@stockView" LoadData="@LoadDataAsync"
@@ -37,16 +37,16 @@
     <Columns>
         <RadzenDataGridColumn TItem="ProductStock" Property="Product.Code" Filterable="false" Title="Cod Produs" Frozen="true" Width="100px" TextAlign="TextAlign.Center">
         </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Name" Title="Nume Produs">
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Name" Title="Nume Produs" Width="250px">
             <FooterTemplate>
                 Total Produse: <b>@stockView?.Count()</b>
             </FooterTemplate>
         </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Unit" Title="UM" Width="50px" />
-        <RadzenDataGridColumn TItem="ProductStock" Property="Product.UnitPrice" Title="Preț" Width="50px" />
-        <RadzenDataGridColumn TItem="ProductStock" Property="Quantity" Title="Cantitate" Width="100px" />
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.Unit" Title="UM" Width="60px" />
+        <RadzenDataGridColumn TItem="ProductStock" Property="Product.UnitPrice" Title="Preț" Width="60px" />
+        <RadzenDataGridColumn TItem="ProductStock" Property="Quantity" Title="Cantitate" Width="90px" />
         <RadzenDataGridColumn TItem="ProductStock" Property="QuantityLabel" Title="Stare" Width="100px" />
-        <RadzenDataGridColumn TItem="ProductStock" Property="Actions" Title="Acțiuni" Width="50px">
+        <RadzenDataGridColumn TItem="ProductStock" Property="Actions" Title="Acțiuni" Width="80px">
             <Template Context="productStock">
                 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="edit" Size="ButtonSize.Small" Click="@(() => AddOrUpdateAsync(productStock))" />
                 <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="close" Size="ButtonSize.Small" Click="@(() => DeleteAsync(productStock.Product))" />

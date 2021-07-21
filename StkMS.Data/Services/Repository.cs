@@ -196,8 +196,7 @@ namespace StkMS.Data.Services
             return existing.Id;
         }
 
-        public Customer? FindCostumerByCUI(string cui) =>
-            context
+        public Customer? FindCostumerByCUI(string cui) => context
                 .Customers
                 .Where(it => it.CUI == cui)
                 .AsEnumerable()
