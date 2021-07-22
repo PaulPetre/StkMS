@@ -272,3 +272,7 @@ html {
 .pl-6, .px-6 {
     padding-left: 25px !important;
 }
+
+.rz-dropdown-item {
+    height: 22px;
+}
