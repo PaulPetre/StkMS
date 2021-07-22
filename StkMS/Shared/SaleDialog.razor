@@ -1,7 +1,5 @@
 ﻿@using StkMS.ViewModels
 @using StkMS.Contracts
-@using System.Globalization;
-@using System.Threading
 @using StkMS.Library.Contracts
 @using StkMS.Library.Models
 
@@ -11,7 +9,7 @@
 <MudDialog>
     <DialogContent>
         <div class="col-xl-6 mb-5">
-            <RadzenDropDown  Data="@customers" @bind-Value="@customer"  />
+            <RadzenDropDown Data="@customers" @bind-Value="@customer"  />
         </div>
        
         <MudText>Bon Nr. @sale.Id din @sale.FormatDateTime.ToString()</MudText>
@@ -39,7 +37,7 @@
         </MudPaper>
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Secondary" OnClick="GenerateInventoryAsync">Print</MudButton>
+        <MudButton Color="Color.Secondary" OnClick="GenerateSaleReportAsync">Print</MudButton>
         <MudButton Color="Color.Primary" OnClick="Cancel">Ok</MudButton>
     </DialogActions>
 
@@ -48,9 +46,9 @@
 { 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     //IEnumerable<string>? dd;
-    IEnumerable<Customer>? customers;
+    List<Customer>? customers;
 
-    Customer customer;
+    Customer customer = new Customer();
 
     [Parameter]
     public SaleDetailsViewModel sale { get; set; }
@@ -59,13 +57,14 @@
     {
         await base.OnInitializedAsync().ConfigureAwait(true);
 
-        customers = await apiClient.GetAllCustomerAsync().ConfigureAwait(true);
+        customers = (await apiClient.GetAllCustomerAsync().ConfigureAwait(true)).ToList();
+        customers.Insert(0, new Customer());
         //dd = customers.Select(it => it.Name);
     }
 
     void Cancel() => MudDialog.Cancel();
 
-    private async void GenerateInventoryAsync()
+    private async void GenerateSaleReportAsync()
     {
         var bytes = reportGenerator.GenerateSaleReport(sale, customer);
         await jsRuntime.InvokeVoidAsync("BlazorDownloadFile", $"sale{sale.Id}.pdf", "application/octet-stream", bytes).ConfigureAwait(true);

@@ -11,5 +11,7 @@ namespace StkMS.Library.Models
         public string City { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
+
+        public override string ToString() => Name;
     }
 }
