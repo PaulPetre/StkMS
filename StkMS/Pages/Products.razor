@@ -29,7 +29,7 @@
 <br />
 <RadzenAutoComplete Placeholder="Caută..." Style="display: block; margin-bottom: 10px; width: 90%" Data=@stockView TextProperty="Product.Code" Change=@(args => OnSearch(args)) />
 
-<RadzenDataGrid @ref="grid" AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="5"
+<RadzenDataGrid @ref="grid" AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="10"
                 IsLoading="@isLoading" Count="@count" Data="@stockView" LoadData="@LoadDataAsync"
                 FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterMode="FilterMode.Advanced"
                 TItem="ProductStock"
