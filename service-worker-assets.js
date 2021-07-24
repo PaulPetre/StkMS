@@ -273,7 +273,7 @@
       "url": "_framework\/FluentValidation.dll"
     },
     {
-      "hash": "sha256-cPw3ccQ\/9tFq5nezZbb+OWLww8s2zCTKJE2nBdzmY6s=",
+      "hash": "sha256-YkT5bRKyKXot5e9yvUADilZTgmacnGaCRIH8ugI0ydg=",
       "url": "_framework\/Microsoft.AspNetCore.Authorization.dll"
     },
     {
@@ -493,7 +493,7 @@
       "url": "_framework\/StkMS.Shared.dll"
     },
     {
-      "hash": "sha256-RtCUNOk1NtvqUd6MR0qczC29a6XUCztfbb\/z\/X7ILoc=",
+      "hash": "sha256-0b9xYBDx9WRFSLcvIfXyR4K8Zo03q2JPHM4JVGIelCY=",
       "url": "_framework\/StkMS.dll"
     },
     {
@@ -733,7 +733,7 @@
       "url": "_framework\/de\/PdfSharpCore.resources.dll"
     },
     {
-      "hash": "sha256-D6i8QjcFjIOpIjHNmVGsNhkuon9pnkEPamilmL3OKzg=",
+      "hash": "sha256-+IEkOAzd9iDVmTKZPzzP\/M05BxodAEI2i+cYpxYcjkI=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -741,5 +741,5 @@
       "url": "_framework\/blazor.webassembly.js"
     }
   ],
-  "version": "GyrcsH\/\/"
+  "version": "vBHw5\/5M"
 };
