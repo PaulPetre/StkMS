@@ -12,7 +12,7 @@
 @using System.Collections
 @using System.Runtime.CompilerServices
 
-@*@attribute [Authorize]*@
+@attribute [Authorize]
 
 @inject HttpClient httpClient
 
@@ -89,7 +89,7 @@
 
         var sb = new StringBuilder();
 
-        sb.AppendLine("Cod,Nume,UM,\"Preț\",Cantitate");
+        sb.AppendLine("Cod,Nume,UM,\"Pret\",Cantitate");
 
         foreach (var pStock in stocks)
         {
